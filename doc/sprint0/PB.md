@@ -5,7 +5,7 @@ Numberal series we intend to use: Fibonacci
 
 Infinite user points = unsure of how many points this will take, so we need a spike to investigate.
 
-(I) indicates most important user stories.
+(\*\*\*) indicates most important user stories.
 
 ## User Stories
 ### Login
@@ -21,12 +21,12 @@ As Frank Jean, a busy businessman, I would like to have easy access to all other
 
 As Jonathan Grant, a casual fan, I would like to easily view the score of current ongoing games so that I can view scores without having to leave the current page I’m on. (2)
 
-(I) As Jonathan Grant, a fan that’s dedicated to my team, I would like to be able to select a favourite team and receive news about the team and their players so I can keep up with everything about my team. (8)
+(\*\*\*) As Jonathan Grant, a fan that’s dedicated to my team, I would like to be able to select a favourite team and receive news about the team and their players so I can keep up with everything about my team. (8)
 
 ### Open Court
-(I) As Jonathan Grant, I would like to post my opinions about relevant topics in the sports community so that I can express my passion for the game. (3)
+(\*\*\*) As Jonathan Grant, I would like to post my opinions about relevant topics in the sports community so that I can express my passion for the game. (3)
 
-(I) As Jessica Jones, a sports know-it-all, I would like to receive an accurate score based on my analysis performance, so that I can show-off my game knowledge. (21)
+(\*\*\*) As Jessica Jones, a sports know-it-all, I would like to receive an accurate score based on my analysis performance, so that I can show-off my game knowledge. (21)
 
 As Jessica Jones, a professional analyst, I would like to post my analyst tweets to my home page and be able to repost tweets from my most respected sports analysts. (∞)
 

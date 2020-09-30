@@ -1,7 +1,7 @@
 # Process
 ## How We Organized The Team, and Tools We Used
 Our team was able to successfully work together by having daily conversations through messaging on Discord. We also used Discord’s voice chat feature to have discussions 
-during any meetings or workshops held by Ilir or potential clients. We divided the roles of our team by evenly assigning tasks to each team member based on their strong suit during a group discussion, and making sure that everyone is content with what they have been assigned. For Sprint 0, everyone was satisfied and had no complaints about their assigned task, but should the need to reassign tasks arise, we are perfectly happy to do so, in order to maintain a positive team environment.
+during any meetings or workshops held by Ilir or potential clients. We divided the roles of our team by evenly assigning tasks to each team member based on their strong suit through a group discussion. Furthermore, we made sure everyone would be content with what task they have been assigned. For Sprint 0, everyone was satisfied and had no complaints about their assigned task, but should the need to reassign tasks arise, we are perfectly happy to do so, in order to maintain a positive team environment.
 
 Tools we used to organized our team include Google Drive and Docs to share documents. These documents include notes about our 
 clients, rough notes about what needs to be accomplished, and an agenda for everyone to see what tasks need to be done by who, and when. This platform was especially useful, 

@@ -7,3 +7,9 @@
 * The code has been checked by 1 other member of the team
 * The new feature's branch has been merged to the master branch
 * The team member responsible for the feature has updated JIRA appropriately
+
+### The following list of items will determine whether or not the project is considered "done".
+* Our project has been acceptance tested to check that is functional for the SPORTCRED team
+* The coding has a reasonable amount of documentation based on its complexity
+* All branches containing complete features have been merged to the master
+    - unfinished features should be discussed between the teams and cleaned up

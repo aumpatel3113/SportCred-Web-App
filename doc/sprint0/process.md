@@ -8,7 +8,7 @@ on back-end will be decided in the next phase.
 Some tools we used to organized our team include Google Drive and Docs to share documents. These documents include notes about our 
 clients, rough notes about what needs to be accomplished, and an agenda for everyone to see what tasks need to be done by who, and when. This platform was especially useful, 
 as it allowed for real time editting of the documents aross all users. To add on, Jira was used to organize User Stories by adding their importance and including a 
-“Conditions of Satisfaction” section in their descriptions. Jira is very useful, as it allows the team to easily view tasks, and mark them as completed by simply pushing
+“Criteria of Satisfaction” section in their descriptions. Jira is very useful, as it allows the team to easily view tasks, and mark them as completed by simply pushing
 their work onto GitHub, as the two software development platforms are linked.
 
 ## How We Made Decisions
@@ -18,7 +18,7 @@ we knew more about what kind of application SportsCred desired, and had clear go
 hold voting sessions to help make decisions and to get a clear look at each team members' opinions.
 
 ## Coming Up With User Stories
-Our team prioritised user stories based on how effectively it would satisfy important features given by our client, SportsCred, and how well such a feature would define or make our software stand out against our competitors. For instance, having a debate section and points system are some of the main features of the software that SportsCred desires, 
+Our team prioritised user stories based on how effectively it would satisfy important features given by our client, SportCred, and how well such a feature would define or make our software stand out against our competitors. For instance, having a debate section and points system are some of the main features of the software that SportCred desires, 
 and is also the feature of their application which is unique to its competition. And so, any user stories relating to those would be prioritised. One or two rounds of voting were needed to come to a consensus for the point estimate. Our team would collaboratively come up with a reasonable point estimate together, so the amount of voting sessions conducted were scarce. 
 
 ## Team Meetings

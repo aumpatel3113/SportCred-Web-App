@@ -17,5 +17,5 @@ Lazar Glumac	      glumacla	       1006068461	      lazar.glumac@mail.utoronto.c
 
 Jaedon Wong	      wongjaed	       1006172810	      jaedon.wong@mail.utoronto.ca	         647 206 9240
 
-Our Discord Link:  https://discord.gg/ugXrzwj
+Our Discord Link:  https://discord.gg/Tu5MbNv
 </pre>

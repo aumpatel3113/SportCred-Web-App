@@ -14,6 +14,7 @@ public class SportcredBackend {
       HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", PORT), 0);
       server.createContext("/api/v1/getSoloTrivia", new GetQuestions());
       server.createContext("/api/v1/addQuestions", new AddQuestions());
+      server.createContext("/api/v1/registerUser", new UserRegistration());
       server.start();
       System.out.println("Server on port:" + PORT);
     } catch (IOException e) {

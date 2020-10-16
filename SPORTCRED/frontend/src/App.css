@@ -1,0 +1,189 @@
+html {
+  background-color: black;
+}
+
+.App {
+  text-align: start;
+  background-color: #000000;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  font-weight: 300;
+}
+
+.container {
+  /* makes it closer to the left */
+  width: 95%;
+  margin: 0 auto;
+  /* does nothing */
+  background-color: #000000;
+}
+
+.logo {
+  float: left;
+  width: 285px;
+  height: 65px;
+  background-color: #000000;
+  outline-style: solid;
+  outline-width: 0.2ch;
+  outline-color:rgb(71, 71, 71);
+}
+
+.lebron {
+  float: left;
+  width: 100px;
+  height: 86px;
+  margin-top: 1px;
+  margin-left: 25px;
+  background-color: #000000;
+  outline-style: solid;
+  outline-width: 0.1ch;
+  outline-color:rgb(71, 71, 71);
+}
+
+header {
+  /* background colour of the top navigation bar */
+  background: #f144f1;
+  width: 100%;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.container nav {
+  float: right;
+}
+
+.container nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.container nav li {
+  display: inline-block;
+  margin-left: 40px;
+  padding-top: 12px;
+  position: relative;
+}
+
+.container nav li a {
+  outline-style: solid;
+  outline-width: 0.3ch;
+  outline-offset: 1ch;
+  outline-color:black;
+}
+
+.container nav a {
+  float: right;
+  display: block;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 33px;
+  text-transform: uppercase;
+  text-shadow: black;
+  font-weight: 700;
+}
+
+.container nav a:hover {
+  background-color: rgb(201, 125, 224);
+  color: #000;
+}
+
+.container nav a:focus{
+  background-color: rgba(122, 9, 122, 0.808);
+  color: black;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 5px;
+  color: white;
+}
+
+h2 {
+  margin-top: 30px;
+  margin-left: 15px;
+  font-weight: 100;
+  font-size: 20px;
+  color: white;
+}
+
+p {
+  text-align: center;
+  margin-top: 1px;
+  color: white;
+}
+
+.verbar {
+  width: 285px;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 68px;
+  overflow-x: hidden;
+  background-color:black;
+  outline-style: solid;
+  outline-width: 0.2ch;
+  outline-color:rgb(71, 71, 71);
+}
+
+.verbar header {
+  /* background colour of the side navigation bar */
+  background: #000000;
+}
+
+.sidebar {
+  position: fixed;
+  left: -39px;
+  top: 245px;
+  width: 324px;
+  height: 100%;
+  background: black;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+  line-height: 73px;
+  font-size: 25px;
+  font-weight: 700;
+  color: rgb(255, 115, 0);
+  padding-left: 40px;
+  box-sizing: border-box;
+  border: 0.5px solid rgb(94, 94, 94);
+}
+
+.sidebar a:hover {
+  background-color: rgba(92, 92, 92, 0.884);
+  color: rgb(255, 115, 0);
+}
+
+.sidebar a:focus{
+  background-color: rgba(92, 92, 92, 0.884);
+  color: rgb(255, 115, 0);
+}
+
+.profile p {
+  text-align: center;
+  color: white;
+  margin-top: 18px;
+  font-size: 16px;
+}
+
+hr.new1 {
+  margin-top: 65px;
+  border: 0.7px solid rgb(71, 71, 71);
+}

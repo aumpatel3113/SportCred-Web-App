@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.787b5906.chunk.css",
+    "main.js": "/static/js/main.504896d3.chunk.js",
+    "main.js.map": "/static/js/main.504896d3.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.19ccc7f6.js",
+    "runtime-main.js.map": "/static/js/runtime-main.19ccc7f6.js.map",
+    "static/js/2.c768fd4a.chunk.js": "/static/js/2.c768fd4a.chunk.js",
+    "static/js/2.c768fd4a.chunk.js.map": "/static/js/2.c768fd4a.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.cc8e6dd3fb69debf1d845dcbfd36f257.js": "/precache-manifest.cc8e6dd3fb69debf1d845dcbfd36f257.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.787b5906.chunk.css.map": "/static/css/main.787b5906.chunk.css.map",
+    "static/js/2.c768fd4a.chunk.js.LICENSE.txt": "/static/js/2.c768fd4a.chunk.js.LICENSE.txt",
+    "static/media/lebron.jpg": "/static/media/lebron.1b44e264.jpg",
+    "static/media/logo.svg": "/static/media/logo.00901483.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.19ccc7f6.js",
+    "static/js/2.c768fd4a.chunk.js",
+    "static/css/main.787b5906.chunk.css",
+    "static/js/main.504896d3.chunk.js"
+  ]
+}

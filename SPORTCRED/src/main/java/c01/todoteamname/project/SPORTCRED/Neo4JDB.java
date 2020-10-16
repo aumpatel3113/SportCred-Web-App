@@ -91,7 +91,7 @@ public class Neo4JDB {
 		}
 	}
 
-	public int createUser(String username, String password, String email) {
+	public int createUser(String username, String password, String email, String[] answeredQuestions) {
 
 		double zeroScore = 0;
 		String emptyString = "";
@@ -115,11 +115,12 @@ public class Neo4JDB {
 				if (checkUser.hasNext()) {
 					return 412;
 				}
-
+				
 				tx.run("CREATE (n:User {username: $u, password: $v, biography: $w, "
 						+ "picture: $w, ACS: $x, trivia: $x, debate: $x, picks: $x, "
-						+ "history: $x, email: $y})",
-						parameters("u", username, "v", password, "w", emptyString, "x", zeroScore, "y", email));
+						+ "history: $x, answers: $y, email: $z})",
+						parameters("u", username, "v", password, "w", emptyString, "x", zeroScore, "y", answeredQuestions, "z", email));
+				
 				tx.commit();
 				return 201;
 

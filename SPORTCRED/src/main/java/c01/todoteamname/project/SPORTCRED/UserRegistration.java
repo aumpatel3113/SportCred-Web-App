@@ -2,6 +2,7 @@ package c01.todoteamname.project.SPORTCRED;
 
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,7 +35,8 @@ public class UserRegistration implements HttpHandler {
 
 		boolean checkReq = deserialized.has("username") && 
 				deserialized.has("password") && 
-				deserialized.has("email");
+				deserialized.has("email") && 
+				deserialized.has("answeredQuestions");
 
 		if (checkReq) {
 
@@ -42,7 +44,14 @@ public class UserRegistration implements HttpHandler {
 			String password = deserialized.getString("password");
 			String email = deserialized.getString("email");
 			
-			int returnVal = neoDB.createUser(username, password, email);
+			JSONArray arrayForQuestions = deserialized.getJSONArray("answeredQuestions");
+			String[] answeredQuestions = new String[arrayForQuestions.length()];
+
+			for (int i = 0; i < arrayForQuestions.length(); i++) {
+				answeredQuestions[i] = arrayForQuestions.getString(i);
+			}
+			
+			int returnVal = neoDB.createUser(username, password, email, answeredQuestions);
 			
 			r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 			r.sendResponseHeaders(returnVal, -1);

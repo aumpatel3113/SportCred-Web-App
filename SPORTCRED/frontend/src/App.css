@@ -27,8 +27,9 @@ body {
   height: 65px;
   background-color: #000000;
   outline-style: solid;
-  outline-width: 0.2ch;
+  outline-width: 0.3ch;
   outline-color:rgb(71, 71, 71);
+  position: fixed;
 }
 
 .lebron {
@@ -43,10 +44,12 @@ body {
   outline-color:rgb(71, 71, 71);
 }
 
-header {
+.App header {
   /* background colour of the top navigation bar */
   background: #f144f1;
   width: 100%;
+  height: 65px;
+  position:fixed;
 }
 
 header::after {
@@ -126,12 +129,13 @@ p {
   height: 100%;
   position: fixed;
   z-index: 1;
-  top: 68px;
+  top: 67px;
   overflow-x: hidden;
   background-color:black;
   outline-style: solid;
-  outline-width: 0.2ch;
+  outline-width: 0.3ch;
   outline-color:rgb(71, 71, 71);
+
 }
 
 .verbar header {
@@ -143,7 +147,7 @@ p {
   position: fixed;
   left: -39px;
   top: 245px;
-  width: 324px;
+  width: 325px;
   height: 100%;
   background: black;
 }

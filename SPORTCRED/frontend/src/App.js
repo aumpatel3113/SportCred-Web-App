@@ -1,14 +1,14 @@
-import React from 'react';
-import './App.css';
-import logo from './logo.svg';
-import lebron from './lebron.jpg';
-import { NavLink, Switch, Route } from 'react-router-dom';
+import React from "react";
+import "./App.css";
+import logo from "./logo.svg";
+import lebron from "./lebron.jpg";
+import { NavLink, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <img src={logo} className="logo" alt="logo" />
       <header>
+      <img src={logo} className="logo" alt="logo" />
       <div class="container">
         <nav>
           <ul>
@@ -19,7 +19,6 @@ function App() {
       </div>
       </header>
         <div class="verbar">
-          <header>
             <div class="profile">
               <h2>Welcome, <b>[insert name]</b></h2>
               <p><img src={lebron} className="lebron" alt="lebron"/> ACS: XXX</p>
@@ -35,7 +34,6 @@ function App() {
                 <li><NavLink exact activeClassName="current" to='/analyze'>ANALYZE</NavLink></li>
               </ul>
             </div>
-          </header>
       </div>
     <Main />
     </div>
@@ -49,6 +47,7 @@ const Home = () => (
 
 const MyAccount = () => (
   <div className='my-account'>
+    <EditProfile />
   </div>
 );
 

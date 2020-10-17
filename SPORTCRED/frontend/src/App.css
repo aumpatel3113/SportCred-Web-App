@@ -28,7 +28,7 @@ body {
   background-color: #000000;
   outline-style: solid;
   outline-width: 0.3ch;
-  outline-color:rgb(71, 71, 71);
+  outline-color: rgb(71, 71, 71);
   position: fixed;
 }
 
@@ -41,7 +41,7 @@ body {
   background-color: #000000;
   outline-style: solid;
   outline-width: 0.1ch;
-  outline-color:rgb(71, 71, 71);
+  outline-color: rgb(71, 71, 71);
 }
 
 .App header {
@@ -49,11 +49,12 @@ body {
   background: #f144f1;
   width: 100%;
   height: 65px;
-  position:fixed;
+  position: fixed;
+  z-index: 2;
 }
 
 header::after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -79,7 +80,7 @@ header::after {
   outline-style: solid;
   outline-width: 0.3ch;
   outline-offset: 1ch;
-  outline-color:black;
+  outline-color: black;
 }
 
 .container nav a {
@@ -99,7 +100,7 @@ header::after {
   color: #000;
 }
 
-.container nav a:focus{
+.container nav a:focus {
   background-color: rgba(122, 9, 122, 0.808);
   color: black;
 }
@@ -131,11 +132,10 @@ p {
   z-index: 1;
   top: 67px;
   overflow-x: hidden;
-  background-color:black;
+  background-color: black;
   outline-style: solid;
   outline-width: 0.3ch;
-  outline-color:rgb(71, 71, 71);
-
+  outline-color: rgb(71, 71, 71);
 }
 
 .verbar header {
@@ -175,7 +175,7 @@ p {
   color: rgb(255, 115, 0);
 }
 
-.sidebar a:focus{
+.sidebar a:focus {
   background-color: rgba(92, 92, 92, 0.884);
   color: rgb(255, 115, 0);
 }

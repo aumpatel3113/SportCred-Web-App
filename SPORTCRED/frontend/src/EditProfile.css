@@ -1,0 +1,83 @@
+.centContainer {
+  padding-top: 28px;
+  margin-left: 330px;
+}
+
+textarea {
+  color: black;
+  position: relative;
+  margin-bottom: 1rem;
+  display: block;
+  background-color: rgb(255, 250, 173);
+  border: solid rgb(255, 217, 135);
+  height: 140px;
+  width: 575px;
+}
+
+button {
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: orange;
+  border-color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  border-width: 2px;
+  border-radius: 7px;
+}
+
+h3 {
+  color: rgb(108, 255, 103);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+h5 {
+  color: rgb(9, 255, 0);
+  font-size: 40px;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  margin-top: 5rem;
+}
+
+.button1 {
+  display: block;
+  padding: 0.35em 1.2em;
+  border: 0.1em rgb(255, 250, 173);
+  position: relative;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: 300;
+  color: rgb(255, 250, 173);
+}
+
+.button1:hover {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+#logOutBtn {
+  background-color: tomato;
+}
+
+#logOutBtn:hover {
+  color: rgb(255, 72, 0);
+  background-color: #fffb00;
+}
+
+input[type="text"] {
+  background-color: rgb(255, 250, 173);
+  border: solid rgb(255, 217, 135);
+  width: 40%;
+  position: relative;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+label {
+  color: rgb(255, 255, 255);
+  text-transform: lowercase;
+}

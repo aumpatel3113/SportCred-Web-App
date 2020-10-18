@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
@@ -95,6 +96,11 @@ public class Neo4JDB {
 
 		double zeroScore = 0;
 		String emptyString = "";
+		String Q1 = answeredQuestions[0], 
+				Q2 = answeredQuestions[1], 
+				Q3 = answeredQuestions[2], 
+				Q4 = answeredQuestions[3], 
+				Q5 = answeredQuestions[4];
 
 		try (Session session = driver.session()){
 
@@ -116,10 +122,11 @@ public class Neo4JDB {
 					return 412;
 				}
 				
-				tx.run("CREATE (n:User {username: $u, password: $v, biography: $w, "
+				tx.run("CREATE (n:User {username: $u, Q1: $a, Q2: $b, Q3: $c, Q4: $d, Q5: $e, password: $v, biography: $w, "
 						+ "picture: $w, ACS: $x, trivia: $x, debate: $x, picks: $x, "
-						+ "history: $x, answers: $y, email: $z})",
-						parameters("u", username, "v", password, "w", emptyString, "x", zeroScore, "y", answeredQuestions, "z", email));
+						+ "history: $x, email: $y})",
+						parameters("a", Q1, "b", Q2, "c", Q3, "d", Q4, "e", Q5, "u", 
+								username, "v", password, "w", emptyString, "x", zeroScore, "y", email));
 				
 				tx.commit();
 				return 201;
@@ -131,6 +138,47 @@ public class Neo4JDB {
 		}
 
 	}
-  
+	
+	public void fillUser(UserNode fillIn, String username) {
+				
+		try (Session session = driver.session()){
+
+			Result userInDB;
+
+			try (Transaction tx = session.beginTransaction()){
+
+				userInDB = tx.run("MATCH (U:User {username: $x}) RETURN U.username, "
+						+ "U.password, U.email, U.biography, U.picture, U.answers, "
+						+ "U.ACS, U.trivia, U.debate, U.picks, U.history, U.Q1, U.Q2, U.Q3, U.Q4, U.Q5",
+						parameters("x", username));
+				
+				Map<String, Object> returnedData = userInDB.next().asMap();
+				
+				fillIn.setUsername((String) returnedData.get("U.username"));
+				fillIn.setPassword((String) returnedData.get("U.password"));
+				fillIn.setEmail((String) returnedData.get("U.email"));
+				fillIn.setBiography((String) returnedData.get("U.biography"));
+				fillIn.setPicture((String) returnedData.get("U.picture"));
+				fillIn.setQ1((String) returnedData.get("U.Q1"));
+				fillIn.setQ2((String) returnedData.get("U.Q2"));
+				fillIn.setQ3((String) returnedData.get("U.Q3"));
+				fillIn.setQ4((String) returnedData.get("U.Q4"));
+				fillIn.setQ5((String) returnedData.get("U.Q5"));
+				fillIn.setACS((double) returnedData.get("U.ACS"));
+				fillIn.setTriviaScore((double) returnedData.get("U.trivia"));
+				fillIn.setDebateScore((double) returnedData.get("U.debate"));
+				fillIn.setPickScore((double) returnedData.get("U.picks"));
+				fillIn.setHistoryScore((double) returnedData.get("U.history"));
+			
+				tx.commit();
+
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+	}
+	
 }
 

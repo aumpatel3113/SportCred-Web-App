@@ -20,7 +20,7 @@ public class AddQuestions implements HttpHandler {
       }
     } catch (Exception e) {
       try {
-        r.sendResponseHeaders(400, -1);
+        r.sendResponseHeaders(500, -1);
       } catch (IOException e1) {
       }
     }

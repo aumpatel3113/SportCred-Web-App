@@ -17,18 +17,18 @@ public class GetQuestions implements HttpHandler {
   @Override
   public void handle(HttpExchange r) {
     try {
-      if (r.getRequestMethod().equals("GET")) {
-        handleGet(r);
+      if (r.getRequestMethod().equals("POST")) {
+        handlePost(r);
       }
     } catch (Exception e) {
       try {
-        r.sendResponseHeaders(400, -1);
+        r.sendResponseHeaders(500, -1);
       } catch (IOException e1) {
       }
     }
   }
 
-  public void handleGet(HttpExchange r) throws IOException, JSONException {
+  public void handlePost(HttpExchange r) throws IOException, JSONException {
     String body = Utils.convert(r.getRequestBody());
     JSONObject deserialized = new JSONObject(body);
     String numQuestions;
@@ -40,6 +40,7 @@ public class GetQuestions implements HttpHandler {
       JSONObject json = new JSONObject(resultMap);
       String response = json.toString();
       r.getResponseHeaders().set("Content-Type", "application/json");
+      r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
       r.sendResponseHeaders(200, response.length());
       OutputStream os = r.getResponseBody();
       os.write(response.getBytes());

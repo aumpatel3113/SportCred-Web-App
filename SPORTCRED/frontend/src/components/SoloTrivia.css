@@ -1,0 +1,103 @@
+.quiz-app {
+  height: min-content;
+  align-items: center;
+  font-family: 'Reem Kufi', sans-serif;
+  margin-left: 20vw;
+  margin-right: 20vw;
+}
+
+.post-error h1 {
+  font-weight: normal;
+  font-size: 22px;
+  margin-top: 2vh;
+}
+
+.back {
+  padding-top: 2vh;
+}
+
+.back a {
+  font-size: 20px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.back a:hover {
+  transition: color 0.25s linear;
+  color: #696145;
+}
+
+.game-counter h3 {
+  font-weight: normal;
+  font-size: 36px;
+  margin-top: 0vh;
+  color: #fff;
+}
+
+.game-counter p {
+  color: #a05518;
+  font-size: 65px;
+  margin-top: 1.5vh;
+}
+
+.score-section {
+  font-size: 24px;
+  align-items: center;
+}
+
+/* QUESTION/TIMER/LEFT SECTION */
+
+.question-section {
+  width: 100%;
+}
+
+.question-count {
+  margin-bottom: 20px;
+}
+
+.question-count span {
+  font-size: 28px;
+}
+
+.question-text {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+/* ANSWERS/RIGHT SECTION */
+
+.answer-section {
+  align-items: center;
+}
+
+button {
+  width: 60%;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #8b6f41;
+  border: 3px solid #5e4a2b;
+  border-radius: 10px;
+  padding: 15px 10px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 1vh;
+}
+
+button:hover {
+  transition: background-color 0.2s ease-in-out;
+  background-color: #685230;
+}
+
+button:focus {
+  outline: none;
+}
+
+.timer {
+  padding-top: 1vh;
+  font-size: 20px
+}
+
+.score-section p {
+  padding-bottom: 4vh;
+}

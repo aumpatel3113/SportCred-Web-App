@@ -1,7 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import './SoloTrivia.css';
+import { NavLink } from 'react-router-dom';
 
 const SoloTrivia = () => {
+
+    const [showCounter, setShowCounter] = useState(true);
+
+    // 3s COUNTDOWN BEFORE TRIVIA STARTS
+    const [pregameCounter, setPregameCounter] = React.useState(3);
+    React.useEffect(() => {
+        const preGameTimer =
+            pregameCounter > 0 && setInterval(() => setPregameCounter(pregameCounter - 1), 1000);
+
+        if (pregameCounter === 0) {
+            setShowCounter(false)
+        }
+
+        return () => clearInterval(preGameTimer);
+    }, [pregameCounter]);
 
     const [Data, setData] = useState({
         question1: '',
@@ -66,7 +83,7 @@ const SoloTrivia = () => {
     })
     const [PostError, setPostError] = useState(false)
 
-    // FETCH QUIZ DATA FROM DB
+    // FETCHES QUIZ DATA FROM DB
     useEffect(() => {
 
         const url = 'http://localhost:8080/api/v1/getSoloTrivia'
@@ -360,10 +377,87 @@ const SoloTrivia = () => {
         },
     ]
 
-    //console.log(questions)
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [showScore, setShowScore] = useState(false);
+    const [score, setScore] = useState(0);
+
+    // CHECKS IF THE USER INPUT IS A CORRECT ANSWER
+    const handleAnswerOptionClick = (isCorrect) => {
+        if (isCorrect) {
+            setScore(score + 1);
+        }
+
+        const nextQuestion = currentQuestion + 1;
+        if (nextQuestion < questions.length) {
+            setCurrentQuestion(nextQuestion);
+            setCounter(14)
+        } else {
+            setShowScore(true);
+        }
+    };
+
+    // 14s TIMER PER QUESTION
+    const [counter, setCounter] = React.useState(14);
+    useEffect(() => {
+        const timer = counter >= 0 && setInterval(() => setCounter(counter - 1), 1000);
+
+        if (counter === -1) {
+            const nextQuestion = currentQuestion + 1;
+            if (nextQuestion < questions.length) {
+                setCurrentQuestion(nextQuestion);
+                setCounter(14)
+            } else {
+                setShowScore(true);
+            }
+        }
+
+        return () => clearInterval(timer);
+    }, [counter]);
 
     return (
-        <div className='quiz-app'></div>
+        <div className='quiz-app'>
+            {PostError ? (
+                <div className='post-error'>
+                    <h1>Oops.. An error occured fetching the trivia data. :(</h1>
+                    <div className='back'><p><NavLink exact to='/trivia'>back</NavLink></p></div>
+                </div>
+            ) : (
+                    <>
+                        {showCounter ? (
+                            <div className='game-counter'>
+                                <h3>Ready?</h3>
+                                <div><p>{pregameCounter}</p></div>
+                            </div>
+
+                        ) : (
+                                <>
+                                    { showScore ? (
+                                        <div className='score-section'>
+                                            <p>You scored {score} out of {questions.length}.</p>
+                                        </div>
+                                    ) : (
+                                            <>
+                                                <div className='question-section'>
+                                                    <div className='question-count'>
+                                                        <span>Question {currentQuestion + 1}</span>
+                                                    </div>
+                                                    <div className='question-text'>{questions[currentQuestion].question}</div>
+                                                </div>
+                                                <div className='answer-section'>
+                                                    {questions[currentQuestion].answerOptions.map((answerOption) => (
+                                                        <button onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
+                                                    ))}
+                                                </div>
+                                                <div className='timer'>
+                                                    <div>{counter}s</div>
+                                                </div>
+                                            </>
+                                        )}
+                                </>
+                            )}
+                    </>
+                )}
+        </div>
     );
 
 }

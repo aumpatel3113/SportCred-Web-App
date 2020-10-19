@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
 import "./TriviaStyling.css";
 import logo from "./logo.svg";
 import lebron from "./lebron.jpg";
 import { NavLink, Switch, Route } from "react-router-dom";
 import EditProfile from "./EditProfile";
+import SoloTrivia from './components/SoloTrivia'
 
 function App() {
   return (
@@ -105,10 +106,22 @@ const Solo = () => (
       <p>Correct answers earn 1 ACS point and incorrect answers lose 1 ACS point.</p>
       <p>Good Luck!</p>
     </div>
-    <div className="solo-play"><p><NavLink exact to='/trivia/solo'>Start!</NavLink></p></div>
+    <div className="solo-play"><p><NavLink exact to='/trivia/solo/solo-game'>Start!</NavLink></p></div>
     <div className="back"><p><NavLink exact to='/trivia'>back</NavLink></p></div>
   </div>
 );
+
+class SoloGame extends Component {
+  render() {
+    return (
+      <div className="TriviaQuestion">
+        <h1>Solo Trivia</h1>
+        <div className="horizontal-line"></div>
+        <SoloTrivia />
+      </div>
+    )
+  }
+}
 
 const HeadToHead = () => (
   <div className='head_to_head'>
@@ -139,6 +152,7 @@ const Main = () => (
     <Route exact path="/open-court" component={OpenCourt}></Route>
     <Route exact path='/trivia' component={Trivia}></Route>
     <Route exact path='/trivia/solo' component={Solo}></Route>
+    <Route exact path='/trivia/solo/solo-game' component={SoloGame}></Route>
     <Route exact path='/trivia/online' component={HeadToHead}></Route>
     <Route exact path="/picks" component={Picks}></Route>
     <Route exact path="/analyze" component={Analyze}></Route>

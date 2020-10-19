@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'
 import './SoloTrivia.css';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios'
 
 const SoloTrivia = () => {
 
@@ -379,6 +379,7 @@ const SoloTrivia = () => {
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);
+    const [sendResults, setSendResults] = useState(0);
     const [score, setScore] = useState(0);
 
     // CHECKS IF THE USER INPUT IS A CORRECT ANSWER
@@ -393,6 +394,7 @@ const SoloTrivia = () => {
             setCounter(14)
         } else {
             setShowScore(true);
+            setSendResults(1);
         }
     };
 
@@ -408,11 +410,29 @@ const SoloTrivia = () => {
                 setCounter(14)
             } else {
                 setShowScore(true);
+                setSendResults(1);
             }
         }
 
         return () => clearInterval(timer);
     }, [counter]);
+
+    // SEND RESULTS BACK TO DB
+    useEffect(() => {
+        if (sendResults === 1) {
+            const url = 'http://localhost:8080/api/v1/sendFinalSoloScore'
+            const headers = {
+                'Content-Type': 'text/plain',
+            }
+
+            // axios.post(url, { 'username': 'king', 'correctAnswers': score, 'totalAnswers': '10' }, { headers }
+            // )
+            //     .then(res => {
+            //         console.log(res.data)
+            //     })
+        }
+
+    }, [sendResults])
 
     return (
         <div className='quiz-app'>
@@ -433,7 +453,10 @@ const SoloTrivia = () => {
                                 <>
                                     { showScore ? (
                                         <div className='score-section'>
-                                            <p>You scored {score} out of {questions.length}.</p>
+                                            <h1>You scored {score} out of {questions.length}.</h1>
+                                            <p><NavLink exact to='/trivia/solo'>Play Again?</NavLink></p>
+                                            <p><NavLink exact to='/trivia'>Back to Trivia</NavLink></p>
+                                            <p><NavLink exact to='/'>Home</NavLink></p>
                                         </div>
                                     ) : (
                                             <>

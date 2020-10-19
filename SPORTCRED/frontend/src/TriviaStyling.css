@@ -41,7 +41,7 @@
   }
   
   .solo-play a {
-    background: linear-gradient(to bottom, #696145 0%, #695b45 100%);
+    background: linear-gradient(to bottom, #a05518 0%, #a05518 100%);
     background-position: 0 100%;
     background-repeat: repeat-x;
     background-size: 3px 3px;
@@ -67,18 +67,18 @@
   
   .back a:hover {
     transition: color 0.25s linear;
-    color: #696145;
+    color: #a05518;
   }
   
   .trivia a:hover {
-    border-top: 2px solid #696145;
-    border-bottom: 2px solid #696145;
+    border-top: 2px solid #a05518;
+    border-bottom: 2px solid #a05518;
     transition: background-color 0.6s ease-in-out;
-    background-color: #695b45;
+    background-color: #a05518;
   }
   
   .horizontal-line {
-    border-top: 1px solid white;
+    border-top: 3px solid white;
     margin-left: 25vw;
     margin-right: 25vw;
     padding-bottom: 3vh;

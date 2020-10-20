@@ -14,6 +14,7 @@ public class SportcredBackend {
       HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", PORT), 0);
       server.createContext("/api/v1/getSoloTrivia", new GetQuestions());
       server.createContext("/api/v1/addQuestions", new AddQuestions());
+      server.createContext("/api/v1/updateUserData", new UpdateUserProfile());
       server.createContext("/api/v1/sendFinalSoloScore", new FinalSoloTriviaScore());
       server.createContext("/api/v1/registerUser", new UserRegistration());
       server.createContext("/api/v1/userLogin", new UserLogin());

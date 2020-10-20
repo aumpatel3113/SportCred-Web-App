@@ -4,7 +4,9 @@ import static org.neo4j.driver.Values.parameters;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
@@ -13,6 +15,7 @@ import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import org.neo4j.driver.exceptions.ClientException;
 import static org.neo4j.driver.Values.parameters;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -220,5 +223,59 @@ public class Neo4JDB {
 
 	}
 
+  public void updateUserProfile(HttpExchange r, JSONObject deserialized) {
+    try (Session session = driver.session()) {
+      //building the query
+      String username = deserialized.getString("username");
+      String query = String.format("MATCH(n{username: '%s'}) SET ", username);
+      Iterator<?> properties = deserialized.keys();
+      String[] passwords = {null, null};
+      
+      while (properties.hasNext()) {
+        String current = (String) properties.next();
+        if (current.equals("password")) {
+          passwords[0] = deserialized.getString(current);
+        } else if (current.equals("oldPassword")) {
+          passwords[1] = deserialized.getString(current);
+        } else if (!current.equals("username")) {
+          query += String.format("n.%s = '%s', ", current, deserialized.getString(current));
+        }
+      }
+      
+      if (passwords[0] != null && passwords[1] != null) {
+        String addToQuery = validatePassword(username, passwords);
+        if (addToQuery != null) query += addToQuery;
+        else throw new ClientException("invalid password");
+      }
+      
+      query = query.substring(0, query.length()-2);
+      
+      //running the query
+      String message = query;
+      session.writeTransaction(tx -> tx.run(message));
+      session.close();
+    } catch (Exception e) {
+      try {
+        if (e.getMessage().equals("invalid password")) throw new ClientException("invalid password");
+        r.sendResponseHeaders(500, -1);
+      } catch (IOException e1) {}
+    }
+  }
+  
+  private String validatePassword(String username, String[] passwords) {
+    try (Session session = driver.session()) {
+      if (username != null) {
+        String query = String.format("MATCH(n{username: '%s'}) RETURN n.password", username);
+        Result result = session.run(query);
+        String actualPassword = result.peek().get("n.password").asString();
+        if (actualPassword.equals(passwords[1])) {
+          return String.format("n.password = '%s', ", passwords[0]);
+        }
+      }
+      return null;
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }
 

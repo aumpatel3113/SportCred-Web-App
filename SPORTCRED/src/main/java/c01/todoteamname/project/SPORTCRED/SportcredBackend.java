@@ -16,6 +16,7 @@ public class SportcredBackend {
       server.createContext("/api/v1/addQuestions", new AddQuestions());
       server.createContext("/api/v1/sendFinalSoloScore", new FinalSoloTriviaScore());
       server.createContext("/api/v1/registerUser", new UserRegistration());
+      server.createContext("/api/v1/userLogin", new UserLogin());
       server.start();
       System.out.println("Server on port:" + PORT);
     } catch (IOException e) {

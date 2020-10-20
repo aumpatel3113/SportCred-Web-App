@@ -137,13 +137,13 @@ public class Neo4JDB {
 				if (checkUser.hasNext()) {
 					return 412;
 				}
-				
+
 				tx.run("CREATE (n:User {username: $u, Q1: $a, Q2: $b, Q3: $c, Q4: $d, Q5: $e, password: $v, biography: $w, "
 						+ "picture: $w, ACS: $x, trivia: $x, debate: $x, picks: $x, "
 						+ "history: $x, email: $y})",
 						parameters("a", Q1, "b", Q2, "c", Q3, "d", Q4, "e", Q5, "u", 
 								username, "v", password, "w", emptyString, "x", zeroScore, "y", email));
-				
+
 				tx.commit();
 				return 201;
 
@@ -154,9 +154,9 @@ public class Neo4JDB {
 		}
 
 	}
-	
+
 	public void fillUser(UserNode fillIn, String username) {
-				
+
 		try (Session session = driver.session()){
 
 			Result userInDB;
@@ -167,9 +167,9 @@ public class Neo4JDB {
 						+ "U.password, U.email, U.biography, U.picture, U.answers, "
 						+ "U.ACS, U.trivia, U.debate, U.picks, U.history, U.Q1, U.Q2, U.Q3, U.Q4, U.Q5",
 						parameters("x", username));
-				
+
 				Map<String, Object> returnedData = userInDB.next().asMap();
-				
+
 				fillIn.setUsername((String) returnedData.get("U.username"));
 				fillIn.setPassword((String) returnedData.get("U.password"));
 				fillIn.setEmail((String) returnedData.get("U.email"));
@@ -185,7 +185,7 @@ public class Neo4JDB {
 				fillIn.setDebateScore((double) returnedData.get("U.debate"));
 				fillIn.setPickScore((double) returnedData.get("U.picks"));
 				fillIn.setHistoryScore((double) returnedData.get("U.history"));
-			
+
 				tx.commit();
 
 			}
@@ -193,8 +193,32 @@ public class Neo4JDB {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 	}
-	
+
+	public int checkLogin(String username, String password) {
+
+		try (Session session = driver.session()){
+
+			try (Transaction tx = session.beginTransaction()){
+
+				Result checkCredentials = tx.run("MATCH (U:User {username: $x, password: $y}) RETURN U", 
+						parameters("x", username, "y", password));
+
+				if (checkCredentials.hasNext()) {
+					return 200;
+				}
+				else {
+					return 404;
+				}
+
+			}
+
+		} catch (Exception e) {
+			return 500;
+		}
+
+	}
+
 }
 

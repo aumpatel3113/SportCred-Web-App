@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import "./EditProfile.css";
+// import axios from "axios";
 
 const EditProfile = () => {
   const [bio, setBio] = useState("");
+  // const instance = axios.create({ baseURL: "http://localhost:8080/api/v1" });
+  const updateBio = () => {
+    // instance.post("/updateUserProfile", { biography: bio });
+    // setBio("");
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
+    xhr.send(JSON.stringify({ username: "aumpatel", biography: bio }));
+    setBio("");
+  };
 
   return (
     <div className="centContainer">
@@ -15,7 +25,9 @@ const EditProfile = () => {
         value={bio}
         onChange={(e) => setBio(e.target.value)}
       />
-      <button className="button1">Update</button>
+      <button className="button1" onClick={updateBio}>
+        Update
+      </button>
       <br />
       <h3>update profile picture</h3>
       <p>coming soon...</p>

@@ -48,6 +48,12 @@ const EditProfile = () => {
     setBio("");
   };
 
+  function setProfilePicture(path) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
+    xhr.send(JSON.stringify({ username: sessionStorage.getItem('username'),  picture: path}));
+  }
+
   return (
     <div className="centContainer">
       <h5>MY SPORTCRED ACCOUNT</h5>
@@ -64,7 +70,15 @@ const EditProfile = () => {
       </button>
       <br />
       <h3>update profile picture</h3>
-      <p>coming soon...</p>
+        <button className="button1" onClick={() => setProfilePicture("./lebron.jpg")}>
+          <img src={require('./lebron.jpg')} className="avatarPic" alt="avatar"/>
+        </button>
+        <button className="button1" onClick={() => setProfilePicture("./michaeljordan.jpg")}>
+          <img src={require('./michaeljordan.jpg')} className="avatarPic" alt="avatar"/>
+        </button>
+        <button className="button1" onClick={() => setProfilePicture("./kobe.jpg")}>
+          <img src={require('./kobe.jpg')} className="avatarPic" alt="avatar"/>
+        </button>
       <br />
       <h3>update questionnaire answers</h3>
       <form>

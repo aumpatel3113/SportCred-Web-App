@@ -1,8 +1,8 @@
+import React, { useState } from  "react";
 import React, { Component, useEffect } from "react";
 import "./App.css";
 import "./TriviaStyling.css";
 import logo from "./logo.svg";
-import lebron from "./lebron.jpg";
 import { NavLink, Switch, Route } from "react-router-dom";
 import EditProfile from "./EditProfile";
 import SoloTrivia from './components/SoloTrivia'
@@ -10,6 +10,29 @@ import OnlinePostTrivia from './components/OnlinePostTrivia'
 import OnlineChallengeTrivia from './components/OnlineChallengeTrivia'
 
 function App() {
+  const [profilePicture, setProfilePicture] = useState("");
+  var avatar;
+
+  var xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', () => {
+    setProfilePicture(xhr.responseText)
+  })
+  xhr.open("POST", "http://localhost:8080/api/v1/getProfilePicture", true);
+  xhr.send(JSON.stringify({ username: sessionStorage.getItem('username') }));
+
+  switch(profilePicture) {
+    case "./lebron.jpg": 
+      avatar = require('./lebron.jpg')
+      break;
+    case "./michaeljordan.jpg":
+      avatar = require('./michaeljordan.jpg')
+      break;
+    case "./kobe.jpg":
+      avatar = require('./kobe.jpg')
+      break;
+    default:
+  }
+
   return (
     <div className="App">
       <header>
@@ -37,7 +60,7 @@ function App() {
             Welcome, <b>[insert name]</b>
           </h2>
           <p>
-            <img src={lebron} className="lebron" alt="lebron" /> ACS: XXX
+            <img src={avatar} className="lebron" alt="User Avatar"/> ACS: XXX
           </p>
           <p>
             <b>[insert tier]</b>

@@ -157,6 +157,20 @@ public class Neo4JDB {
 		}
 
 	}
+	
+	public String getProfilePicture(HttpExchange r, String username) {
+      try (Session session = driver.session()) {
+        try (Transaction tx = session.beginTransaction()) {
+          Result result =
+              tx.run("MATCH (n{username:$x}) RETURN n.picture", 
+                  parameters("x", username));
+          return result.peek().get("n.picture").asString();
+        }
+      } catch (Exception e) {
+        internalErrorCatch(r);
+        return null;
+      }
+    }
 
 	public void fillUser(UserNode fillIn, String username) {
 

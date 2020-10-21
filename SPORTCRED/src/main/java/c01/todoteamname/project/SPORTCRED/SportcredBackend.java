@@ -17,6 +17,8 @@ public class SportcredBackend {
       server.createContext("/api/v1/updateUserData", new UpdateUserProfile());
       server.createContext("/api/v1/sendFinalSoloScore", new FinalSoloTriviaScore());
       server.createContext("/api/v1/registerUser", new UserRegistration());
+      server.createContext("/api/v1/updateUserData", new UpdateUserProfile());
+      server.createContext("/api/v1/getProfilePicture", new GetProfilePicture());
       server.createContext("/api/v1/userLogin", new UserLogin());
       server.start();
       System.out.println("Server on port:" + PORT);

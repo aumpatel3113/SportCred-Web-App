@@ -40,7 +40,8 @@ h5 {
 }
 
 .button1 {
-  display: block;
+  display: inline-block;
+  margin-left: 10px;
   padding: 0.35em 1.2em;
   border: 0.1em rgb(255, 250, 173);
   position: relative;
@@ -49,6 +50,18 @@ h5 {
   text-decoration: none;
   font-weight: 300;
   color: rgb(255, 250, 173);
+}
+
+.avatarPic {
+  width: 100px;
+  height: 86px;
+  margin-top: 1px;
+  margin-left: 25px;
+  background-color: #000000;
+  outline-style: solid;
+  outline-width: 0.1ch;
+  outline-color: rgb(71, 71, 71);
+  margin: auto;
 }
 
 .button1:hover {

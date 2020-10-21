@@ -70,8 +70,8 @@
   align-items: center;
 }
 
-button {
-  width: 80%;
+.quiz-button button {
+  width: 65%;
   font-size: 16px;
   font-weight: bold;
   text-transform: capitalize;
@@ -85,13 +85,13 @@ button {
   margin-bottom: 0.5vh;
 }
 
-button:hover {
+.quiz-button button:hover {
   transition: background-color 0.2s ease-in-out;
   background-color: #804c22;
   border: 3px solid #804c22;
 }
 
-button:focus {
+.quiz-button button:focus {
   outline: none;
 }
 

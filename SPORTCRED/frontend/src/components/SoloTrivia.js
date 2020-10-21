@@ -94,7 +94,7 @@ const SoloTrivia = () => {
         axios.post(url, { 'numQuestions': '10' }, { headers }
         )
             .then(res => {
-                //console.log(res.data)
+                //console.log(res.data.questionList)
                 let questionListData = res.data.questionList;
                 setData({
                     question1: questionListData[0].question,
@@ -160,7 +160,7 @@ const SoloTrivia = () => {
             })
             .catch(err => {
                 setPostError(true)
-                console.log(err);
+                //console.log(err);
             })
     }, [])
 
@@ -424,12 +424,12 @@ const SoloTrivia = () => {
             const headers = {
                 'Content-Type': 'text/plain',
             }
-
-            // axios.post(url, { 'username': 'king', 'correctAnswers': score, 'totalAnswers': '10' }, { headers }
-            // )
-            //     .then(res => {
-            //         console.log(res.data)
-            //     })
+            
+            axios.post(url, { 'username': sessionStorage.getItem('username'), 'correctAnswers': score, 'totalAnswers': '10' }, { headers }
+            )
+                .then(res => {
+                    console.log(res.data)
+                })
         }
 
     }, [sendResults])
@@ -468,7 +468,7 @@ const SoloTrivia = () => {
                                                 </div>
                                                 <div className='answer-section'>
                                                     {questions[currentQuestion].answerOptions.map((answerOption) => (
-                                                        <button onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
+                                                        <button className = 'quiz-button'onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
                                                     ))}
                                                 </div>
                                                 <div className='timer'>

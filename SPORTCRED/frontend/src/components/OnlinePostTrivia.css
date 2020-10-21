@@ -1,0 +1,141 @@
+.quiz-app {
+    height: min-content;
+    align-items: center;
+    font-family: 'Reem Kufi', sans-serif;
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
+  
+  .post-error h1 {
+    font-weight: normal;
+    font-size: 22px;
+    margin-top: 2vh;
+  }
+  
+  .back {
+    padding-top: 5vh;
+  }
+  
+  .back a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .back a:hover {
+    transition: color 0.25s linear;
+    color: #a05518;
+  }
+  
+  .game-counter h3 {
+    font-weight: normal;
+    font-size: 36px;
+    margin-top: 2vh;
+    color: #fff;
+  }
+  
+  .game-counter p {
+    color: #be6115;
+    font-size: 65px;
+    margin-top: 1vh;
+  }
+  
+  .score-section {
+    font-size: 24px;
+    align-items: center;
+  }
+  
+  /* QUESTION/TIMER/LEFT SECTION */
+  
+  .question-section {
+    width: 100%;
+  }
+  
+  .question-count {
+    margin-bottom: 20px;
+  }
+  
+  .question-count span {
+    font-size: 28px;
+  }
+  
+  .question-text {
+    margin-bottom: 30px;
+    font-size: 20px;
+  }
+  
+  /* ANSWERS/RIGHT SECTION */
+  
+  .answer-section {
+    align-items: center;
+  }
+  
+  button {
+    width: 65%;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #fff;
+    background-color: #a05518;
+    border: 3px solid #a05518;
+    border-radius: 10px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 0.5vh;
+  }
+  
+  button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: #804c22;
+    border: 3px solid #804c22;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  .timer {
+    padding-top: 1vh;
+    font-size: 20px
+  }
+  
+  .score-section h1 {
+    padding-bottom: 0.7vh;
+    font-size: 30px;
+    font-weight: normal;
+    padding-top: 1vh;
+  }
+
+  .score-section h2 {
+      font-size: 20px;
+      font-weight: normal;
+      padding-bottom: 2vh;
+  }
+  
+  .score-section p {
+    padding-bottom: 2.5vh;
+  }
+  
+  .score-section a {
+    font-size: 19px;
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 26px 10px 26px;
+    /* VERITICAL TRANSITION */
+    background: linear-gradient(to bottom, #a05518 0%, #a05518 100%);
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: 3px 3px;
+    transition: background-size .2s;
+  }
+  
+  .score-section a:hover {
+    /* ORIGINAL TRANSITION */
+    /* border-top: 2px solid white;
+      border-bottom: 2px solid white;
+      transition: background-color 0.4s ease-in-out;
+      background-color: #695b45; */
+    /* VERTICAL TRANSITION */
+    background-size: 4px 50px;
+  }

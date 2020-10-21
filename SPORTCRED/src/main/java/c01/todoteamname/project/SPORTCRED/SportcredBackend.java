@@ -20,6 +20,11 @@ public class SportcredBackend {
       server.createContext("/api/v1/updateUserData", new UpdateUserProfile());
       server.createContext("/api/v1/getProfilePicture", new GetProfilePicture());
       server.createContext("/api/v1/userLogin", new UserLogin());
+      server.createContext("/api/v1/sendNewChallengerTrivia", new NewChallenger());
+      server.createContext("/api/v1/getAvailableRooms", new RoomList());
+      server.createContext("/api/v1/getOpponent", new GetOpponent());
+      server.createContext("/api/v1/sendFinalDuoScore", new FinalDuoScore());
+      server.createContext("/api/v1/getACSScore", new GetACS());
       server.createContext("/api/v1/getUserInfo", new GetUserInfo()); 
       server.start();
       System.out.println("Server on port:" + PORT);

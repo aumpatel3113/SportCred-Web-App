@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.neo4j.driver.AuthTokens;
@@ -59,7 +60,7 @@ public class Neo4JDB {
     }
   }
 
-  public int updateScore(String username, String ACS, String categoryScore, String category) {
+  public int updateScore(String username, double ACS, double categoryScore, String category) {
     try (Session session = driver.session()) {
       String line =
           String.format("MATCH (u:User {username:$a}) SET u.ACS=$b SET u.%s=$c", category);
@@ -68,7 +69,6 @@ public class Neo4JDB {
       session.close();
       return 200;
     } catch (Exception e) {
-      e.printStackTrace();
       return 500;
     }
   }
@@ -110,55 +110,53 @@ public class Neo4JDB {
       return null;
     }
   }
-  
-	public int createUser(String username, String password, String email, String[] answeredQuestions) {
 
-		double zeroScore = 0;
-		String emptyString = "";
-		String Q1 = answeredQuestions[0], 
-				Q2 = answeredQuestions[1], 
-				Q3 = answeredQuestions[2], 
-				Q4 = answeredQuestions[3], 
-				Q5 = answeredQuestions[4];
+  public int createUser(String username, String password, String email,
+      String[] answeredQuestions) {
 
-		try (Session session = driver.session()){
+    double zeroScore = 0;
+    String emptyString = "";
+    String coolPicture = "./lebron.jpg";
+    String Q1 = answeredQuestions[0], Q2 = answeredQuestions[1], Q3 = answeredQuestions[2],
+        Q4 = answeredQuestions[3], Q5 = answeredQuestions[4];
 
-			Result checkUser;
+    try (Session session = driver.session()) {
 
-			try (Transaction tx = session.beginTransaction()){
+      Result checkUser;
 
-				checkUser = tx.run("MATCH (A:User {username: $x}) RETURN A",
-						parameters("x", username));
+      try (Transaction tx = session.beginTransaction()) {
 
-				if (checkUser.hasNext()) {
-					return 409;
-				}
+        checkUser = tx.run("MATCH (A:User {username: $x}) RETURN A", parameters("x", username));
 
-				checkUser = tx.run("MATCH (B:User {email: $x}) RETURN B", 
-						parameters("x", email));
+        if (checkUser.hasNext()) {
+          return 409;
+        }
 
-				if (checkUser.hasNext()) {
-					return 412;
-				}
+        checkUser = tx.run("MATCH (B:User {email: $x}) RETURN B", parameters("x", email));
 
-				tx.run("CREATE (n:User {username: $u, Q1: $a, Q2: $b, Q3: $c, Q4: $d, Q5: $e, password: $v, biography: $w, "
-						+ "picture: $w, ACS: $x, trivia: $x, debate: $x, picks: $x, "
-						+ "history: $x, email: $y})",
-						parameters("a", Q1, "b", Q2, "c", Q3, "d", Q4, "e", Q5, "u", 
-								username, "v", password, "w", emptyString, "x", zeroScore, "y", email));
+        if (checkUser.hasNext()) {
+          return 412;
+        }
 
-				tx.commit();
-				return 201;
+        tx.run(
+            "CREATE (n:User {username: $u, Q1: $a, Q2: $b, Q3: $c, Q4: $d, Q5: $e, password: $v, biography: $w, "
+                + "picture: $w, ACS: $x, trivia: $x, debate: $x, picks: $x, "
+                + "history: $x, email: $y})",
+            parameters("a", Q1, "b", Q2, "c", Q3, "d", Q4, "e", Q5, "u", username, "v", password,
+                "w", coolPicture, "x", zeroScore, "y", email));
 
-			}
+        tx.commit();
+        return 201;
 
-		} catch (Exception e) {
-			return 500;
-		}
+      }
 
-	}
-	
-	public String getProfilePicture(HttpExchange r, String username) {
+    } catch (Exception e) {
+      return 500;
+    }
+
+  }
+
+  public String getProfilePicture(HttpExchange r, String username) {
       try (Session session = driver.session()) {
         try (Transaction tx = session.beginTransaction()) {
           Result result =
@@ -170,72 +168,199 @@ public class Neo4JDB {
         internalErrorCatch(r);
         return null;
       }
+  }
+  
+  public void fillUser(UserNode fillIn, String username) {
+
+    try (Session session = driver.session()) {
+
+      Result userInDB;
+
+      try (Transaction tx = session.beginTransaction()) {
+
+        userInDB = tx.run(
+            "MATCH (U:User {username: $x}) RETURN U.username, "
+                + "U.password, U.email, U.biography, U.picture, U.answers, "
+                + "U.ACS, U.trivia, U.debate, U.picks, U.history, U.Q1, U.Q2, U.Q3, U.Q4, U.Q5",
+            parameters("x", username));
+
+        Map<String, Object> returnedData = userInDB.next().asMap();
+
+        fillIn.setUsername((String) returnedData.get("U.username"));
+        fillIn.setPassword((String) returnedData.get("U.password"));
+        fillIn.setEmail((String) returnedData.get("U.email"));
+        fillIn.setBiography((String) returnedData.get("U.biography"));
+        fillIn.setPicture((String) returnedData.get("U.picture"));
+        fillIn.setQ1((String) returnedData.get("U.Q1"));
+        fillIn.setQ2((String) returnedData.get("U.Q2"));
+        fillIn.setQ3((String) returnedData.get("U.Q3"));
+        fillIn.setQ4((String) returnedData.get("U.Q4"));
+        fillIn.setQ5((String) returnedData.get("U.Q5"));
+        fillIn.setACS((double) returnedData.get("U.ACS"));
+        fillIn.setTriviaScore((double) returnedData.get("U.trivia"));
+        fillIn.setDebateScore((double) returnedData.get("U.debate"));
+        fillIn.setPickScore((double) returnedData.get("U.picks"));
+        fillIn.setHistoryScore((double) returnedData.get("U.history"));
+
+        tx.commit();
+
+      }
+
+    } catch (Exception e) {
+      System.out.println(e);
     }
 
-	public void fillUser(UserNode fillIn, String username) {
+  }
 
-		try (Session session = driver.session()){
+  public int checkLogin(String username, String password) {
 
-			Result userInDB;
+    try (Session session = driver.session()) {
 
-			try (Transaction tx = session.beginTransaction()){
+      try (Transaction tx = session.beginTransaction()) {
 
-				userInDB = tx.run("MATCH (U:User {username: $x}) RETURN U.username, "
-						+ "U.password, U.email, U.biography, U.picture, U.answers, "
-						+ "U.ACS, U.trivia, U.debate, U.picks, U.history, U.Q1, U.Q2, U.Q3, U.Q4, U.Q5",
-						parameters("x", username));
+        Result checkCredentials = tx.run("MATCH (U:User {username: $x, password: $y}) RETURN U",
+            parameters("x", username, "y", password));
 
-				Map<String, Object> returnedData = userInDB.next().asMap();
+        if (checkCredentials.hasNext()) {
+          return 200;
+        } else {
+          return 404;
+        }
 
-				fillIn.setUsername((String) returnedData.get("U.username"));
-				fillIn.setPassword((String) returnedData.get("U.password"));
-				fillIn.setEmail((String) returnedData.get("U.email"));
-				fillIn.setBiography((String) returnedData.get("U.biography"));
-				fillIn.setPicture((String) returnedData.get("U.picture"));
-				fillIn.setQ1((String) returnedData.get("U.Q1"));
-				fillIn.setQ2((String) returnedData.get("U.Q2"));
-				fillIn.setQ3((String) returnedData.get("U.Q3"));
-				fillIn.setQ4((String) returnedData.get("U.Q4"));
-				fillIn.setQ5((String) returnedData.get("U.Q5"));
-				fillIn.setACS((double) returnedData.get("U.ACS"));
-				fillIn.setTriviaScore((double) returnedData.get("U.trivia"));
-				fillIn.setDebateScore((double) returnedData.get("U.debate"));
-				fillIn.setPickScore((double) returnedData.get("U.picks"));
-				fillIn.setHistoryScore((double) returnedData.get("U.history"));
+      }
 
-				tx.commit();
+    } catch (Exception e) {
+      return 500;
+    }
 
-			}
+  }
 
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+  public void storeRoom(HttpExchange r, String username, JSONArray questions,
+      String questionsAnswered, String questionsCorrect) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line =
+            "CREATE (r:room {username:$b, questionsAnswered:$c,questionsCorrect:$d}) Return ID(r)";
+        Result result =
+            tx.run(line, parameters("b", username, "c", questionsAnswered, "d", questionsCorrect));
 
-	}
+        int num = result.next().get(0).asInt();
 
-	public int checkLogin(String username, String password) {
+        for (int i = 0; i < 10; i++) {
+          line =
+              "MATCH (r:room) WHERE ID(r)=$a MATCH (u:trivia) WHERE u.question=$g CREATE (r)-[z:asked]->(u)";
+          tx.run(line, parameters("a", num, "g", (String) questions.get(i)));
+        }
+        tx.commit();
 
-		try (Session session = driver.session()){
+      }
+    } catch (Exception e) {
+      internalErrorCatch(r);
+    }
+  }
 
-			try (Transaction tx = session.beginTransaction()){
+  public Map<String, Object> getRoomNumbers(HttpExchange r, String username) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH (u:room)\n" + "WHERE NOT u.username=$a\n WITH u, rand() AS number\n"
+            + "RETURN ID(u), u.username\n" + "ORDER BY number\n" + "LIMIT 10";
+        Result result = tx.run(line, parameters("a", username));
 
-				Result checkCredentials = tx.run("MATCH (U:User {username: $x, password: $y}) RETURN U", 
-						parameters("x", username, "y", password));
+        int i = 0;
+        HashMap<String, Object> tempMap;
+        ArrayList<Object> responseArray = new ArrayList<>();
 
-				if (checkCredentials.hasNext()) {
-					return 200;
-				}
-				else {
-					return 404;
-				}
+        while (result.hasNext()) {
+          tempMap = new HashMap<>();
+          Record temp = result.next();
+          String roomNum = Integer.toString(temp.get(0).asInt());
+          String user = temp.get(1).asString();
+          tempMap.put("roomNumber", roomNum);
+          tempMap.put("username", user);
+          responseArray.add(tempMap);
+          i++;
+        }
+        while (i < 10) {
+          tempMap = new HashMap<>();
+          tempMap.put("roomNumber", "");
+          tempMap.put("username", (""));
+          responseArray.add(tempMap);
+          i++;
+        }
 
-			}
+        HashMap<String, Object> returnMap = new HashMap<>();
+        returnMap.put("roomNumbers", responseArray.toArray());
+        return returnMap;
 
-		} catch (Exception e) {
-			return 500;
-		}
 
-	}
+      }
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+
+  public void deleteRoomNode(HttpExchange r, String roomNumber) {
+    try (Session session = driver.session()) {
+      String line = "MATCH (u:room)" + "WHERE ID(u)=$a\n DETACH DELETE u";
+      session.writeTransaction(tx -> tx.run(line, parameters("a", Integer.parseInt(roomNumber))));
+      session.close();
+    } catch (Exception e) {
+      internalErrorCatch(r);
+    }
+  }
+
+  public Map<String, Object> sendOpponentDetails(HttpExchange r, String roomNumber) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH (u:room)" + "WHERE ID(u)=$a\n RETURN u";
+        Result result = tx.run(line, parameters("a", Integer.parseInt(roomNumber)));
+        String line2 = "MATCH (u:room)-[r:asked]->(x:trivia)" + "WHERE ID(u)=$a\n RETURN x";
+        Result result2 = tx.run(line2, parameters("a", Integer.parseInt(roomNumber)));
+
+        HashMap<String, Object> returnMap = new HashMap<>();
+
+        if (result.hasNext()) {
+          Map<String, Object> temp2 = result.next().fields().get(0).value().asMap();
+          returnMap.put("username", temp2.get("username"));
+          returnMap.put("opponentCorrect", temp2.get("questionsCorrect"));
+          returnMap.put("opponentAnswered", temp2.get("questionsAnswered"));
+          deleteRoomNode(r, roomNumber);
+
+          HashMap<String, Object> endMap;
+          HashMap<String, Object> tempMap;
+          String curAns;
+          ArrayList<Object> answerArray;
+          ArrayList<Object> returnArray = new ArrayList<>();
+
+          while (result2.hasNext()) {
+            answerArray = new ArrayList<>();
+            endMap = new HashMap<>();
+            Map<String, Object> temp = result2.next().fields().get(0).value().asMap();
+            endMap.put("question", temp.get("question"));
+            curAns = (String) temp.get("correct");
+            for (int i = 1; i < 5; i++) {
+              tempMap = new HashMap<>();
+              tempMap.put("answerText", temp.get(String.format("answer%s", i)));
+              tempMap.put("isCorrect", curAns.equals(String.format("%s", i)));
+              answerArray.add(tempMap);
+            }
+            endMap.put("answerOptions", answerArray.toArray());
+            returnArray.add(new JSONObject(endMap));
+          }
+          returnMap.put("questionList", returnArray.toArray());
+          return returnMap;
+        }
+      }
+      r.sendResponseHeaders(404, -1);
+      return null;
+
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+
 
   public void updateUserProfile(HttpExchange r, JSONObject deserialized) {
     try (Session session = driver.session()) {

@@ -52,7 +52,6 @@ public class AddQuestions implements HttpHandler {
     }
 
     else {
-      System.out.println("hi");
       r.sendResponseHeaders(400, -1);
     }
 

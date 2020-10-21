@@ -9,7 +9,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public class FinalSoloTriviaScore implements HttpHandler {
-  Neo4JDB nb = Neo4JDB.createInstanceOfDatabase();
 
   public FinalSoloTriviaScore() {}
 

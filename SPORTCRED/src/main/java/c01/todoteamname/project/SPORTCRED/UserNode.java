@@ -182,8 +182,8 @@ public class UserNode {
       update = 0 - curr;
     }
 
-    int retValue = neoDB.updateScore(username, Integer.toString((int) ACS + update),
-        Integer.toString((int) curr + update), category);
+    int retValue =
+        neoDB.updateScore(username, (double) (ACS + update), (double) (curr + update), category);
     if (retValue == 200) {
       ACS += update;
       switch (category) {

@@ -91,6 +91,29 @@ const EditProfile = () => {
     xhr.send(JSON.stringify({ username: sessionStorage.getItem('username'),  picture: path}));
   }
 
+  const submitAnswers = (e) => {
+    e.preventDefault();
+    if (favSport && sportLevel && age && favSportTeam && learnSport) {
+      if (isNaN(age)) {
+        alert("Age has to be valid number!");
+        return;
+      }
+      const data = {
+        username: btoa(sessionStorage.getItem("username")),
+        Q1: favSport,
+        Q2: sportLevel,
+        Q3: age,
+        Q4: favSportTeam,
+        Q5: learnSport,
+      };
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
+      xhr.send(JSON.stringify(data));
+      alert("Answers updated");
+    } else {
+      alert("Please finish the whole survey again!");
+    }
+  };
   return (
     <div className="centContainer">
       <h5>MY SPORTCRED ACCOUNT</h5>
@@ -120,13 +143,17 @@ const EditProfile = () => {
         </button>
       <br />
       <h3>update questionnaire answers</h3>
-      <form>
+      <form onSubmit={submitAnswers}>
         <label htmlFor="favSport">favourite sport</label>
         <input
           className="survey-input"
           type="text"
           name="favSport"
           placeholder="Enter sport"
+          value={favSport}
+          onChange={(e) => {
+            setFavSport(e.target.value);
+          }}
         />
         <label htmlFor="sportLevel">highest level of sport played</label>
         <input
@@ -134,6 +161,10 @@ const EditProfile = () => {
           type="text"
           name="sportLevel"
           placeholder="Enter highest level of sport played"
+          value={sportLevel}
+          onChange={(e) => {
+            setSportLevel(e.target.value);
+          }}
         />
         <label htmlFor="age">age</label>
         <input
@@ -141,6 +172,10 @@ const EditProfile = () => {
           type="text"
           name="age"
           placeholder="Enter age"
+          value={age}
+          onChange={(e) => {
+            setAge(e.target.value);
+          }}
         />
         <label htmlFor="favSportTeam">team you are rooting for</label>
         <input
@@ -148,6 +183,10 @@ const EditProfile = () => {
           type="text"
           name="favSportTeam"
           placeholder="Enter favourite sport"
+          value={favSportTeam}
+          onChange={(e) => {
+            setFavSportTeam(e.target.value);
+          }}
         />
         <label htmlFor="learnSport">sport you want to learn</label>
         <input
@@ -155,6 +194,10 @@ const EditProfile = () => {
           type="text"
           name="learnSport"
           placeholder="Enter sport you want to learn about"
+          value={learnSport}
+          onChange={(e) => {
+            setLearnSport(e.target.value);
+          }}
         />
         <button type="submit" className="button1">
           Update

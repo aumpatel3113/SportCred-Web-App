@@ -1,13 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./EditProfile.css";
-// import axios from "axios";
 
 const EditProfile = () => {
   const [bio, setBio] = useState("");
+  const [finalBio, setFinalBio] = useState("");
+  const [favSport, setFavSport] = useState("");
+  const [sportLevel, setSportLevel] = useState("");
+  const [age, setAge] = useState("");
+  const [favSportTeam, setFavSportTeam] = useState("");
+  const [learnSport, setLearnSport] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  useEffect(() => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/api/v1/getUserInfo");
+    xhr.responseType = "json";
+    xhr.onload = () => {
+      if (xhr.status < 400) {
+        console.log(xhr.response);
+        setFavSport(xhr.response.Q1);
+        setSportLevel(xhr.response.Q2);
+        setAge(xhr.response.Q3);
+        setFavSportTeam(xhr.response.Q4);
+        setLearnSport(xhr.response.Q5);
+        setFinalBio(xhr.response.biography);
+      } else {
+        alert("400 Error Status");
+      }
+    };
+    xhr.onerror = () => {
+      alert("Can't connect to server! Something went wrong!");
+    };
+
+    xhr.send(
+      JSON.stringify({ username: btoa(sessionStorage.getItem("username")) })
+    );
+  }, []);
+  
   function handlePassword(event) {
     event.preventDefault();
     // check that all fields were filled
@@ -38,13 +69,19 @@ const EditProfile = () => {
     }
   }
 
-  // const instance = axios.create({ baseURL: "http://localhost:8080/api/v1" });
+
   const updateBio = () => {
     // instance.post("/updateUserProfile", { biography: bio });
     // setBio("");
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
-    xhr.send(JSON.stringify({ username: "aumpatel", biography: bio }));
+    xhr.send(
+      JSON.stringify({
+        username: btoa(sessionStorage.getItem("username")),
+        biography: bio,
+      })
+    );
+    setFinalBio(bio);
     setBio("");
   };
 
@@ -57,6 +94,8 @@ const EditProfile = () => {
   return (
     <div className="centContainer">
       <h5>MY SPORTCRED ACCOUNT</h5>
+      {finalBio && <h3>My Biography</h3>}
+      {finalBio && <h3 className="user-bio">{finalBio}</h3>}
       <h3>Update Biography</h3>
       <textarea
         placeholder=" Enter something about you..."
@@ -83,23 +122,36 @@ const EditProfile = () => {
       <h3>update questionnaire answers</h3>
       <form>
         <label htmlFor="favSport">favourite sport</label>
-        <input type="text" name="favSport" placeholder="Enter sport" />
+        <input
+          className="survey-input"
+          type="text"
+          name="favSport"
+          placeholder="Enter sport"
+        />
         <label htmlFor="sportLevel">highest level of sport played</label>
         <input
+          className="survey-input"
           type="text"
           name="sportLevel"
           placeholder="Enter highest level of sport played"
         />
         <label htmlFor="age">age</label>
-        <input type="text" name="age" placeholder="Enter age" />
+        <input
+          className="survey-input"
+          type="text"
+          name="age"
+          placeholder="Enter age"
+        />
         <label htmlFor="favSportTeam">team you are rooting for</label>
         <input
+          className="survey-input"
           type="text"
           name="favSportTeam"
           placeholder="Enter favourite sport"
         />
         <label htmlFor="learnSport">sport you want to learn</label>
         <input
+          className="survey-input"
           type="text"
           name="learnSport"
           placeholder="Enter sport you want to learn about"

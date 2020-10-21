@@ -4,6 +4,40 @@ import "./EditProfile.css";
 
 const EditProfile = () => {
   const [bio, setBio] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  function handlePassword(event) {
+    event.preventDefault();
+    // check that all fields were filled
+    var fill = (currentPassword !== "") &&
+      (newPassword !== "") &&
+      (confirmPassword !== "")
+    // check password validity
+    var valid = (newPassword === confirmPassword) &&
+      (newPassword !== currentPassword) 
+    
+    if (fill) {
+      if (valid) {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', () => {
+          if (xhr.responseText.length > 0) {
+            alert('Current password is invalid')
+          } else {
+            alert('Password changed')
+          }
+        })
+        xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
+        xhr.send(JSON.stringify({ username: sessionStorage.getItem('username'), password: newPassword, oldPassword: currentPassword}));
+      } else {
+        alert('Check that:\n1. Your current password does not match your new password\n2. Both fields for your new password match')
+      }
+    } else {
+      alert('Please fill out all the fields.')
+    }
+  }
+
   // const instance = axios.create({ baseURL: "http://localhost:8080/api/v1" });
   const updateBio = () => {
     // instance.post("/updateUserProfile", { biography: bio });
@@ -63,23 +97,13 @@ const EditProfile = () => {
       <br />
       <h3>Update password</h3>
       <form>
-        <label htmlFor="oldPass">Current Password</label>
-        <input
-          type="text"
-          name="oldPass"
-          placeholder="Enter your current password"
-        />
-        <label htmlFor="newPass">New Password</label>
-        <input type="text" name="newPass" placeholder="Enter new password" />
-        <label htmlFor="newPassConf">Confirm New Password</label>
-        <input
-          type="text"
-          name="newPassConf"
-          placeholder="Write new password again"
-        />
-        <button type="submit" className="button1">
-          Update
-        </button>
+        <label htmlFor="oldPassword"></label>
+          <input type="text" name="oldPassword" placeholder="Enter current password" onChange={event => setCurrentPassword(event.target.value)}/>
+        <label htmlFor="newPassword"></label>
+          <input type="text" name="newPassword" placeholder="Enter new password" onChange={event => setNewPassword(event.target.value)}/>
+        <label htmlFor="confirmedPassword"></label>
+          <input type="text" name="confirmedPassword" placeholder="Confirm new password" onChange={event => setConfirmPassword(event.target.value)}/> 
+        <button type="submit" className="button1" onClick={event => handlePassword(event)}>Update</button>
       </form>
       <br />
       <hr />

@@ -283,7 +283,7 @@ public class Neo4JDB {
         while (i < 10) {
           tempMap = new HashMap<>();
           tempMap.put("roomNumber", "");
-          tempMap.put("username", (""));
+          tempMap.put("username", ("Ti9B"));
           responseArray.add(tempMap);
           i++;
         }

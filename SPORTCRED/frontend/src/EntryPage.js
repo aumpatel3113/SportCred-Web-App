@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import './EntryPage.css';
 import App from './App';
-// import Logo from './SPORTCRED_Logo.png';
+import Logo from './SPORTCRED_Logo.png';
 
 const EntryPage = () => {
   const [vfavSport, setFavSport] = useState('')
@@ -151,7 +151,7 @@ const EntryPage = () => {
             </header>
             <body>
               <div class="hero">
-                {/* <img src={Logo} className="spclogo" alt="SPORTCRED Logo"></img> */}
+                <img src={Logo} className="spclogo" alt="SPORTCRED Logo"></img>
                 <div class="form-box">
                   <div class="button-box">
                     <div id="btn"></div>

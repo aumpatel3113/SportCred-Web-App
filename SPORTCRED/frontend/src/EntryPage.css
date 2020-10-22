@@ -1,0 +1,117 @@
+
+.hero {
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  background-color:#000;
+}
+
+.spclogo {
+  width: 170px;
+  height: 115px;
+  position: relative;
+  top: 20px;
+  padding-left: 44%;
+  padding-bottom: 10px;
+}
+
+.form-box {
+  
+  width: 380px;
+  height: 600px;
+  position: relative;
+  margin: 2% auto;
+  background: #fff;
+  padding: 5px;
+  overflow: hidden;
+  background-color: black;
+  margin-top: 20vh;
+}
+
+.button-box {
+  width: 220px;
+  margin: 35px auto;
+  position: relative;
+  box-shadow: 0 0 20px 9px #C1EDBA;
+  border-radius: 20px;
+}
+
+.toggle-btn {
+  padding: 10px 30px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  outline: none;
+  position: relative;
+}
+
+#logInSlider {
+  font-size: 17px;
+}
+
+#registerSlider {
+  color: white;
+}
+
+#btn {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 110px;
+  height: 100%;
+  background: linear-gradient(to right, #21dd08,#29A817);
+  border-radius: 30px;
+  transition: .5s;
+}
+
+.input-group {
+  top: 150px;
+  position: absolute;
+  width: 280px;
+  transition: .5s;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 0;
+  margin: 15px 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 1px solid #999;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+.submit-btn, .back-btn, .next-btn {
+  width: 85%;
+  padding: 10px 30px;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto;
+  background: linear-gradient(to right, #21dd08,#29A817);
+  border: 0;
+  outline: none;
+  border-radius: 30px;
+}
+
+.submit-btn:hover, .back-btn:hover, .next-btn:hover {
+  transition: background 2.4s linear;
+  background: linear-gradient(to right, #177c0a,#116106);
+  border: 0px solid #177c0a;
+}
+
+#login {
+  left: 50px;
+}
+
+#register {
+  left: 450px;
+}
+
+#profile {
+  top: 600px;
+}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./EditProfile.css";
-// import axios from "axios";
 
 const EditProfile = () => {
   const [bio, setBio] = useState("");
@@ -61,7 +60,9 @@ const EditProfile = () => {
           }
         })
         xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
-        xhr.send(JSON.stringify({ username: sessionStorage.getItem('username'), password: newPassword, oldPassword: currentPassword}));
+
+        xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')), password: btoa(newPassword), oldPassword: btoa(currentPassword)}));
+
       } else {
         alert('Check that:\n1. Your current password does not match your new password\n2. Both fields for your new password match')
       }
@@ -89,7 +90,9 @@ const EditProfile = () => {
   function setProfilePicture(path) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
-    xhr.send(JSON.stringify({ username: sessionStorage.getItem('username'),  picture: path}));
+
+    xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')),  picture: path}));
+
   }
 
   const submitAnswers = (e) => {
@@ -145,7 +148,8 @@ const EditProfile = () => {
       <br />
       <h3>update questionnaire answers</h3>
       <form onSubmit={submitAnswers}>
-        <label htmlFor="favSport">favourite sport</label>
+
+        <label htmlFor="favSport">Favourite sport?</label>
         <input
           className="survey-input"
           type="text"
@@ -156,7 +160,7 @@ const EditProfile = () => {
             setFavSport(e.target.value);
           }}
         />
-        <label htmlFor="sportLevel">highest level of sport played</label>
+        <label htmlFor="sportLevel">Highest level of sport played?</label>
         <input
           className="survey-input"
           type="text"
@@ -166,8 +170,9 @@ const EditProfile = () => {
           onChange={(e) => {
             setSportLevel(e.target.value);
           }}
+
         />
-        <label htmlFor="age">age</label>
+        <label htmlFor="age">Age?</label>
         <input
           className="survey-input"
           type="text"
@@ -178,7 +183,8 @@ const EditProfile = () => {
             setAge(e.target.value);
           }}
         />
-        <label htmlFor="favSportTeam">team you are rooting for</label>
+        <label htmlFor="favSportTeam">Team you are rooting for?</label>
+
         <input
           className="survey-input"
           type="text"
@@ -189,7 +195,7 @@ const EditProfile = () => {
             setFavSportTeam(e.target.value);
           }}
         />
-        <label htmlFor="learnSport">sport you want to learn</label>
+        <label htmlFor="learnSport">Sport you want to learn?</label>
         <input
           className="survey-input"
           type="text"

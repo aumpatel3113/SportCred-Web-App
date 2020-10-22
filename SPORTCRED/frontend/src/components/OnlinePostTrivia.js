@@ -430,7 +430,7 @@ const OnlinePostTrivia = () => {
             questions[6].question, questions[7].question,
             questions[8].question, questions[9].question]
 
-            axios.post(url, { 'username': sessionStorage.getItem('username'), 'questionsCorrect': score, 'questionsAnswered': '10', 'questions': justQuestions }, { headers }
+            axios.post(url, { 'username': btoa(sessionStorage.getItem('username')), 'questionsCorrect': score, 'questionsAnswered': '10', 'questions': justQuestions }, { headers }
             )
                 .then(res => {
                     console.log(res.data)
@@ -474,7 +474,7 @@ const OnlinePostTrivia = () => {
                                                 </div>
                                                 <div className='answer-section'>
                                                     {questions[currentQuestion].answerOptions.map((answerOption) => (
-                                                        <button onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
+                                                        <button className = "quiz-options" onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
                                                     ))}
                                                 </div>
                                                 <div className='timer'>

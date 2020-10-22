@@ -4,6 +4,16 @@ import { NavLink } from 'react-router-dom';
 import axios from 'axios'
 
 const OnlineChallengeTrivia = () => {
+    const [notValidPlaySession, setNotValidPlaySession] = useState(false)
+
+    useEffect(() => {
+        if (sessionStorage.getItem('numOnlinePlayed') > 5) {
+            setNotValidPlaySession(true)
+        } else {
+            sessionStorage.setItem('numOnlinePlayed', sessionStorage.getItem('numOnlinePlayer') + 1)
+        }
+    })
+
     const [roomsInfo, setRoomsInfo] = useState([0, -1]);
     const [Data, setData] = useState({
         username1: '', room1: '',
@@ -25,7 +35,7 @@ const OnlineChallengeTrivia = () => {
         const headers = {
             'Content-Type': 'text/plain',
         }
-        axios.post(url, { 'username': sessionStorage.getItem('username') }, { headers }
+        axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
         )
             .then(res => {
                 let roomsList = res.data.roomNumbers;
@@ -139,7 +149,7 @@ const OnlineChallengeTrivia = () => {
     const [endOfGameMsg, setEndOfGameMsg] = useState('Won!')
     const [PostError, setPostError] = useState(false)
 
-    const [winner, setWinner] = useState(sessionStorage.getItem('username'))
+    const [winner, setWinner] = useState('')
     const [loser, setLoser] = useState('')
 
     // FETCHES OPPONENT QUIZ DATA
@@ -467,8 +477,12 @@ const OnlineChallengeTrivia = () => {
 
             if (score < oppScore) {
                 setEndOfGameMsg('Lost..');
-                setWinner(rooms[roomsInfo[1]].username)
+                setWinner(atob(rooms[roomsInfo[1]].username))
                 setLoser(sessionStorage.getItem('username'))
+            } else {
+                setEndOfGameMsg('Won..');
+                setLoser(atob(rooms[roomsInfo[1]].username))
+                setWinner(sessionStorage.getItem('username'))
             }
         }
     };
@@ -489,8 +503,12 @@ const OnlineChallengeTrivia = () => {
 
                 if (score < oppScore) {
                     setEndOfGameMsg('Lost..');
-                    setWinner(rooms[roomsInfo[1]].username)
+                    setWinner(atob(rooms[roomsInfo[1]].username))
                     setLoser(sessionStorage.getItem('username'))
+                } else {
+                    setEndOfGameMsg('Won..');
+                    setLoser(atob(rooms[roomsInfo[1]].username))
+                    setWinner(sessionStorage.getItem('username'))
                 }
             }
         }
@@ -505,8 +523,7 @@ const OnlineChallengeTrivia = () => {
             const headers = {
                 'Content-Type': 'text/plain',
             }
-
-            axios.post(url, { 'usernameWinner': winner, 'usernameLoser': loser }, { headers }
+            axios.post(url, { 'usernameWinner': btoa(winner), 'usernameLoser': btoa(loser) }, { headers }
             )
                 .then(res => {
                     console.log(res.data)
@@ -518,7 +535,14 @@ const OnlineChallengeTrivia = () => {
 
     return (
         <div className='online-challenge-trivia'>
-            { roomsInfo[0] === 0 ? (
+            { notValidPlaySession ? (
+                <div className = "non-valid-session">
+                    <h1>You cannot play more than 5 head to head matchups a day..</h1>
+                    <div className='back'><p><NavLink exact to='/trivia'>back</NavLink></p></div>
+                </div>
+            ) : (
+                <>
+                { roomsInfo[0] === 0 ? (
                 <div className='room-section'>
                     { PostError ? (
                         <div className='post-error'>
@@ -530,17 +554,17 @@ const OnlineChallengeTrivia = () => {
                                 <div className='rooms'>
                                     <h1>Pick someone to challenge!</h1>
                                     <div className='room-buttons'>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 0])}>{rooms[0].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 1])}>{rooms[1].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 2])}>{rooms[2].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 3])}>{rooms[3].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 4])}>{rooms[4].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 5])}>{rooms[5].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 6])}>{rooms[6].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 7])}>{rooms[7].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 8])}>{rooms[8].username}</button>
-                                        <button type="room1" onClick={() => setRoomsInfo([-1, 9])}>{rooms[9].username}</button>
-                                        <div className='rooms-info'><p>Any option with a 'NULL' name is invalid.</p></div>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 0])}>{atob(rooms[0].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 1])}>{atob(rooms[1].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 2])}>{atob(rooms[2].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 3])}>{atob(rooms[3].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 4])}>{atob(rooms[4].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 5])}>{atob(rooms[5].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 6])}>{atob(rooms[6].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 7])}>{atob(rooms[7].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 8])}>{atob(rooms[8].username)}</button>
+                                        <button type="room1" onClick={() => setRoomsInfo([-1, 9])}>{atob(rooms[9].username)}</button>
+                                        <div className='rooms-info'><p>Any option with a 'N/A' name is invalid.</p></div>
                                         <div className='back'><p><NavLink exact to='/trivia/online'>back</NavLink></p></div>
                                     </div>
                                 </div>
@@ -569,7 +593,7 @@ const OnlineChallengeTrivia = () => {
                                                     {showScore ? (
                                                         <div className='score-section'>
                                                             <h1>You scored {score} out of {questions.length}.</h1>
-                                                            <h1>{rooms[roomsInfo[1]].username} scored {oppScore} out of {questions.length}</h1>
+                                                            <h1>{atob(rooms[roomsInfo[1]].username)} scored {oppScore} out of {questions.length}</h1>
                                                             <h1>You've {endOfGameMsg}</h1>
                                                             <p><NavLink exact to='/trivia/online'>Play Again?</NavLink></p>
                                                             <p><NavLink exact to='/trivia'>Back to Trivia</NavLink></p>
@@ -600,6 +624,8 @@ const OnlineChallengeTrivia = () => {
                         </div>
                     </>
                 )}
+                </>
+            )}
         </div>
     );
 }

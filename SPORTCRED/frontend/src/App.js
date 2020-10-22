@@ -1,5 +1,5 @@
-import React, { useState } from  "react";
-import React, { Component, useEffect } from "react";
+import React, { useState } from "react";
+import { Component, useEffect } from "react";
 import "./App.css";
 import "./TriviaStyling.css";
 import logo from "./logo.svg";
@@ -8,8 +8,29 @@ import EditProfile from "./EditProfile";
 import SoloTrivia from './components/SoloTrivia'
 import OnlinePostTrivia from './components/OnlinePostTrivia'
 import OnlineChallengeTrivia from './components/OnlineChallengeTrivia'
+import axios from 'axios'
 
 function App() {
+
+  useEffect(() => {
+    const url = 'http://localhost:8080/api/v1/getACSScore'
+    const headers = {
+      'Content-Type': 'text/plain',
+    }
+
+    axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
+    ).then(res => {
+      console.log(res.data)
+
+      let acsscore = res.data.ACS
+      let acsrank = res.data.rank
+
+      sessionStorage.setItem('acsscore', acsscore)
+      sessionStorage.setItem('acsrank', acsrank)
+      sessionStorage.setItem('numOnlinePlayed', 0)
+    })
+  })
+
   const [profilePicture, setProfilePicture] = useState("");
   var avatar;
 
@@ -18,10 +39,11 @@ function App() {
     setProfilePicture(xhr.responseText)
   })
   xhr.open("POST", "http://localhost:8080/api/v1/getProfilePicture", true);
-  xhr.send(JSON.stringify({ username: sessionStorage.getItem('username') }));
 
-  switch(profilePicture) {
-    case "./lebron.jpg": 
+  xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')) }));
+
+  switch (profilePicture) {
+    case "./lebron.jpg":
       avatar = require('./lebron.jpg')
       break;
     case "./michaeljordan.jpg":
@@ -57,13 +79,15 @@ function App() {
       <div class="verbar">
         <div class="profile">
           <h2>
-            Welcome, <b>[insert name]</b>
+            Welcome, <b>{sessionStorage.getItem('username')}</b>
           </h2>
           <p>
-            <img src={avatar} className="lebron" alt="User Avatar"/> ACS: XXX
+
+            <img src={avatar} className="lebron" alt="User Avatar" /> ACS: {sessionStorage.getItem('acsscore')}
+
           </p>
           <p>
-            <b>[insert tier]</b>
+            <b>{sessionStorage.getItem('acsrank')}</b>
           </p>
           <hr class="new1"></hr>
         </div>

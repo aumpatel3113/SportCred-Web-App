@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './SoloTrivia.css';
+// import './SoloTrivia.css';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
 
@@ -425,7 +425,7 @@ const SoloTrivia = () => {
                 'Content-Type': 'text/plain',
             }
             
-            axios.post(url, { 'username': sessionStorage.getItem('username'), 'correctAnswers': score, 'totalAnswers': '10' }, { headers }
+            axios.post(url, { 'username': btoa(sessionStorage.getItem('username')), 'correctAnswers': score, 'totalAnswers': '10' }, { headers }
             )
                 .then(res => {
                     console.log(res.data)

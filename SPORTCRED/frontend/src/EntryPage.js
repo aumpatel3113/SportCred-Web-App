@@ -4,7 +4,6 @@ import './EntryPage.css';
 import App from './App';
 // import Logo from './SPORTCRED_Logo.png';
 
-
 const EntryPage = () => {
   const [vfavSport, setFavSport] = useState('')
   const [vsportLvl, setSportLvl] = useState('')
@@ -41,10 +40,10 @@ const EntryPage = () => {
           } else if (res.status === 409) {
             alert('Duplicate username')
           } else if (res.status === 201) { //This is when a user sucessfully registers
-            //sessionStorage.setItem('needToLogin', true)
-            //sessionStorage.setItem('username', vregUsername);
+            sessionStorage.setItem('needToLogin', true)
+            sessionStorage.setItem('username', vregUsername);
             setSucess(true)
-            console.log(sessionStorage.setItem('needToLogin'))
+            //console.log(sessionStorage.setItem('needToLogin'))
             // console.log(sessionStorage.getItem('needToLogin'))
             //setSuccess(true)
           }

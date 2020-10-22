@@ -4,3 +4,7 @@ SPORTCRED/.project
 SPORTCRED/.settings/
 SPORTCRED/bin/
 /bin/
+SPORTCRED/frontend/node_modules
+.DS_Store
+/.project
+/.classpath

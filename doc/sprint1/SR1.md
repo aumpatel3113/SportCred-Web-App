@@ -1,4 +1,8 @@
-# Sprint 1 Restrospect Meeting
+# Sprint 1 Restrospective Meeting
+
+## Date and Time of Meeting
+- Date: October 22, 2020
+- Time: 10:10 to 11:00
 
 ## Participants
 * Ryan Blasetti

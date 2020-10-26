@@ -501,5 +501,28 @@ public class Neo4JDB {
       return null;
     }
   }
+
+  public Map<String, Object> isValidPost(HttpExchange r, String username) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        boolean valid = true;
+        String line =
+            "MATCH(u:User {username:$a}) MATCH(d:debateRoom) MATCH ((u)-[f:debated]->(d)) RETURN(f)";
+        Result result = tx.run(line, parameters("a", username));
+
+        HashMap<String, Object> endMap = new HashMap<>();
+
+        if (result.hasNext()) {
+          valid = false;
+        }
+        endMap.put("isValid", valid);
+        return endMap;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return null;
+    }
+  }
 }
 

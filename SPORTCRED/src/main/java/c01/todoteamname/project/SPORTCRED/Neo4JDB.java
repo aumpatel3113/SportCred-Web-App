@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
@@ -17,7 +16,6 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.exceptions.ClientException;
-import static org.neo4j.driver.Values.parameters;
 import com.sun.net.httpserver.HttpExchange;
 
 public class Neo4JDB {
@@ -140,10 +138,10 @@ public class Neo4JDB {
 
         tx.run(
             "CREATE (n:User {username: $u, Q1: $a, Q2: $b, Q3: $c, Q4: $d, Q5: $e, password: $v, biography: $w, "
-                + "picture: $w, ACS: $x, trivia: $x, debate: $x, picks: $x, "
+                + "picture: $z, ACS: $x, trivia: $x, debate: $x, picks: $x, "
                 + "history: $x, email: $y})",
             parameters("a", Q1, "b", Q2, "c", Q3, "d", Q4, "e", Q5, "u", username, "v", password,
-                "w", coolPicture, "x", zeroScore, "y", email));
+                "w", emptyString, "x", zeroScore, "y", email, "z", coolPicture));
 
         tx.commit();
         return 201;
@@ -157,19 +155,18 @@ public class Neo4JDB {
   }
 
   public String getProfilePicture(HttpExchange r, String username) {
-      try (Session session = driver.session()) {
-        try (Transaction tx = session.beginTransaction()) {
-          Result result =
-              tx.run("MATCH (n{username:$x}) RETURN n.picture", 
-                  parameters("x", username));
-          return result.peek().get("n.picture").asString();
-        }
-      } catch (Exception e) {
-        internalErrorCatch(r);
-        return null;
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        Result result =
+            tx.run("MATCH (n{username:$x}) RETURN n.picture", parameters("x", username));
+        return result.peek().get("n.picture").asString();
       }
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return null;
+    }
   }
-  
+
   public void fillUser(UserNode fillIn, String username) {
 
     try (Session session = driver.session()) {
@@ -364,12 +361,12 @@ public class Neo4JDB {
 
   public void updateUserProfile(HttpExchange r, JSONObject deserialized) {
     try (Session session = driver.session()) {
-      //building the query
+      // building the query
       String username = deserialized.getString("username");
       String query = String.format("MATCH(n{username: '%s'}) SET ", username);
       Iterator<?> properties = deserialized.keys();
       String[] passwords = {null, null};
-      
+
       while (properties.hasNext()) {
         String current = (String) properties.next();
         if (current.equals("password")) {
@@ -380,27 +377,31 @@ public class Neo4JDB {
           query += String.format("n.%s = '%s', ", current, deserialized.getString(current));
         }
       }
-      
+
       if (passwords[0] != null && passwords[1] != null) {
         String addToQuery = validatePassword(username, passwords);
-        if (addToQuery != null) query += addToQuery;
-        else throw new ClientException("invalid password");
+        if (addToQuery != null)
+          query += addToQuery;
+        else
+          throw new ClientException("invalid password");
       }
-      
-      query = query.substring(0, query.length()-2);
-      
-      //running the query
+
+      query = query.substring(0, query.length() - 2);
+
+      // running the query
       String message = query;
       session.writeTransaction(tx -> tx.run(message));
       session.close();
     } catch (Exception e) {
       try {
-        if (e.getMessage().equals("invalid password")) throw new ClientException("invalid password");
+        if (e.getMessage().equals("invalid password"))
+          throw new ClientException("invalid password");
         r.sendResponseHeaders(500, -1);
-      } catch (IOException e1) {}
+      } catch (IOException e1) {
+      }
     }
   }
-  
+
   private String validatePassword(String username, String[] passwords) {
     try (Session session = driver.session()) {
       if (username != null) {
@@ -413,6 +414,90 @@ public class Neo4JDB {
       }
       return null;
     } catch (Exception e) {
+      return null;
+    }
+  }
+
+  public Map<String, Object> getRankBasedQuestions(HttpExchange r, String rank) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH (d:debateQuestion {rank:$a})\n" + "RETURN (d)";
+        Result result = tx.run(line, parameters("a", rank));
+
+        HashMap<String, Object> endMap = new HashMap<>();
+        ArrayList<Object> answerArray = new ArrayList<>();
+
+        while (result.hasNext()) {
+          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
+          answerArray.add(temp.get("question"));
+        }
+        endMap.put("questions", answerArray.toArray());
+        return endMap;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+
+  public void updateDebateRoom(HttpExchange r, String username, String post, int roomID,
+      int userNum) {
+    try (Session session = driver.session()) {
+      String line = String.format("MATCH (d:debateRoom)\n MATCH(u:User {username:$b})"
+          + "WHERE ID(d)=$a\n SET d.user%s=$b\n  SET d.user%sPost=$c\n CREATE (u)-[:debated]->(d)",
+          userNum, userNum);
+      session
+          .writeTransaction(tx -> tx.run(line, parameters("a", roomID, "b", username, "c", post)));
+      session.close();
+    } catch (Exception e) {
+      internalErrorCatch(r);
+    }
+  }
+
+  public void createNewDebateRoom(HttpExchange r, String question) {
+    try (Session session = driver.session()) {
+      String line = "CREATE (d:debateRoom {question:$a, user1:$b,user2:$b,user3:$b,user1Post:$b,"
+          + "user2Post:$b,user3Post:$b})";
+      session.writeTransaction(tx -> tx.run(line, parameters("a", question, "b", "NULL")));
+      session.close();
+    } catch (Exception e) {
+      internalErrorCatch(r);
+    }
+  }
+
+
+  public int[] getDebateRoom(HttpExchange r, String question) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line =
+            "MATCH (d:debateRoom {question:$a, user3:$b})\n WHERE NOT d.user2=$b\n Return ID(d)";
+        Result result = tx.run(line, parameters("a", question, "b", "NULL"));
+
+        if (result.hasNext()) {
+          int[] retArray = {result.next().get(0).asInt(), 3};
+          return retArray;
+        }
+
+        line = "MATCH (d:debateRoom {question:$a, user2:$b}) Return ID(d)";
+        result = tx.run(line, parameters("a", question, "b", "NULL"));
+
+        if (result.hasNext()) {
+          int[] retArray = {result.next().get(0).asInt(), 2};
+          return retArray;
+        }
+
+        createNewDebateRoom(r, question);
+        line = "MATCH (d:debateRoom {question:$a, user1:$b}) Return ID(d)";
+        result = tx.run(line, parameters("a", question, "b", "NULL"));
+
+        int[] retArray = {result.next().get(0).asInt(), 1};
+        return retArray;
+
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
       return null;
     }
   }

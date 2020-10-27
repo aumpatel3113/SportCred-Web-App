@@ -1,0 +1,138 @@
+
+.post-box textarea {
+    color: rgb(219, 219, 219);
+    background-color: rgb(31, 31, 31);
+    padding: 5px 5px;
+    border: none;
+    height: 140px;
+    width: 98%;
+    outline: none;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+    resize: none;
+}
+
+.post-box button {
+    width: 95%;
+    font-size: 22px;
+    font-weight: normal;
+    font-family: 'Leckerli One', cursive;
+    text-transform: capitalize;
+    color: #fff;
+    background-color: rgb(190, 102, 30);
+    border: none;
+    border-radius: 50px 50px;
+    padding: 10px 10px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 0.5vh;
+    margin-top: 0.5vh;
+}
+
+.post-box button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: #ce8019;
+    color: white;
+}
+
+.post-box button:focus {
+    outline: none;
+}
+
+.invalid-post button {
+    background-color: rgb(88, 88, 88);
+}
+
+.invalid-post button:hover {
+    background-color: rgb(88, 88, 88);
+    color: white;
+}
+
+.question-select {
+    padding-bottom: 0.5vh;
+}
+
+.question-select p {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    color: white;
+    margin-bottom: 1vh;
+}
+
+.question-select button {
+    width: 18%;
+    margin-right: 0.2vw;
+    margin-left: 0.2vw;
+    font-size: 18px;
+    font-weight: normal;
+    text-transform: capitalize;
+    font-family: 'Secular One', sans-serif;
+    color: #fff;
+    background-color: #455568;
+    border: none;
+    border-radius: 50px 50px;
+    padding: 3px 16px 2px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 0.5vh;
+}
+
+.question-select button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: #2d3541;
+    color: white;
+}
+
+.question-select button:focus {
+    outline: none;
+    /* background-color: #2d3541; */
+}
+
+.success {
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+}
+
+.success p {
+    font-weight: normal;
+    font-size: 18px;
+    margin-bottom: 0.5vh;
+    font-style: italic;
+}
+
+.success h1 {
+    font-weight: bold;
+    font-size: 28px;
+    margin-top: 0.5vh;
+    margin-bottom: 1vh;
+    color: rgb(218, 128, 55);
+}
+
+.selected p {
+    font-weight: normal;
+    font-size: 18px;
+    padding-top: 0vh;
+    margin-bottom: 1vh;
+}
+
+.already-posted h1 {
+    font-weight: normal;
+    font-size: 24px;
+    padding-top: 1.5vh;
+    margin-bottom: 0vh;
+    color: rgb(235, 158, 96);
+}
+
+.already-posted p {
+    font-weight: normal;
+    font-size: 18px;
+    padding-top: 0vh;
+    color: rgb(255, 255, 255);
+}
+
+.line-posted {
+    border-top: rgb(133, 133, 133) 2.5px solid;
+    margin: 1vh 40% 1vh;
+}

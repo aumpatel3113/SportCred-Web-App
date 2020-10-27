@@ -18,6 +18,8 @@ public class GetDebateQuestions implements HttpHandler {
   public void handle(HttpExchange r) {
     try {
       if (r.getRequestMethod().equals("POST")) {
+    	r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+
         handlePost(r);
       }
     } catch (Exception e) {
@@ -50,7 +52,6 @@ public class GetDebateQuestions implements HttpHandler {
       JSONObject json = new JSONObject(resultMap);
       String response = json.toString();
       r.getResponseHeaders().set("Content-Type", "application/json");
-      r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
       r.sendResponseHeaders(200, response.length());
       OutputStream os = r.getResponseBody();
       os.write(response.getBytes());

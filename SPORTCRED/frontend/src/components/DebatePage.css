@@ -1,0 +1,155 @@
+.debates {
+    font-family: 'Reem Kufi', sans-serif;
+}
+
+.questions-section {
+    background-color: #222222;
+    margin: 4vh 20vw 4vh;
+    padding: 4vh 1vw 4vh;
+    border-radius: 10px;
+    box-shadow: 8px 8px 6px -7px black;
+}
+
+.line, .line-posts, .line-between {
+    border-top: rgb(133, 133, 133) 0.5px solid;
+    margin: 1vh 3vw 2vh;
+}
+
+.line-posts {
+    margin-top: 3vh;
+    margin-bottom: 5vh;
+}
+
+.line-between {
+    margin: 1vh 18vw 2vh;
+}
+
+.Container {
+    height: 100vh;
+    width: 100vw;
+    margin-left: 287px;
+    margin-top: 66px;
+    background-color: rgba(0, 0, 0, 0.75);
+    justify-content: center;
+}
+
+.current-questions h1 {
+    font-family: 'Secular One', sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+    color: rgb(190, 125, 72);
+    margin-bottom: 1.5vh;
+}
+
+.current-questions p {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.make-post button {
+    width: 45%;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: 'Leckerli One', cursive;
+    text-transform: capitalize;
+    color: rgb(238, 238, 238);
+    background-color: rgb(190, 102, 30);
+    border: none;
+    border-radius: 50px 50px;
+    padding: 8px 5px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 0.5vh;
+}
+
+.make-post button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: #ce8019;
+}
+
+.make-post button:focus {
+    outline: none;
+}
+
+.modal {
+    position: absolute;
+    background-color: rgb(31, 31, 31);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 32vw;
+    font-family: 'Reem Kufi', sans-serif;
+    border-radius: 10px;
+    border: rgb(43, 43, 43) 2px solid;
+}
+
+.modal>.header h1 {
+    font-size: 21px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    margin-bottom: 2.1vh;
+}
+
+.modal>.header {
+    width: 32vw;
+    color: rgb(230, 230, 230);
+    font-size: 23px;
+    text-align: center;
+    margin-top: 1.8vh;
+    margin-bottom: 0.5vh;
+    border-bottom: rgb(63, 63, 63) 1px solid;
+}
+
+.modal>.content {
+    font-size: 20px;
+    font-weight: normal;
+    width: 28vw;
+    padding-top: 1vh;
+    padding-bottom: 2vh;
+    padding-left: 2vw;
+    text-align: center;
+}
+
+.modal>.close {
+    font-family: 'PT Sans', sans-serif;
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 8px 14px 12px;
+    line-height: 20px;
+    right: 12px;
+    top: 1vh;
+    font-size: 25px;
+    background-color: rgb(31, 31, 31);
+    color: rgb(197, 197, 197);
+    border-radius: 50px 50px;
+}
+
+.modal>.close:hover {
+    background: #4d4d4d;
+    color: rgb(197, 197, 197);
+    transition: background 0.2s linear;
+}
+
+.posts {
+    background-color: #222222;
+    margin: 4vh 20vw 4vh;
+    padding: 4vh 1vw 2vh;
+    border-radius: 10px;
+    box-shadow: 8px 8px 6px -7px black;
+}
+
+.posts h1 {
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 1.5vh;
+    color: rgb(190, 125, 72);
+    font-family: 'Secular One', sans-serif;
+}
+
+.horizontal-line {
+    border-top: 3px solid white;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    padding-bottom: 3vh;
+}

@@ -1,0 +1,67 @@
+.user-post {
+    background-color: rgb(48, 48, 48);
+    padding-top: 0.5vh;
+    padding-bottom: 2vh;
+    margin: 2vh 4vw 3vh;
+    border-radius: 3px;
+    box-shadow: 0px 8px 6px -8px black;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.line {
+    border-top: rgb(78, 78, 78) 0.5px solid;
+    margin: 1vh 4vw 2vh;
+}
+
+.user-post p {
+    color: rgb(206, 206, 206);
+}
+
+.user-info p {
+    font-size: 15px;
+    font-weight: normal;
+    font-weight: bold;
+    padding-top: 1.5vh;
+    padding-bottom: 0.1vh;
+}
+
+.question p {
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.rating-bar p {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 2vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
+/* .user-post button {
+    margin-right: 0.4vw;
+    margin-left: 0.4vw;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+    text-transform: capitalize;
+    color: #fff;
+    background-color: rgb(31, 31, 31);
+    border: none;
+    border-radius: 50px 50px;
+    padding: 6px 28px 7px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.user-post button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: rgb(54, 54, 54);
+    color: white;
+}
+
+.user-post button:focus {
+    outline: none;
+} */

@@ -7,9 +7,30 @@ import FetchPosts from "./FetchPosts";
 
 const DebatePage = () => {
 
-    var currentQuestions = []
-    currentQuestions[0] = "Sample question."
-    currentQuestions[1] = "Another sample."
+    const [question1, setQuestion1] = useState()
+    const [question2, setQuestion2] = useState()
+
+    useEffect(() => {
+
+        const url = 'http://localhost:8080/api/v1/getCurrentQuestions'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        axios.post(url, { 'score': sessionStorage.getItem('acsscore') }, { headers }
+        )
+            .then(res => {
+                let debateQuestions = res.data.questions;
+                //console.log(debateQuestions[0], debateQuestions[1])
+                setQuestion1(debateQuestions[0])
+                setQuestion2(debateQuestions[1])
+            })
+            .catch(err => {
+                //console.log(err);
+            })
+    }, [])
+
+    var currentQuestions = [question1, question2]
 
     return (
         <div className="debates">

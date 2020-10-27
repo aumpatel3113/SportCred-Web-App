@@ -4,9 +4,9 @@
 
 .questions-section {
     background-color: #222222;
-    margin: 4vh 18vw 4vh;
+    margin: 4vh 20vw 4vh;
     padding: 4vh 1vw 4vh;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 8px 8px 6px -7px black;
 }
 
@@ -133,9 +133,9 @@
 
 .posts {
     background-color: #222222;
-    margin: 4vh 18vw 4vh;
+    margin: 4vh 20vw 4vh;
     padding: 4vh 1vw 2vh;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 8px 8px 6px -7px black;
 }
 

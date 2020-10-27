@@ -5,13 +5,53 @@ import axios from 'axios'
 const PostBox = () => {
     const [alreadyPosted, setAlreadyPosted] = useState(false)
 
+    useEffect(() => {
+
+        const url = 'http://localhost:8080/api/v1/validateDebate'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        axios.post(url, { 'username': btoa(sessionStorage.getItem("username")) }, { headers }
+        )
+            .then(res => {
+                let isValid = res.data.isValid;
+                //console.log(isValid)
+                setAlreadyPosted(isValid)
+            })
+            .catch(err => {
+                //console.log(err);
+            })
+    }, [])
+
     const [post, setPost] = useState('')
     const [question, setQuestion] = useState(-1)
     const [successfulPost, setSuccessfulPost] = useState(false)
 
-    var currentQuestions = []
-    currentQuestions[0] = "Sample question."
-    currentQuestions[1] = "Another sample."
+    const [q1, setQ1] = useState()
+    const [q2, setQ2] = useState()
+
+    useEffect(() => {
+
+        const url = 'http://localhost:8080/api/v1/getCurrentQuestions'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        axios.post(url, { 'score': sessionStorage.getItem('acsscore') }, { headers }
+        )
+            .then(res => {
+                let debateQuestions = res.data.questions;
+                // console.log(debateQuestions[0], debateQuestions[1])
+                setQ1(debateQuestions[0])
+                setQ2(debateQuestions[1])
+            })
+            .catch(err => {
+                //console.log(err);
+            })
+    }, [])
+
+    var currentQuestions = [q1, q2]
 
     const submitPost = (e) => {
         e.preventDefault();
@@ -21,8 +61,26 @@ const PostBox = () => {
             post: post
         };
 
+        const url = 'http://localhost:8080/api/v1/acceptNewDebate'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        axios.post(url, {
+            'username': btoa(sessionStorage.getItem("username")), 'post': post
+            , 'question': currentQuestions[question - 1]
+        }, { headers }
+        )
+            .then(res => {
+                //console.log(res.status)
+            })
+            .catch(err => {
+                //console.log(err);
+            })
+
+
         console.log(data.post)
-        console.log(question)
+        console.log(currentQuestions[question - 1])
 
         setSuccessfulPost(true)
     };
@@ -43,7 +101,7 @@ const PostBox = () => {
     return (
         <div className="post-box">
 
-            { alreadyPosted ? (
+            { alreadyPosted === false ? (
                 <div className="already-posted">
                     <h1>You've already posted today!</h1>
                     <div className="line-posted"></div>

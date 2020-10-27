@@ -524,5 +524,16 @@ public class Neo4JDB {
       return null;
     }
   }
+
+  public void storeDebateQuestion(HttpExchange r, String question, String rank) {
+    try (Session session = driver.session()) {
+      String line = "MERGE (m:debateQuestion {question:$a, rank:$b})";
+      session.writeTransaction(tx -> tx.run(line, parameters("a", question, "b", rank)));
+      session.close();
+    } catch (Exception e) {
+      internalErrorCatch(r);
+    }
+
+  }
 }
 

@@ -1,0 +1,22 @@
+.analyze {
+    background-color: rgb(24, 24, 24);
+    padding-top: 65px;
+    padding-bottom: 5vh;
+    color: #fff;
+    text-align: center;
+    font-family: 'Secular One', sans-serif;
+    margin-left: 286px;
+  }
+
+  .analyze-header {
+    padding-top: 4vh;
+    padding-bottom: 4vh;
+    background-color: rgb(22, 22, 22);
+    box-shadow: 0 8px 6px -6px black;
+  }
+  
+  .analyze h1 {
+    margin-bottom: 0vh;
+    margin-top: 0vh;
+    font-size: 35px;
+  }

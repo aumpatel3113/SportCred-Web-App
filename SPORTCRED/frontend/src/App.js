@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { Component, useEffect } from "react";
 import "./App.css";
 import "./TriviaStyling.css";
+import "./analyze.css";
 import logo from "./logo.svg";
 import { NavLink, Switch, Route } from "react-router-dom";
 import EditProfile from "./EditProfile";
 import SoloTrivia from './components/SoloTrivia'
 import OnlinePostTrivia from './components/OnlinePostTrivia'
 import OnlineChallengeTrivia from './components/OnlineChallengeTrivia'
+import DebatePage from './components/DebatePage'
 import axios from 'axios'
 
 function App() {
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     const url = 'http://localhost:8080/api/v1/getACSScore'
@@ -28,6 +31,8 @@ function App() {
       sessionStorage.setItem('acsscore', acsscore)
       sessionStorage.setItem('acsrank', acsrank)
       sessionStorage.setItem('numOnlinePlayed', 0)
+
+      setRefresh(true)
     })
   })
 
@@ -218,7 +223,12 @@ const Picks = () => <div className="picks"></div>;
 
 const OpenCourt = () => <div className="open-court"></div>;
 
-const Analyze = () => <div className="analyze"></div>;
+const Analyze = () => (
+  <div className="analyze">
+    <div className="analyze-header"><h1>Analyze and Debate</h1></div>
+    <DebatePage/>
+  </div>
+);
 
 const Live = () => (
   <div className="live">

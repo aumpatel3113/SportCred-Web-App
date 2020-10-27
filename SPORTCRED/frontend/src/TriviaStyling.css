@@ -1,5 +1,5 @@
 .trivia, .solo, .TriviaQuestion, .head_to_head, .OnlinePostQuestions, .OnlineChallengeTrivia {
-  background-image: linear-gradient(180deg, #000000, #202020);
+  background-color: rgb(20, 20, 20);
   padding-top: 18vh;
   padding-bottom: 5vh;
   color: #fff;

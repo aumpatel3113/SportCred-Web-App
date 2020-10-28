@@ -26,6 +26,7 @@ public class SportcredBackend {
       server.createContext("/api/v1/sendFinalDuoScore", new FinalDuoScore());
       server.createContext("/api/v1/getACSScore", new GetACS());
       server.createContext("/api/v1/getUserInfo", new GetUserInfo());
+      server.createContext("/api/v1/addZonePost", new AddZonePost());
       server.createContext("/api/v1/getCurrentQuestions", new GetDebateQuestions());
       server.createContext("/api/v1/acceptNewDebate", new DebateGroup());
       server.createContext("/api/v1/validateDebate", new ValidateDebate());

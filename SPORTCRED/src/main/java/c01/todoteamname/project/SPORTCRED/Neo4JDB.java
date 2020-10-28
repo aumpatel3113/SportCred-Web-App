@@ -536,6 +536,41 @@ public class Neo4JDB {
 
 	}
 
+  public Map<String, Object> getDebateGroup(HttpExchange r, String username) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line =
+            "MATCH(d:debateRoom) WHERE NOT d.user3=$b MATCH(u:User {username:$a}) WHERE NOT "
+                + "((u)-[:debated|voted]->(d)) RETURN(d)";
+        Result result = tx.run(line, parameters("a", username, "b", "NULL"));
+
+        HashMap<String, Object> endMap = new HashMap<>();
+        ArrayList<Object> postList = new ArrayList<Object>();
+
+        if (result.hasNext()) {
+          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
+          Object[] usernames = {temp.get("user1"), temp.get("user2"), temp.get("user3")};
+          Object[] posts = {temp.get("user1Post"), temp.get("user2Post"), temp.get("user3Post")};
+
+          for (int z = 0; z < 3; z++) {
+            HashMap<String, Object> tempMap = new HashMap<>();
+            tempMap.put("user", usernames[z]);
+            tempMap.put("post", posts[z]);
+            tempMap.put("question", temp.get("question"));
+            postList.add(new JSONObject(tempMap));
+          }
+        }
+
+        endMap.put("postGroup", postList.toArray());
+        return endMap;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+
 	public int addZonePost(String author, String content) {
 
 		try (Session session = driver.session()){

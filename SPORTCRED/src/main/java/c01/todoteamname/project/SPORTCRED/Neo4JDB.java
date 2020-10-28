@@ -535,5 +535,29 @@ public class Neo4JDB {
     }
 
   }
+
+  public int addZonePost(String author, String content) {
+
+		 try (Session session = driver.session()){
+
+			try (Transaction tx = session.beginTransaction()){
+
+				Result checkPostNumber = tx.run("MATCH (p:ZonePost) RETURN COUNT(p)");
+
+				int numPosts = ((Long) checkPostNumber.next().asMap().get("COUNT(p)")).intValue();
+				int zeroCount = 0;
+
+				tx.run("CREATE (p:ZonePost {postID: $w, author: $x, content: $y, likeCount: $z, dislikeCount: $z})", 
+						parameters("w", numPosts + 1, "x", author, "y", content, "z", zeroCount));
+				tx.commit();
+
+				return numPosts + 1;
+
+			}
+
+		} catch (Exception e) {
+			return -1;
+		}
+
 }
 

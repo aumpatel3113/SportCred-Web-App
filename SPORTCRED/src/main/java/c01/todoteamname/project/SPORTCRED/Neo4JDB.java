@@ -633,4 +633,32 @@ public class Neo4JDB {
 		
 	}
 
+	public int addZoneComment(String currentUsername, int parentPostID, String commentContent) {
+		
+		try (Session session = driver.session()){
+			
+			try (Transaction tx = session.beginTransaction()){
+				
+				Result checkCommentNumber = tx.run("MATCH (p:ZonePost {postID: $x}), (c)-[r:COMMENT_ON]->(p) RETURN COUNT(c)",
+						parameters("x", parentPostID));
+				
+				int numComments = ((Long) checkCommentNumber.next().asMap().get("COUNT(c)")).intValue();
+				
+				tx.run("MATCH (p:ZonePost {postID: $w}) "
+						+ "CREATE (c:ZoneComment {commentID: $x, content: $y, author: $z}), "
+						+ "(c)-[r:COMMENT_ON]->(p)",
+						parameters("w", parentPostID, "x", numComments + 1, "y", commentContent, "z", currentUsername));
+				tx.commit();
+				
+				return 200;
+				
+			}
+			
+		} catch (Exception e) {
+			return 500;
+		}
+		
+		
+	}
+
 }

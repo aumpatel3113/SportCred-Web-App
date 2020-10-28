@@ -17,7 +17,7 @@ public class GetUserInfo implements HttpHandler {
 
         try {
             if (r.getRequestMethod().equals("POST")) {
-                handlePost(r);
+                handleGet(r);
             }
         } catch (Exception e) {
 
@@ -25,7 +25,7 @@ public class GetUserInfo implements HttpHandler {
 
     }
 
-    private void handlePost(HttpExchange r) throws IOException, JSONException {
+    private void handleGet(HttpExchange r) throws IOException, JSONException {
 
         String body = Utils.convert(r.getRequestBody());
         JSONObject deserialized = new JSONObject(body);

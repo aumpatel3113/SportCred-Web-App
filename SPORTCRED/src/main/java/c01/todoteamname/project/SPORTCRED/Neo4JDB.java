@@ -558,8 +558,79 @@ public class Neo4JDB {
 		} catch (Exception e) {
 			return -1;
 		}
-		
+
+	}
+
+	public int ratePost(boolean likingPost, int parentPostID, String currentUser) {
+
+		try (Session session = driver.session()){
+
+			try (Transaction tx = session.beginTransaction()){
+
+				if (checkIfRated(currentUser, parentPostID) == 1) {
+					return 403;
+				}
+				else if (checkIfRated(currentUser, parentPostID) == -1) {
+					return 405;
+				}
+
+				if (likingPost) {
+
+					tx.run("MATCH (p:ZonePost {postID: $x}) SET p.likeCount = p.likeCount + 1", 
+							parameters("x", parentPostID));
+					tx.run("MATCH (p:ZonePost {postID: $x}), (u:User {username: $y}) CREATE (u)-[r:LIKED_POST]->(p)", 
+							parameters("x", parentPostID, "y", currentUser));
+
+				}
+				else {
+					tx.run("MATCH (p:ZonePost {postID: $x}) SET p.dislikeCount = p.dislikeCount + 1", 
+							parameters("x", parentPostID));
+					tx.run("MATCH (p:ZonePost {postID: $x}), (u:User {username: $y}) CREATE (u)-[r:DISLIKED_POST]->(p)", 
+							parameters("x", parentPostID, "y", currentUser));
+				}
+				tx.commit();
+
+				return 200;
+
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return 500;
+		}
+
 	}
 	
-}
+	private int checkIfRated(String username, int postID) {
+		
+		// Return 0 if not rated, 1 if liked, -1 if disliked
+		try (Session session = driver.session()){
 
+			try (Transaction tx = session.beginTransaction()){
+
+				Result checkExistingRating = tx.run("MATCH (p:ZonePost {postID: $x}), "
+						+ "(u:User {username: $y}), (u)-[r:LIKED_POST]->(p) RETURN r",
+						parameters("x", postID, "y", username));
+
+				if (checkExistingRating.hasNext()) {
+					tx.commit();
+					return 1;
+				}
+				
+				checkExistingRating = tx.run("MATCH (p:ZonePost {postID: $x}), "
+						+ "(u:User {username: $y}), (u)-[r:DISLIKED_POST]->(p) RETURN r",
+						parameters("x", postID, "y", username));
+				
+				if (checkExistingRating.hasNext()) {
+					tx.commit();
+					return -1;
+				}
+				tx.commit();
+				return 0;
+			}
+			
+		}
+		
+	}
+
+}

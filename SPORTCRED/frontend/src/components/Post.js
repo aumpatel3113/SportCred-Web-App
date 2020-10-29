@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from 'react';
+import React from 'react';
 import PostBox from './PostBox';
 
 export default ({ close }) => (

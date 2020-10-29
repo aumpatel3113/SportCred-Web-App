@@ -49,6 +49,8 @@ const PostBox = () => {
             .catch(err => {
                 //console.log(err);
             })
+
+
     }, [])
 
     var currentQuestions = [q1, q2]
@@ -77,10 +79,6 @@ const PostBox = () => {
             .catch(err => {
                 //console.log(err);
             })
-
-
-        console.log(data.post)
-        console.log(currentQuestions[question - 1])
 
         setSuccessfulPost(true)
     };

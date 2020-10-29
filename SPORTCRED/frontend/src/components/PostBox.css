@@ -119,10 +119,10 @@
 
 .already-posted h1 {
     font-weight: normal;
-    font-size: 24px;
+    font-size: 25px;
     padding-top: 1.5vh;
     margin-bottom: 0vh;
-    color: rgb(235, 158, 96);
+    color: rgb(221, 138, 70);
 }
 
 .already-posted p {
@@ -134,5 +134,5 @@
 
 .line-posted {
     border-top: rgb(133, 133, 133) 2.5px solid;
-    margin: 1vh 40% 1vh;
+    margin: 1vh 38% 2vh;
 }

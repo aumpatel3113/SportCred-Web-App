@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class PopulateDatabase {
 
-  final static boolean addQuestions = true;
+  final static boolean addQuestions = false;
   final static boolean addDebate = true;
   final static String questions = "resources/questions.txt";
   final static String debate = "resources/debate.txt";

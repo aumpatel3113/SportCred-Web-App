@@ -23,7 +23,7 @@ function App() {
 
     axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
     ).then(res => {
-      console.log(res.data)
+      //console.log(res.data)
 
       let acsscore = res.data.ACS
       let acsrank = res.data.rank

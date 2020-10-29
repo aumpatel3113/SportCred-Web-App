@@ -166,6 +166,7 @@ const OnlineChallengeTrivia = () => {
                 .then(res => {
 
                     let questionListData = res.data.questionList;
+
                     setQuizData({
                         question1: questionListData[0].question,
                         answer1Option1: questionListData[0].answerOptions[0],
@@ -227,6 +228,7 @@ const OnlineChallengeTrivia = () => {
                         answer10Option3: questionListData[9].answerOptions[2],
                         answer10Option4: questionListData[9].answerOptions[3]
                     })
+                    
                     let oppAnswered = res.data.opponentCorrect;
                     setOppScore(oppAnswered)
 
@@ -350,7 +352,7 @@ const OnlineChallengeTrivia = () => {
             ]
         },
         {
-            "question": Data.question6,
+            "question": QuizData.question6,
             "answerOptions": [
                 {
                     "answerText": QuizData.answer6Option1.answerText,
@@ -455,6 +457,8 @@ const OnlineChallengeTrivia = () => {
             ]
         },
     ]
+
+    //console.log(questions)
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);

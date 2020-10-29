@@ -12,12 +12,12 @@
 
 .line, .line-posts, .line-between {
     border-top: rgb(133, 133, 133) 0.5px solid;
-    margin: 1vh 3vw 2vh;
+    margin: 1vh 3vw 3vh;
 }
 
 .line-posts {
     margin-top: 3vh;
-    margin-bottom: 5vh;
+    margin-bottom: 3vh;
 }
 
 .line-between {
@@ -54,17 +54,20 @@
     text-transform: capitalize;
     color: rgb(238, 238, 238);
     background-color: rgb(190, 102, 30);
+    /* background-color: #222222; */
+    /* border: rgb(173, 98, 37) 2px solid; */
     border: none;
     border-radius: 50px 50px;
-    padding: 8px 5px;
+    padding: 7px 5px 9px;
     text-align: center;
     cursor: pointer;
-    margin-top: 0.5vh;
+    margin-top: 1vh;
 }
 
 .make-post button:hover {
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.4s ease-in-out;
     background-color: #ce8019;
+    /* background-color: rgb(173, 87, 37); */
 }
 
 .make-post button:focus {
@@ -152,4 +155,22 @@
     margin-left: 15vw;
     margin-right: 15vw;
     padding-bottom: 3vh;
+}
+
+@media screen and (max-width: 1400px) {
+    .questions-section, .posts {
+        margin: 4vh 12vw 4vh;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .questions-section, .posts {
+        margin: 4vh 16vw 4vh;
+    }
+}
+
+@media screen and (max-width: 1220px) {
+    .questions-section, .posts {
+        margin: 4vh 8vw 4vh;
+    }
 }

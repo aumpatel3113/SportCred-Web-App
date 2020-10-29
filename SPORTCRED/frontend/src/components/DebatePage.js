@@ -36,7 +36,7 @@ const DebatePage = () => {
         <div className="debates">
             <div className="questions-section">
                 <div className="current-questions">
-                    <h1>Today's questions to debate in {sessionStorage.getItem("acsrank")} are..</h1>
+                    <h1>Today's questions to debate in {sessionStorage.getItem("acsrank")} are</h1>
                     <div className="line"></div>
                     <p>1. {currentQuestions[0]}</p>
                     <p>2. {currentQuestions[1]}</p>
@@ -50,7 +50,7 @@ const DebatePage = () => {
             </div>
             {/* <div className="line-between"></div> */}
             <div className="posts">
-                <h1>Here's what others think. Rate them!</h1>
+                <h1>Here is your group to rate this week!</h1>
                 <div className="line-posts"></div>
                 <div className="fetched-posts">< FetchPosts /></div>
             </div>

@@ -3,8 +3,10 @@ package c01.todoteamname.project.SPORTCRED;
 import static org.neo4j.driver.Values.parameters;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -725,5 +727,93 @@ public class Neo4JDB {
       internalErrorCatch(r);
     }
   }
+
+	public List<JSONObject> getZoneFeed(String currentUser) {
+		
+		List<JSONObject> toReturn = new ArrayList<JSONObject>();
+		
+		try (Session session = driver.session()){
+			
+			try (Transaction tx = session.beginTransaction()){
+				
+				
+				Result allPost = tx.run("MATCH (p:ZonePost) RETURN p.postID, p.author, p.content, p.likeCount, p.dislikeCount");
+				Result allComments;
+				Result checkRatedByUser;
+				
+				Record currentPost;
+				Record currentComment;
+
+				List<String> listOfCommentsOnCurrent;
+				
+				while (allPost.hasNext()) {
+					
+					listOfCommentsOnCurrent = new ArrayList<>();
+					
+					currentPost = allPost.next();
+					
+					int currentPostID = ((Long) currentPost.asMap().get("p.postID")).intValue();
+					int currentPostLikeCount = ((Long) currentPost.asMap().get("p.likeCount")).intValue();
+					int currentPostDislikeCount = ((Long) currentPost.asMap().get("p.dislikeCount")).intValue();
+					String currentPostAuthor = (String) currentPost.asMap().get("p.author");
+					String currentPostContent = (String) currentPost.asMap().get("p.content");
+					
+					boolean likedCurrentPost;
+					boolean dislikedCurrentPost;
+					
+					checkRatedByUser = tx.run("MATCH (p:ZonePost {postID: $x}), "
+							+ "(u:User {username: $y}), "
+							+ "(u)-[r:LIKED_POST]->(p) RETURN r", 
+							parameters("x", currentPostID, "y", currentUser));
+					likedCurrentPost = checkRatedByUser.hasNext();
+					
+					checkRatedByUser = tx.run("MATCH (p:ZonePost {postID: $x}), "
+							+ "(u:User {username: $y}), "
+							+ "(u)-[r:DISLIKED_POST]->(p) RETURN r", 
+							parameters("x", currentPostID, "y", currentUser));
+					dislikedCurrentPost = checkRatedByUser.hasNext();
+					
+					allComments = tx.run("MATCH (p:ZonePost {postID: $x}), "
+							+ "(c)-[r:COMMENT_ON]->(p) "
+							+ "RETURN c.author, c.content ORDER BY c.commentID DESC",
+							parameters("x", currentPostID));
+					
+					
+					
+					while (allComments.hasNext()) {
+						
+						currentComment = allComments.next();
+						
+						String author = new String(Base64.getDecoder().decode((String) currentComment.asMap().get("c.author")));
+						String commentContent = (String) currentComment.asMap().get("c.content");
+						// String author = (String) currentComment.asMap().get("c.author");
+						// String commentContent = (String) currentComment.asMap().get("c.content");
+						
+						String completeComment = author + ": " + commentContent;
+						listOfCommentsOnCurrent.add(completeComment);
+						System.out.println("ON POSTID: " + currentPostID + " COMMENT IS: " + completeComment);
+					}
+					
+					JSONObject postAsJSON = new JSONObject();
+					postAsJSON.put("postID", currentPostID);
+					postAsJSON.put("author", currentPostAuthor);
+					postAsJSON.put("content", currentPostContent);
+					postAsJSON.put("likes", currentPostLikeCount);
+					postAsJSON.put("dislikes", currentPostDislikeCount);
+					postAsJSON.put("userHasLiked", likedCurrentPost);
+					postAsJSON.put("userHasDisliked", dislikedCurrentPost);
+					postAsJSON.put("comments", listOfCommentsOnCurrent.toArray());
+					
+					toReturn.add(postAsJSON);
+				}
+				
+				return toReturn;
+			}
+			
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
 
 }

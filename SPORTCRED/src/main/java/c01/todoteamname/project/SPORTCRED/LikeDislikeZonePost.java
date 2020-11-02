@@ -18,8 +18,8 @@ public class LikeDislikeZonePost implements HttpHandler {
 	public void handle(HttpExchange r) {
 
 		try {
-			if (r.getRequestMethod().equals("PUT")) {
-				handlePut(r);
+			if (r.getRequestMethod().equals("POST")) {
+				handlePost(r);
 			}
 		} catch (Exception e) {
 
@@ -27,7 +27,7 @@ public class LikeDislikeZonePost implements HttpHandler {
 
 	}
 
-	private void handlePut(HttpExchange r) throws IOException, JSONException {
+	private void handlePost(HttpExchange r) throws IOException, JSONException {
 
 		String body = Utils.convert(r.getRequestBody());
 		JSONObject deserialized = new JSONObject(body);

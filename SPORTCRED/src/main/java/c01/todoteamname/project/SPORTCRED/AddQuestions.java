@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class AddQuestions implements HttpHandler {
 
+  final static String password = "SPORTCRED IS VERY COOL, YES IT IS";
   Neo4JDB nb = Neo4JDB.createInstanceOfDatabase();
 
   public AddQuestions() {}
@@ -37,18 +38,20 @@ public class AddQuestions implements HttpHandler {
     String correct;
 
     if (deserialized.has("question") && deserialized.has("answer1") && deserialized.has("answer2")
-        && deserialized.has("answer3") && deserialized.has("answer4")
-        && deserialized.has("correct")) {
+        && deserialized.has("answer3") && deserialized.has("answer4") && deserialized.has("correct")
+        && deserialized.has("password")) {
       question = deserialized.getString("question");
       answer1 = deserialized.getString("answer1");
       answer2 = deserialized.getString("answer2");
       answer3 = deserialized.getString("answer3");
       answer4 = deserialized.getString("answer4");
       correct = deserialized.getString("correct");
-
-      this.nb.storeQuestion(r, question, answer1, answer2, answer3, answer4, correct);
-      r.sendResponseHeaders(200, -1);
-
+      if (deserialized.get("password").equals(password)) {
+        this.nb.storeQuestion(r, question, answer1, answer2, answer3, answer4, correct);
+        r.sendResponseHeaders(200, -1);
+      } else {
+        r.sendResponseHeaders(400, -1);
+      }
     }
 
     else {

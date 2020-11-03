@@ -18,6 +18,7 @@ const PickPage = () => {
   const [r3g1, setR3g1] = useState("");
   const [r3g2, setR3g2] = useState("");
   const [champ, setChamp] = useState("");
+
   const [winners, setWinners] = useState(undefined);
 
   useEffect(() => {

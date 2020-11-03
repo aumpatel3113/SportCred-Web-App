@@ -16,7 +16,6 @@ import axios from "axios";
 
 function App() {
   const [refresh, setRefresh] = useState(false)
-  
   useEffect(() => {
     const url = "http://localhost:8080/api/v1/getACSScore";
     const headers = {

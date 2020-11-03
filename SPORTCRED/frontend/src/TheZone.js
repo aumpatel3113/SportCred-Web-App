@@ -36,7 +36,7 @@ const Zone = () => {
             }
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
         })
     }, [setPosts], [setComments])
 

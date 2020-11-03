@@ -18,24 +18,31 @@ const Zone = () => {
 
     const [sortBy, setSortBy] = useState('Newest');
 
-    //Sort posts by popularity on inital render (most popular at top)
+    //Sorts posts by newest on inital render
     posts.sort(function(a, b) {
-        return - ((parseFloat(a.likes) - parseFloat(a.dislikes)) - (parseFloat(b.likes) - parseFloat(b.dislikes)));
+        if (sortBy === 'Newest'){
+            return -(parseFloat(a.id) - parseFloat(b.id));
+        } else if (sortBy === 'Popular'){
+            return - ((a.agree + a.disagree) - (b.agree + b.disagree));
+        }
+        
     });
     
     //Rerender the posts whenever the user selects a new sorting method
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     let sorted
+        let sorted
 
-    //     if (sortBy === 'Newest'){
-    //         sorted = [...posts].sort((a, b) => b.postID - a.postID);
-    //     } else if (sortBy === 'Popular'){
-    //         sorted = [...posts].sort((a, b) => - ((a.agree - a.disagree) - (b.agree - b.disagree)));
-    //     }
+        if (sortBy === 'Newest'){
+            console.log("newest");
+            sorted = [...posts].sort((a, b) => b.id - a.id);
+        } else if (sortBy === 'Popular'){
+            console.log("popular");
+            sorted = [...posts].sort((a, b) => - ((a.agree + a.disagree) - (b.agree + b.disagree)));
+        }
 
-    //     setPosts(sorted);
-    // }, [sortBy]); 
+        setPosts(sorted);
+    }, [sortBy]); 
 
     useEffect(() => {
         console.log("Rerender")
@@ -71,7 +78,9 @@ const Zone = () => {
         }
         axios.post(url, { 'author': btoa(sessionStorage.getItem('username')), 'content': post}, { headers })
         .then(res => {
-                // console.log(res.status)
+
+                //console.log(res.status)
+
                 let postId = res.data.postID;
                 setPosts([
                     ...posts,
@@ -86,11 +95,13 @@ const Zone = () => {
                   ]);
                   setAgreeCount(0);
                   setDisagreeCount(0);
-                  // console.log(postId);
+
+                  console.log(postId);
                   setPostContent("");
             })
             .catch(err => {
-                // console.log(err);
+                //console.log(err);
+
             })
         console.log(post)
     }
@@ -130,7 +141,7 @@ const Zone = () => {
             setDisagreeCount(post.disagree = post.disagree + 1);
         })
         .catch(err => {
-            // console.log(err.status);
+            console.log(err.status);
             alert("You have already chosen to like/dislike.")
         })
     }
@@ -152,7 +163,7 @@ const Zone = () => {
             setPostComment("");
         })
         .catch(err => {
-            // console.log(err);
+            console.log(err);
         })
     console.log(comment)
 }

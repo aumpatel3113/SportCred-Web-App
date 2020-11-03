@@ -100,8 +100,7 @@ const Zone = () => {
                   setPostContent("");
             })
             .catch(err => {
-                //console.log(err);
-
+                console.log(err);
             })
         console.log(post)
     }
@@ -121,8 +120,8 @@ const Zone = () => {
             setAgreeCount(post.agree = post.agree + 1);
         })
         .catch(err => {
-            // console.log(err.status);
-            // console.log(err.code);
+            console.log(err.status);
+            console.log(err.code);
             alert("You have already chosen to like/dislike.")
         })
     }

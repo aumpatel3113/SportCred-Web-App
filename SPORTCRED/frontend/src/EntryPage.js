@@ -158,17 +158,17 @@ const EntryPage = () => {
                     <button id="logInSlider" type="button" class="toggle-btn" onClick={loginSlide}>Log in</button>
                     <button id="registerSlider" type="button" class="toggle-btn" onClick={registerSlide}>Register</button>
                   </div>
-                  <div id="login" class="input-group">
+                  <form id="login" class="input-group">
                     <input id="loginUsername" type="text" class="input-field" placeholder="Username" required onChange={event => setVloginUsername(event.target.value)}></input>
-                    <input id="loginPassword" type="text" class="input-field" placeholder="Password" required required onChange={event => setVloginPassword(event.target.value)}></input>
+                    <input id="loginPassword" type="password" autoComplete="off" class="input-field" placeholder="Password" required onChange={event => setVloginPassword(event.target.value)}></input>
                     <button type="submit" class="submit-btn" onClick={() => setClicked2(1)}>Log in</button>
-                  </div>
+                  </form>
                   <div id="register" class="input-group">
                     <input id="regUsername" type="text" class="input-field" placeholder="Username" required onChange={event => setVregUsername(event.target.value)}></input>
                     <input id="regEmail" type="email" class="input-field" placeholder="Email" required onChange={event => setVregEmail(event.target.value)}></input>
-                    <input id="regPassword" type="text" class="input-field" placeholder="Password" required onChange={event => setVregPassword(event.target.value)}></input>
+                    <input id="regPassword" type="password" autoComplete="off" class="input-field" placeholder="Password" required onChange={event => setVregPassword(event.target.value)}></input>
                     <button type="next" class="next-btn" onClick={nextButton}>Next</button>
-                  </div>
+                  </div> 
                   <div id="profile" class="input-group">
                     <input id="favSport" type="text" class="input-field" placeholder="Enter your favourite sport" required onChange={event => setFavSport(event.target.value)}></input>
                     <input id="sportLvl" list="levels" type="text" class="input-field" placeholder="Enter your highest played level team" required onChange={event => setSportLvl(event.target.value)}></input>

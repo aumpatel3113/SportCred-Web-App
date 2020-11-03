@@ -16,7 +16,29 @@ const Zone = () => {
     const [agreeCount, setAgreeCount] = useState(0);
     const [disagreeCount, setDisagreeCount] = useState(0);
 
+    const [sortBy, setSortBy] = useState('Newest');
+
+    //Sort posts by popularity on inital render (most popular at top)
+    posts.sort(function(a, b) {
+        return - ((parseFloat(a.likes) - parseFloat(a.dislikes)) - (parseFloat(b.likes) - parseFloat(b.dislikes)));
+    });
+    
+    //Rerender the posts whenever the user selects a new sorting method
+    // useEffect(() => {
+
+    //     let sorted
+
+    //     if (sortBy === 'Newest'){
+    //         sorted = [...posts].sort((a, b) => b.postID - a.postID);
+    //     } else if (sortBy === 'Popular'){
+    //         sorted = [...posts].sort((a, b) => - ((a.agree - a.disagree) - (b.agree - b.disagree)));
+    //     }
+
+    //     setPosts(sorted);
+    // }, [sortBy]); 
+
     useEffect(() => {
+        console.log("Rerender")
         axios.post('http://localhost:8080/api/v1/getZoneFeed', {'username': btoa(sessionStorage.getItem('username'))}, {headers})
         .then (res => {
             if (res.data) {
@@ -36,7 +58,7 @@ const Zone = () => {
             }
         })
         .catch(err => {
-            // console.log(err)
+            console.log(err)
         })
     }, [setPosts], [setComments])
 
@@ -154,9 +176,10 @@ else {
                 SUBMIT
             </button>
 
-            <button className="button2">
-                FILTER POSTS BY POPULARITY
-            </button>
+            <select size="1" className="button2" onChange={(e) => setSortBy(e.target.value)}>
+                <option value='Newest'>Newest</option>
+                <option value='Popular'>Popular</option>
+            </select>
 
           <h3>THE ZONE </h3>
 

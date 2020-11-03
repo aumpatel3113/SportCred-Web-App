@@ -39,6 +39,7 @@ public class SportcredBackend {
       server.createContext("/api/v1/addPlayoffBracket", new PlayoffBracket());
       server.createContext("/api/v1/getPlayoffBrackets", new PlayoffBracket());
       server.createContext("/api/v1/predictPlayoffBracket", new PredictPlayoffBracket());
+      server.createContext("/api/v1/checkForUserBracket", new CheckPlayoffPrediction());
       server.start();
       System.out.println("Server on port:" + PORT);
     } catch (IOException e) {

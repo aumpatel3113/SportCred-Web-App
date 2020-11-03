@@ -929,4 +929,35 @@ public class Neo4JDB {
       }
     }
   }
+  
+  public String checkForUserBracket(HttpExchange r, String username, String playoffsID) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String response = "{\n\t\"username\" : \""+username+"\",\n\t\"playoffsID\" : \""+playoffsID+"\",\n";
+        
+        // check if user has already made a prediction about this playoffs event
+        String query = String.format("MATCH(n:playoffBracketPrediction {username:'%s', playoffsID:'%s'})"
+            + "RETURN n", username, playoffsID);
+        Result result = tx.run(query);
+        
+        if (result.hasNext()) { // prediction data exists
+          int numSeries = result.list().get(0).get(0).get("numSeries").asInt();
+          for (int i = 0 ; i < numSeries ; i++) {
+            query = String.format("MATCH(n:playoffBracketPrediction {playoffsID:'%s',"
+                + " username:'%s'}) RETURN n.series%d[0], n.series%d[1]", playoffsID, username, i+1, i+1);
+            result = tx.run(query);
+            List<Record> records = result.list();
+            response += String.format("\t\"series%d\" : {\"id\" : \"%s\", \"team\" : \"%s\"},\n",
+                i+1, records.get(0).get(0).asString(), records.get(0).get(1).asString());
+          }
+          response = response.substring(0, response.length()-2)+"\n}";
+          return response;
+        }
+        return null;
+      }
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return null;
+    }
+  }
 }

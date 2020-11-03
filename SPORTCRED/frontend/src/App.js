@@ -10,6 +10,7 @@ import SoloTrivia from './components/SoloTrivia'
 import OnlinePostTrivia from './components/OnlinePostTrivia'
 import OnlineChallengeTrivia from './components/OnlineChallengeTrivia'
 import DebatePage from './components/DebatePage'
+import TheZone from "./TheZone"
 import axios from 'axios'
 
 function App() {
@@ -104,8 +105,8 @@ function App() {
               </NavLink>
             </li>
             <li>
-              <NavLink exact activeClassName="current" to="/open-court">
-                OPEN COURT
+              <NavLink exact activeClassName="current" to="/the-zone">
+                THE ZONE
               </NavLink>
             </li>
             <li>
@@ -130,8 +131,6 @@ function App() {
     </div>
   );
 }
-
-const Home = () => <div className="home"></div>;
 
 const MyAccount = () => (
   <div className="my-account">
@@ -221,7 +220,11 @@ class OnlineChallenge extends Component {
 
 const Picks = () => <div className="picks"></div>;
 
-const OpenCourt = () => <div className="open-court"></div>;
+const Zone = () => (
+<div className="the-zone">
+ <TheZone/>
+</div>
+);
 
 const Analyze = () => (
   <div className="analyze">
@@ -238,9 +241,9 @@ const Live = () => (
 
 const Main = () => (
   <Switch>
-    <Route exact path="/" component={Home}></Route>
+    <Route exact path="/" component={Zone}></Route>
     <Route exact path="/my-account" component={MyAccount}></Route>
-    <Route exact path="/open-court" component={OpenCourt}></Route>
+    <Route exact path="/the-zone" component={Zone}></Route>
     <Route exact path='/trivia' component={Trivia}></Route>
     <Route exact path='/trivia/solo' component={Solo}></Route>
     <Route exact path='/trivia/solo/solo-game' component={SoloGame}></Route>

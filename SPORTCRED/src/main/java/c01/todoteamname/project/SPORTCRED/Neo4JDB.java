@@ -816,4 +816,117 @@ public class Neo4JDB {
 		
 	}
 
+  public void storePlayoffBracket(HttpExchange r, String playoffsID, PlayoffSeries[] series) {
+    try (Session session = driver.session()) {
+      String pre = String.format("MERGE (n:playoffBracket {playoffsID:'%s',numSeries:%s",
+          playoffsID, series.length);
+      
+      for (int i = 0; i < series.length; i++) {
+        pre += String.format(",series%d:['%d', '%d','%s','%s','%s','%d']", i + 1, 
+            series[i].getId(), series[i].getRound(), series[i].getTeam1(), 
+            series[i].getTeam2(), series[i].getWinner(), series[i].getSeriesLength());
+      }
+      
+      String post = pre += "})";      
+      session.writeTransaction(tx -> tx.run(post));
+      session.close();
+    } catch (Exception e) {
+      internalErrorCatch(r);
+    }
+  }
+  
+  public String getPlayoffBrackets(HttpExchange r) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String response = "{\n\t\"playoffs\" : [\n\t\t";
+        Result result = tx.run("MATCH(n:playoffBracket) RETURN n"); 
+        List<Record> records = result.list();
+        
+        for (Record x : records) {
+          String playoffsID = x.get(0).get("playoffsID").asString();
+          int numSeries = x.get(0).get("numSeries").asInt();
+          response += "{\n\t\t\t\"playoffsID\" : \""+playoffsID+"\",\n\t\t\t\"series\" : [\n";
+          
+          for (int i = 0 ; i < numSeries ; i++) {
+            List<Object> current = x.get(0).get(String.format("series%d", i+1)).asList();
+            response += "\t\t\t\t{\"id\" : \""+current.get(0)+"\", \"round\" : \""+current.get(1)+"\","
+                + " \"team1\" : \""+current.get(2)+"\", \"team2\" : \""+current.get(3)+"\","
+                + " \"winner\" : \""+current.get(4)+"\", \"seriesLength\" : \""+current.get(5)+"\"},\n";
+          }
+          response = response.substring(0, response.length()-2)+"]\n\t\t},\n\t\t";
+        }
+        response = response.substring(0, response.length()-4)+"\n\t]\n}";
+        return response;
+      }
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+  
+  public String storeBracketPrediction(HttpExchange r, String username, 
+      String playoffsID, PlayoffSeries[] series) {
+    try (Session session = driver.session()) {
+      Boolean exists = checkForUserBracket(username, playoffsID);
+      
+      if (!exists) {
+        String pre = String.format("MERGE (n:playoffBracketPrediction {username:'%s',"
+            + "playoffsID:'%s',numSeries:%s", username, playoffsID, series.length);
+        
+        for (int i = 0; i < series.length; i++) {
+          pre += String.format(",series%d:['%d', '%s']", series[i].getId(), series[i].getId(), series[i].getWinner());
+        }
+        
+        String post = pre += "})";     
+        session.writeTransaction(tx -> tx.run(post));
+      }
+      return compareBracketPrediction(r, series, playoffsID, username, exists);
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+  
+  private Boolean checkForUserBracket(String username, String playoffsID) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String query = String.format("MATCH(n:playoffBracketPrediction {username:'%s', playoffsID:'%s'})"
+            + "RETURN n", username, playoffsID);
+        return tx.run(query).hasNext();
+      }
+    }
+  }
+  
+  private String compareBracketPrediction(HttpExchange r, PlayoffSeries[] prediction, 
+      String playoffsID, String username, Boolean exists) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String response = "{\n\t\"username\" : \""+username+"\",\n\"playoffsID\" : \""+playoffsID+"\",\n";
+        int score = 0;
+        
+        for (int i = 0 ; i < prediction.length ; i++) {
+          String query = String.format("MATCH(n:playoffBracket {playoffsID:'%s'})"
+              + " RETURN n.series%d[0], n.series%d[4]", playoffsID, i+1, i+1);
+          Result result = tx.run(query);
+          List<Record> records = result.list();
+          
+          if (records.get(0).get(1).asString().equals("null")) return null;
+          Boolean correct = prediction[i].getWinner().equals(records.get(0).get(1).asString());
+          
+          if (correct) score += 2;
+          else score -= 2;
+             
+          response += String.format("\t\"series%d\" : {\"id\" : \"%d\", \"team\" : \"%s\","
+              + " \"correct\" : %s},\n", i+1, i+1, prediction[i].getWinner(), correct);
+        }
+        UserNode user = new UserNode(username);
+        if (!exists) user.updateScore(score, "picks");
+        response = response.substring(0, response.length()-2)+"\n}";
+        return response;
+      } catch (Exception e) {
+        internalErrorCatch(r);
+        return null;
+      }
+    }
+  }
 }

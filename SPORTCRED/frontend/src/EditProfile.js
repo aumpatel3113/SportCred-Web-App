@@ -214,11 +214,11 @@ const EditProfile = () => {
       <h3>Update password</h3>
       <form>
         <label htmlFor="oldPassword"></label>
-          <input type="text" name="oldPassword" placeholder="Enter current password" onChange={event => setCurrentPassword(event.target.value)}/>
+          <input className="survey-input" type="password" name="oldPassword" placeholder="Enter current password" onChange={event => setCurrentPassword(event.target.value)}/>
         <label htmlFor="newPassword"></label>
-          <input type="text" name="newPassword" placeholder="Enter new password" onChange={event => setNewPassword(event.target.value)}/>
+          <input className="survey-input" type="password" name="newPassword" placeholder="Enter new password" onChange={event => setNewPassword(event.target.value)}/>
         <label htmlFor="confirmedPassword"></label>
-          <input type="text" name="confirmedPassword" placeholder="Confirm new password" onChange={event => setConfirmPassword(event.target.value)}/> 
+          <input className="survey-input" type="password" name="confirmedPassword" placeholder="Confirm new password" onChange={event => setConfirmPassword(event.target.value)}/> 
         <button type="submit" className="button1" onClick={event => handlePassword(event)}>Update</button>
       </form>
       <br />

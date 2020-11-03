@@ -49,7 +49,7 @@ const Zone = () => {
         }
         axios.post(url, { 'author': btoa(sessionStorage.getItem('username')), 'content': post}, { headers })
         .then(res => {
-                console.log(res.status)
+                // console.log(res.status)
                 let postId = res.data.postID;
                 setPosts([
                     ...posts,
@@ -64,11 +64,11 @@ const Zone = () => {
                   ]);
                   setAgreeCount(0);
                   setDisagreeCount(0);
-                  console.log(postId);
+                  // console.log(postId);
                   setPostContent("");
             })
             .catch(err => {
-                //console.log(err);
+                // console.log(err);
             })
         console.log(post)
     }
@@ -88,8 +88,8 @@ const Zone = () => {
             setAgreeCount(post.agree = post.agree + 1);
         })
         .catch(err => {
-            console.log(err.status);
-            console.log(err.code);
+            // console.log(err.status);
+            // console.log(err.code);
             alert("You have already chosen to like/dislike.")
         })
     }
@@ -108,7 +108,7 @@ const Zone = () => {
             setDisagreeCount(post.disagree = post.disagree + 1);
         })
         .catch(err => {
-            console.log(err.status);
+            // console.log(err.status);
             alert("You have already chosen to like/dislike.")
         })
     }
@@ -126,17 +126,11 @@ const Zone = () => {
             console.log(res.status)
             let commentId = res.data.commentID;
             setComments(post.commentfeed.push(comment));
-                // {
-                //   id: commentId,
-                //   author: sessionStorage.getItem("username"),
-                //   content: comment
-                // }
-            // ));
             console.log(commentId);
             setPostComment("");
         })
         .catch(err => {
-            // console.log("what");
+            // console.log(err);
         })
     console.log(comment)
 }

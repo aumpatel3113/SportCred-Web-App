@@ -1,0 +1,224 @@
+.pick-page {
+  padding-top: 28px;
+  margin-left: 330px;
+}
+
+.sect-title {
+  color: rgb(235, 22, 171);
+}
+.bracket-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.bracket {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 1300px;
+}
+
+.first-round {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.second-round {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.third-round {
+  margin-top: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.finals {
+  margin-top: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.champ {
+  margin-top: 515px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.game-1 {
+  display: flex;
+  margin: 20px;
+  flex-direction: column;
+  flex-basis: 20px;
+  width: 180px;
+}
+
+.game-2 {
+  display: flex;
+  margin-bottom: 180px;
+  flex-direction: column;
+  flex-basis: 20px;
+  width: 180px;
+}
+
+.game-3 {
+  display: flex;
+  margin-bottom: 450px;
+  flex-direction: column;
+  flex-basis: 20px;
+  width: 180px;
+}
+
+.game-4 {
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: column;
+  flex-basis: 20px;
+  width: 180px;
+}
+
+.game-5 {
+  display: flex;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  flex-direction: column;
+  flex-basis: 20px;
+  width: 180px;
+}
+
+.team {
+  font-size: small;
+  margin: 0;
+}
+
+.Bucks {
+  background-color: #00471b;
+  color: #eee1c6;
+}
+
+.Magic {
+  background-color: #0077c0;
+  color: #c4ced4;
+}
+
+.Pacers {
+  background-color: #fdbb30;
+  color: #002d62;
+}
+
+.Heat {
+  background-color: #98002e;
+  color: #f9a01b;
+}
+
+.Celtics {
+  background-color: #007a33;
+  color: #ba9653;
+}
+
+.Seventy-6ers {
+  background-color: #006bb6;
+  color: #ed174c;
+}
+
+.Raptors {
+  background-color: #ce1141;
+  color: #000;
+}
+
+.Nets {
+  background-color: #fff;
+  color: #000;
+}
+
+.Lakers {
+  background-color: #552583;
+  color: #fdb927;
+}
+
+.Blazers {
+  background-color: #e03a3e;
+  color: #000;
+}
+
+.Rockets {
+  background-color: #c4ced4;
+  color: #ce1141;
+}
+
+.Thunder {
+  background-color: #007ac1;
+  color: #ef3b24;
+}
+
+.Nuggets {
+  background-color: #0e2240;
+  color: #fec524;
+}
+
+.Jazz {
+  background-color: #00471b;
+  color: #f9a01b;
+}
+
+.Clippers {
+  background-color: #1d428a;
+  color: #c8102e;
+}
+
+.Mavericks {
+  background-color: #b8c4ca;
+  color: #00538c;
+}
+
+.radio-bracket {
+  background-color: cornsilk;
+  display: block;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.submit-bracket {
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: rgb(255, 255, 255);
+  background-image: linear-gradient(
+    to right,
+    rgb(223, 5, 223),
+    rgb(7, 173, 7) 45%
+  );
+  border-radius: 10px;
+}
+
+.submit-bracket:hover {
+  background-position: right center;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  color: #daa520;
+}
+
+.wrong {
+  color: #dc143c;
+}

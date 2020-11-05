@@ -13,7 +13,7 @@ public class PopulateDatabase {
   final static String password = "SPORTCRED IS VERY COOL, YES IT IS";
 
   // Set to true if new questions in question.txt
-  final static boolean addQuestions = true;
+  final static boolean addQuestions = false;
 
   // Set to true if new question in debate.txt
 

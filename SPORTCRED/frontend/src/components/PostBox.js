@@ -92,9 +92,7 @@ const PostBox = () => {
         setQuestion(2)
     };
 
-    const reset = () => {
-        setSuccessfulPost(false)
-    }
+    
 
     return (
         <div className="post-box">

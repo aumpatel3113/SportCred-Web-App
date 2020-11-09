@@ -25,6 +25,10 @@
     padding-bottom: 0.1vh;
 }
 
+.question {
+    margin-bottom: 2vh;
+}
+
 .question p {
     font-size: 14px;
     font-weight: normal;
@@ -35,7 +39,7 @@
 .rating-bar p {
     font-size: 14px;
     font-weight: normal;
-    margin-bottom: 1vh;
+    margin-bottom: 0vh;
     padding-left: 1vw;
     padding-right: 1vw;
 }
@@ -75,6 +79,45 @@
 .group-dne h1 {
     margin:0vh 2vw 1vh;
     font-size: 24px;
+}
+
+.rating-slider {
+    margin-top: 1vh;
+}
+
+.submitButton button {
+    width: 40%;
+    margin-right: 0.2vw;
+    margin-left: 0.2vw;
+    font-size: 18px;
+    font-weight: normal;
+    text-transform: capitalize;
+    font-family: 'Leckerli One', cursive;
+    color: #fff;
+    background-color: rgb(182, 109, 50);
+    border: none;
+    border-radius: 50px 50px;
+    padding: 10px 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 0.5vh;
+}
+
+.submitButton button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: rgb(223, 136, 65);
+    color: white;
+}
+
+.submitButton button:focus {
+    outline: none;
+    /* background-color: #2d3541; */
+}
+
+.submitMessage {
+    margin-top: 2vh;
+    font-size: 14px;
+    padding: 0 20% 2vh;
 }
 
 /* .user-post button {

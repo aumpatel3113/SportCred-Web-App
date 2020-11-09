@@ -1,9 +1,11 @@
 import React from "react";
 import './FetchPosts.css';
 import axios from 'axios'
+import Slider from './RatingSlider';
 
 class FetchPosts extends React.Component {
     constructor(props) {
+
         super(props);
 
         // groupInfo[0] indicates whether a group exists
@@ -29,7 +31,8 @@ class FetchPosts extends React.Component {
                         posts.push({
                             username: atob(debateGroup[i].user),
                             question: debateGroup[i].question,
-                            post: debateGroup[i].post
+                            post: debateGroup[i].post,
+                            rating: 30,
                         });
                     }
                 } else {
@@ -42,6 +45,62 @@ class FetchPosts extends React.Component {
 
         //console.log(groupInfo)
         this.state = { posts, groupInfo };
+    }
+
+    handleRatingUpdate = (post, value) => {
+        this.state.posts[post].rating = value
+    }
+
+    postRatingsToDB = () => {
+        
+        console.log("postRatingsToDB")
+
+        const url = 'http://localhost:8080/api/v1/sendDebateGroup'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
+        )
+            .then(res => {
+                console.log("in here too")
+            })
+            .catch(err => {
+                //console.log(err);
+            })
+    }
+
+    getNewDebateGroup = () => {
+        console.log("getNewDebateGroup")
+
+        const url = 'http://localhost:8080/api/v1/sendDebateGroup'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
+        )
+            .then(res => {
+                console.log("in here")
+            })
+            .catch(err => {
+                //console.log(err);
+            })
+    }
+
+
+    submitRatings = () => {
+        console.log(this.state.posts[0].rating)
+        console.log(this.state.posts[1].rating)
+        console.log(this.state.posts[2].rating)
+
+        this.postRatingsToDB()
+
+        setTimeout(() => {
+            this.getNewDebateGroup()
+        }, 1500)
+
+        
     }
 
     render() {
@@ -68,9 +127,17 @@ class FetchPosts extends React.Component {
                                     <p key={index}>{user.post}</p>
                                 </div>
 
+                                <div className="user-post-line"></div>
+
                                 <div className="rating-bar"><p>Rate this post?</p></div>
+                                <div className="rating-slider"><Slider postNum={index} ratingValue={user.rating} handleRatingUpdate={this.handleRatingUpdate} /></div>
+
                             </div>
                         ))}
+                        <div className = "submitButton">
+                            <button className="q1" onClick={this.submitRatings}>Submit Ratings</button>
+                        </div>
+                        <div className = "submitMessage">Once you submit your ratings, you will be given the next available debate group to rate and won't be able to come back to the this group.</div>
                     </div>
                 ) : (
                         <>

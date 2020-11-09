@@ -49,7 +49,7 @@ We are confident that in this sprint all of these tasks will be accomplished.
 ## User Stories to be completed:
 - **TOD-5:**  As Frank Jean, a bandwagoner, I would like to be able to recover my password so that my account is not lost if I forget it during the off-season.
 - **TOD-6:** As Frank Jean, a non-avid game watcher, I want to be able view game scores so that I can keep up-to-date with the scores and performance of all teams even when I miss the games.
-- **TOD-9:** As Jessica Jones, a pro analyst, I would like to be interact with respond to posts so that I can get involved in debates to challenge the analysis skills of myself and my opponent.
+- **TOD-9:** As Jessica Jones, a pro analyst, I would like to interact with posts so that I can get involved in debates to challenge the analysis skills of myself and my opponent.
 
 ## Participants (all of whom participated):
 - Ryan Blasetti

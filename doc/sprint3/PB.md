@@ -5,7 +5,7 @@ Numberal series we intend to use: Fibonacci
 
 ## User Stories
 ### Login
-As Frank Jean, a bandwagoner, I would like to be able to recover my password so that my account is not lost if I forget it during the off-season. (3)
+As Frank Jean, a bandwagoner, I would like to be able to recover my password so that my account is not lost if I forget it during the off-season. (2)
 
 Cos:
 - User will receive method to regain their password
@@ -40,7 +40,7 @@ CoS:
 - Developed algorithm for score calculation
 
 ### Debate
-As Jessica Jones, a pro analyst, I would like to be able to respond to posts so that I can get involved in debates to challenge the analysis skills of myself and my opponent.(13)
+As Jessica Jones, a pro analyst, I would like to interact with posts so that I can get involved in debates to challenge the analysis skills of myself and my opponent.(8)
 
 CoS:
 - Users can access a page to discuss controversial topics and debate

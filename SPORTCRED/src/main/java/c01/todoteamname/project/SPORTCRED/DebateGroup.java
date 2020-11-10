@@ -16,7 +16,7 @@ public class DebateGroup implements HttpHandler {
   public void handle(HttpExchange r) {
     try {
       if (r.getRequestMethod().equals("POST")) {
-    	r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+        r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         handlePost(r);
       }
     } catch (Exception e) {
@@ -41,6 +41,9 @@ public class DebateGroup implements HttpHandler {
       username = deserialized.getString("username");
       question = deserialized.getString("question");
       post = deserialized.getString("post");
+
+      UserNode user = new UserNode(username);
+      user.updateScore(3, "participation");
 
 
       roomInfo = this.nb.getDebateRoom(r, question);

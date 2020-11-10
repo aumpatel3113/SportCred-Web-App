@@ -18,17 +18,35 @@ const Styles = styled.div`
   margin-top: 0vh;
   margin-bottom: 1vh;
 
-  .value {
+  .message {
+    font-size: 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  .msgTop, .msgBottom {
     flex: 1;
     font-size: 14px;
     padding-top: 1vh;
+    color: #fff;
     font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  .msgTop {
+    padding-top: 0vh;
+  }
+
+  .value {
+    flex: 1;
+    font-size: 18px;
+    padding-top: 1vh;
+    color: #e3a97d;
+    font-family: 'Secular One', sans-serif;
   }
 
   .slider {
     flex: 6;
     -webkit-appearance: none;
-    width: 60%;
+    width: 50%;
     height: 4px;
     border-radius: 5px;
     background: rgb(190, 125, 72);
@@ -48,7 +66,8 @@ const Styles = styled.div`
 
 export default class Slider extends React.Component {
     state = {
-        value: this.props.ratingValue
+        value: this.props.ratingValue,
+        currentValue: this.props.overallRating
     }
 
     handleOnChange = (e) => {
@@ -60,8 +79,10 @@ export default class Slider extends React.Component {
     render() {
         return (
             <Styles >
+                {/* <div className="message">Rate this post?</div> */}
+                <div className="msgTop">Current Rating ~ <span className = "value">{this.state.currentValue}</span></div>
                 <div><input type="range" min={0} max={100} value={this.state.value} className="slider" onChange={this.handleOnChange} /></div>
-                <div className="value">Score: {this.state.value}</div>
+                <div className="msgBottom">You're giving ~ <span className = "value">{this.state.value}</span></div>
             </Styles>
         )
     }

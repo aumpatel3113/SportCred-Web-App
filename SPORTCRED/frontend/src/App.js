@@ -33,12 +33,12 @@ function App() {
 
         let acsscore = res.data.ACS;
         let acsrank = res.data.rank;
-      sessionStorage.setItem('acsscore', acsscore)
-      sessionStorage.setItem('acsrank', acsrank)
-      sessionStorage.setItem('numOnlinePlayed', 0)
+        sessionStorage.setItem('acsscore', acsscore)
+        sessionStorage.setItem('acsrank', acsrank)
+        sessionStorage.setItem('numOnlinePlayed', 0)
 
-      setRefresh(true)
-    })
+        setRefresh(true)
+      })
   })
 
 
@@ -279,15 +279,15 @@ const Picks = () => (
 );
 
 const Zone = () => (
-<div className="the-zone">
- <TheZone/>
-</div>
+  <div className="the-zone">
+    <TheZone />
+  </div>
 );
 
 const Analyze = () => (
   <div className="analyze">
     <div className="analyze-header"><h1>Analyze and Debate</h1></div>
-    <DebatePage/>
+    <DebatePage />
   </div>
 );
 

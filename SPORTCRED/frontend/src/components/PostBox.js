@@ -81,6 +81,7 @@ const PostBox = () => {
             })
 
         setSuccessfulPost(true)
+        window.location.reload();
     };
 
     const setQuestion1 = () => {

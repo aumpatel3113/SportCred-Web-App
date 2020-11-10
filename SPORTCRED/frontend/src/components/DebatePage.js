@@ -50,7 +50,7 @@ const DebatePage = () => {
             </div>
             {/* <div className="line-between"></div> */}
             <div className="posts">
-                <h1>Here is your group to rate this week!</h1>
+                <h1>Here is your current group to rate!</h1>
                 <div className="line-posts"></div>
                 <div className="fetched-posts">< FetchPosts /></div>
             </div>

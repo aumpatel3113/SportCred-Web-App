@@ -2,6 +2,7 @@ import React from "react";
 import './FetchPosts.css';
 import axios from 'axios'
 import Slider from './RatingSlider';
+import { findAllInRenderedTree } from "react-dom/test-utils";
 
 class FetchPosts extends React.Component {
     constructor(props) {
@@ -22,7 +23,6 @@ class FetchPosts extends React.Component {
         )
             .then(res => {
                 let debateGroup = res.data.postGroup;
-                // console.log(debateGroup)
 
                 if (debateGroup.length > 0) {
                     groupInfo.push(debateGroup[0].question)
@@ -32,7 +32,8 @@ class FetchPosts extends React.Component {
                             username: atob(debateGroup[i].user),
                             question: debateGroup[i].question,
                             post: debateGroup[i].post,
-                            rating: 30,
+                            overallRating: debateGroup[i].scores,
+                            rating: 50,
                         });
                     }
                 } else {
@@ -53,54 +54,10 @@ class FetchPosts extends React.Component {
 
     postRatingsToDB = () => {
         
-        console.log("postRatingsToDB")
-
-        const url = 'http://localhost:8080/api/v1/sendDebateGroup'
-        const headers = {
-            'Content-Type': 'text/plain',
-        }
-
-        axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
-        )
-            .then(res => {
-                console.log("in here too")
-            })
-            .catch(err => {
-                //console.log(err);
-            })
     }
 
-    getNewDebateGroup = () => {
-        console.log("getNewDebateGroup")
-
-        const url = 'http://localhost:8080/api/v1/sendDebateGroup'
-        const headers = {
-            'Content-Type': 'text/plain',
-        }
-
-        axios.post(url, { 'username': btoa(sessionStorage.getItem('username')) }, { headers }
-        )
-            .then(res => {
-                console.log("in here")
-            })
-            .catch(err => {
-                //console.log(err);
-            })
-    }
-
-
-    submitRatings = () => {
-        console.log(this.state.posts[0].rating)
-        console.log(this.state.posts[1].rating)
-        console.log(this.state.posts[2].rating)
-
-        this.postRatingsToDB()
-
-        setTimeout(() => {
-            this.getNewDebateGroup()
-        }, 1500)
-
-        
+    filler = () => {
+        console.log("filler")
     }
 
     render() {
@@ -119,9 +76,6 @@ class FetchPosts extends React.Component {
                                     <p key={index}>{user.username}</p>
                                 </div>
                                 <div className="user-post-line"></div>
-                                {/* <div className="question">
-                                    <p key={index}>Q: {user.question}</p>
-                                </div> */}
 
                                 <div className="question">
                                     <p key={index}>{user.post}</p>
@@ -129,15 +83,15 @@ class FetchPosts extends React.Component {
 
                                 <div className="user-post-line"></div>
 
-                                <div className="rating-bar"><p>Rate this post?</p></div>
-                                <div className="rating-slider"><Slider postNum={index} ratingValue={user.rating} handleRatingUpdate={this.handleRatingUpdate} /></div>
+                                {/* <div className="rating-bar"><p>Rate this post?</p></div> */}
+                                <div className="rating-slider"><Slider postNum={index} ratingValue={user.rating} overallRating={user.overallRating} handleRatingUpdate={this.handleRatingUpdate} /></div>
 
                             </div>
                         ))}
-                        <div className = "submitButton">
-                            <button className="q1" onClick={this.submitRatings}>Submit Ratings</button>
+                        <div className="submitButton">
+                            <button className="q1" onClick={this.postRatingsToDB}>Submit Ratings</button>
                         </div>
-                        <div className = "submitMessage">Once you submit your ratings, you will be given the next available debate group to rate and won't be able to come back to the this group.</div>
+                        <div className="submitMessage">Once you submit your ratings, you will be given the next available debate group to rate and won't be able to come back to the this group.</div>
                     </div>
                 ) : (
                         <>

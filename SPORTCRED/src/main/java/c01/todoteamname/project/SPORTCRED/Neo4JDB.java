@@ -460,8 +460,9 @@ public class Neo4JDB {
   public void createNewDebateRoom(HttpExchange r, String question) {
     try (Session session = driver.session()) {
       String line = "CREATE (d:debateRoom {question:$a, user1:$b,user2:$b,user3:$b,user1Post:$b,"
-          + "user2Post:$b,user3Post:$b})";
-      session.writeTransaction(tx -> tx.run(line, parameters("a", question, "b", "NULL")));
+          + "user2Post:$b,user3Post:$b, user1Score:$c,user2Score:$c,user3Score:$c, user1Votes:$c,"
+          + "user2Votes:$c,user3Votes:$c})";
+      session.writeTransaction(tx -> tx.run(line, parameters("a", question, "b", "NULL", "c", 0)));
       session.close();
     } catch (Exception e) {
       internalErrorCatch(r);
@@ -553,11 +554,14 @@ public class Neo4JDB {
           Map<String, Object> temp = result.next().fields().get(0).value().asMap();
           Object[] usernames = {temp.get("user1"), temp.get("user2"), temp.get("user3")};
           Object[] posts = {temp.get("user1Post"), temp.get("user2Post"), temp.get("user3Post")};
+          Object[] scores =
+              {temp.get("user1Score"), temp.get("user2Score"), temp.get("user3Score")};
 
           for (int z = 0; z < 3; z++) {
             HashMap<String, Object> tempMap = new HashMap<>();
             tempMap.put("user", usernames[z]);
             tempMap.put("post", posts[z]);
+            tempMap.put("scores", scores[z]);
             tempMap.put("question", temp.get("question"));
             postList.add(new JSONObject(tempMap));
           }
@@ -728,134 +732,138 @@ public class Neo4JDB {
     }
   }
 
-	public List<JSONObject> getZoneFeed(String currentUser) {
-		
-		List<JSONObject> toReturn = new ArrayList<JSONObject>();
-		
-		try (Session session = driver.session()){
-			
-			try (Transaction tx = session.beginTransaction()){
-				
-				
-				Result allPost = tx.run("MATCH (p:ZonePost) RETURN p.postID, p.author, p.content, p.likeCount, p.dislikeCount");
-				Result allComments;
-				Result checkRatedByUser;
-				
-				Record currentPost;
-				Record currentComment;
+  public List<JSONObject> getZoneFeed(String currentUser) {
 
-				List<String> listOfCommentsOnCurrent;
-				
-				while (allPost.hasNext()) {
-					
-					listOfCommentsOnCurrent = new ArrayList<>();
-					
-					currentPost = allPost.next();
-					
-					int currentPostID = ((Long) currentPost.asMap().get("p.postID")).intValue();
-					int currentPostLikeCount = ((Long) currentPost.asMap().get("p.likeCount")).intValue();
-					int currentPostDislikeCount = ((Long) currentPost.asMap().get("p.dislikeCount")).intValue();
-					String currentPostAuthor = (String) currentPost.asMap().get("p.author");
-					String currentPostContent = (String) currentPost.asMap().get("p.content");
-					
-					boolean likedCurrentPost;
-					boolean dislikedCurrentPost;
-					
-					checkRatedByUser = tx.run("MATCH (p:ZonePost {postID: $x}), "
-							+ "(u:User {username: $y}), "
-							+ "(u)-[r:LIKED_POST]->(p) RETURN r", 
-							parameters("x", currentPostID, "y", currentUser));
-					likedCurrentPost = checkRatedByUser.hasNext();
-					
-					checkRatedByUser = tx.run("MATCH (p:ZonePost {postID: $x}), "
-							+ "(u:User {username: $y}), "
-							+ "(u)-[r:DISLIKED_POST]->(p) RETURN r", 
-							parameters("x", currentPostID, "y", currentUser));
-					dislikedCurrentPost = checkRatedByUser.hasNext();
-					
-					allComments = tx.run("MATCH (p:ZonePost {postID: $x}), "
-							+ "(c)-[r:COMMENT_ON]->(p) "
-							+ "RETURN c.author, c.content ORDER BY c.commentID DESC",
-							parameters("x", currentPostID));
-					
-					
-					
-					while (allComments.hasNext()) {
-						
-						currentComment = allComments.next();
-						
-						String author = new String(Base64.getDecoder().decode((String) currentComment.asMap().get("c.author")));
-						String commentContent = (String) currentComment.asMap().get("c.content");
-						// String author = (String) currentComment.asMap().get("c.author");
-						// String commentContent = (String) currentComment.asMap().get("c.content");
-						
-						String completeComment = author + ": " + commentContent;
-						listOfCommentsOnCurrent.add(completeComment);
-						System.out.println("ON POSTID: " + currentPostID + " COMMENT IS: " + completeComment);
-					}
-					
-					JSONObject postAsJSON = new JSONObject();
-					postAsJSON.put("postID", currentPostID);
-					postAsJSON.put("author", currentPostAuthor);
-					postAsJSON.put("content", currentPostContent);
-					postAsJSON.put("likes", currentPostLikeCount);
-					postAsJSON.put("dislikes", currentPostDislikeCount);
-					postAsJSON.put("userHasLiked", likedCurrentPost);
-					postAsJSON.put("userHasDisliked", dislikedCurrentPost);
-					postAsJSON.put("comments", listOfCommentsOnCurrent.toArray());
-					
-					toReturn.add(postAsJSON);
-				}
-				
-				return toReturn;
-			}
-			
-		} catch (Exception e) {
-			return null;
-		}
-		
-	}
+    List<JSONObject> toReturn = new ArrayList<JSONObject>();
+
+    try (Session session = driver.session()) {
+
+      try (Transaction tx = session.beginTransaction()) {
+
+
+        Result allPost = tx.run(
+            "MATCH (p:ZonePost) RETURN p.postID, p.author, p.content, p.likeCount, p.dislikeCount");
+        Result allComments;
+        Result checkRatedByUser;
+
+        Record currentPost;
+        Record currentComment;
+
+        List<String> listOfCommentsOnCurrent;
+
+        while (allPost.hasNext()) {
+
+          listOfCommentsOnCurrent = new ArrayList<>();
+
+          currentPost = allPost.next();
+
+          int currentPostID = ((Long) currentPost.asMap().get("p.postID")).intValue();
+          int currentPostLikeCount = ((Long) currentPost.asMap().get("p.likeCount")).intValue();
+          int currentPostDislikeCount =
+              ((Long) currentPost.asMap().get("p.dislikeCount")).intValue();
+          String currentPostAuthor = (String) currentPost.asMap().get("p.author");
+          String currentPostContent = (String) currentPost.asMap().get("p.content");
+
+          boolean likedCurrentPost;
+          boolean dislikedCurrentPost;
+
+          checkRatedByUser = tx.run(
+              "MATCH (p:ZonePost {postID: $x}), " + "(u:User {username: $y}), "
+                  + "(u)-[r:LIKED_POST]->(p) RETURN r",
+              parameters("x", currentPostID, "y", currentUser));
+          likedCurrentPost = checkRatedByUser.hasNext();
+
+          checkRatedByUser = tx.run(
+              "MATCH (p:ZonePost {postID: $x}), " + "(u:User {username: $y}), "
+                  + "(u)-[r:DISLIKED_POST]->(p) RETURN r",
+              parameters("x", currentPostID, "y", currentUser));
+          dislikedCurrentPost = checkRatedByUser.hasNext();
+
+          allComments = tx.run(
+              "MATCH (p:ZonePost {postID: $x}), " + "(c)-[r:COMMENT_ON]->(p) "
+                  + "RETURN c.author, c.content ORDER BY c.commentID DESC",
+              parameters("x", currentPostID));
+
+
+
+          while (allComments.hasNext()) {
+
+            currentComment = allComments.next();
+
+            String author = new String(
+                Base64.getDecoder().decode((String) currentComment.asMap().get("c.author")));
+            String commentContent = (String) currentComment.asMap().get("c.content");
+            // String author = (String) currentComment.asMap().get("c.author");
+            // String commentContent = (String) currentComment.asMap().get("c.content");
+
+            String completeComment = author + ": " + commentContent;
+            listOfCommentsOnCurrent.add(completeComment);
+            System.out.println("ON POSTID: " + currentPostID + " COMMENT IS: " + completeComment);
+          }
+
+          JSONObject postAsJSON = new JSONObject();
+          postAsJSON.put("postID", currentPostID);
+          postAsJSON.put("author", currentPostAuthor);
+          postAsJSON.put("content", currentPostContent);
+          postAsJSON.put("likes", currentPostLikeCount);
+          postAsJSON.put("dislikes", currentPostDislikeCount);
+          postAsJSON.put("userHasLiked", likedCurrentPost);
+          postAsJSON.put("userHasDisliked", dislikedCurrentPost);
+          postAsJSON.put("comments", listOfCommentsOnCurrent.toArray());
+
+          toReturn.add(postAsJSON);
+        }
+
+        return toReturn;
+      }
+
+    } catch (Exception e) {
+      return null;
+    }
+
+  }
 
   public void storePlayoffBracket(HttpExchange r, String playoffsID, PlayoffSeries[] series) {
     try (Session session = driver.session()) {
       String pre = String.format("MERGE (n:playoffBracket {playoffsID:'%s',numSeries:%s",
           playoffsID, series.length);
-      
+
       for (int i = 0; i < series.length; i++) {
-        pre += String.format(",series%d:['%d', '%d','%s','%s','%s','%d']", i + 1, 
-            series[i].getId(), series[i].getRound(), series[i].getTeam1(), 
-            series[i].getTeam2(), series[i].getWinner(), series[i].getSeriesLength());
+        pre += String.format(",series%d:['%d', '%d','%s','%s','%s','%d']", i + 1, series[i].getId(),
+            series[i].getRound(), series[i].getTeam1(), series[i].getTeam2(), series[i].getWinner(),
+            series[i].getSeriesLength());
       }
-      
-      String post = pre += "})";      
+
+      String post = pre += "})";
       session.writeTransaction(tx -> tx.run(post));
       session.close();
     } catch (Exception e) {
       internalErrorCatch(r);
     }
   }
-  
+
   public String getPlayoffBrackets(HttpExchange r) {
     try (Session session = driver.session()) {
       try (Transaction tx = session.beginTransaction()) {
         String response = "{\n\t\"playoffs\" : [\n\t\t";
-        Result result = tx.run("MATCH(n:playoffBracket) RETURN n"); 
+        Result result = tx.run("MATCH(n:playoffBracket) RETURN n");
         List<Record> records = result.list();
-        
+
         for (Record x : records) {
           String playoffsID = x.get(0).get("playoffsID").asString();
           int numSeries = x.get(0).get("numSeries").asInt();
-          response += "{\n\t\t\t\"playoffsID\" : \""+playoffsID+"\",\n\t\t\t\"series\" : [\n";
-          
-          for (int i = 0 ; i < numSeries ; i++) {
-            List<Object> current = x.get(0).get(String.format("series%d", i+1)).asList();
-            response += "\t\t\t\t{\"id\" : \""+current.get(0)+"\", \"round\" : \""+current.get(1)+"\","
-                + " \"team1\" : \""+current.get(2)+"\", \"team2\" : \""+current.get(3)+"\","
-                + " \"winner\" : \""+current.get(4)+"\", \"seriesLength\" : \""+current.get(5)+"\"},\n";
+          response += "{\n\t\t\t\"playoffsID\" : \"" + playoffsID + "\",\n\t\t\t\"series\" : [\n";
+
+          for (int i = 0; i < numSeries; i++) {
+            List<Object> current = x.get(0).get(String.format("series%d", i + 1)).asList();
+            response += "\t\t\t\t{\"id\" : \"" + current.get(0) + "\", \"round\" : \""
+                + current.get(1) + "\"," + " \"team1\" : \"" + current.get(2) + "\", \"team2\" : \""
+                + current.get(3) + "\"," + " \"winner\" : \"" + current.get(4)
+                + "\", \"seriesLength\" : \"" + current.get(5) + "\"},\n";
           }
-          response = response.substring(0, response.length()-2)+"]\n\t\t},\n\t\t";
+          response = response.substring(0, response.length() - 2) + "]\n\t\t},\n\t\t";
         }
-        response = response.substring(0, response.length()-4)+"\n\t]\n}";
+        response = response.substring(0, response.length() - 4) + "\n\t]\n}";
         return response;
       }
     } catch (Exception e) {
@@ -863,21 +871,23 @@ public class Neo4JDB {
       return null;
     }
   }
-  
-  public String storeBracketPrediction(HttpExchange r, String username, 
-      String playoffsID, PlayoffSeries[] series) {
+
+  public String storeBracketPrediction(HttpExchange r, String username, String playoffsID,
+      PlayoffSeries[] series) {
     try (Session session = driver.session()) {
       Boolean exists = checkForUserBracket(username, playoffsID);
-      
+
       if (!exists) {
-        String pre = String.format("MERGE (n:playoffBracketPrediction {username:'%s',"
-            + "playoffsID:'%s',numSeries:%s", username, playoffsID, series.length);
-        
+        String pre = String.format(
+            "MERGE (n:playoffBracketPrediction {username:'%s'," + "playoffsID:'%s',numSeries:%s",
+            username, playoffsID, series.length);
+
         for (int i = 0; i < series.length; i++) {
-          pre += String.format(",series%d:['%d', '%s']", series[i].getId(), series[i].getId(), series[i].getWinner());
+          pre += String.format(",series%d:['%d', '%s']", series[i].getId(), series[i].getId(),
+              series[i].getWinner());
         }
-        
-        String post = pre += "})";     
+
+        String post = pre += "})";
         session.writeTransaction(tx -> tx.run(post));
       }
       return compareBracketPrediction(r, series, playoffsID, username, exists);
@@ -886,42 +896,50 @@ public class Neo4JDB {
       return null;
     }
   }
-  
+
   private Boolean checkForUserBracket(String username, String playoffsID) {
     try (Session session = driver.session()) {
       try (Transaction tx = session.beginTransaction()) {
-        String query = String.format("MATCH(n:playoffBracketPrediction {username:'%s', playoffsID:'%s'})"
-            + "RETURN n", username, playoffsID);
+        String query = String.format(
+            "MATCH(n:playoffBracketPrediction {username:'%s', playoffsID:'%s'})" + "RETURN n",
+            username, playoffsID);
         return tx.run(query).hasNext();
       }
     }
   }
-  
-  private String compareBracketPrediction(HttpExchange r, PlayoffSeries[] prediction, 
+
+  private String compareBracketPrediction(HttpExchange r, PlayoffSeries[] prediction,
       String playoffsID, String username, Boolean exists) {
     try (Session session = driver.session()) {
       try (Transaction tx = session.beginTransaction()) {
-        String response = "{\n\t\"username\" : \""+username+"\",\n\"playoffsID\" : \""+playoffsID+"\",\n";
+        String response =
+            "{\n\t\"username\" : \"" + username + "\",\n\"playoffsID\" : \"" + playoffsID + "\",\n";
         int score = 0;
-        
-        for (int i = 0 ; i < prediction.length ; i++) {
-          String query = String.format("MATCH(n:playoffBracket {playoffsID:'%s'})"
-              + " RETURN n.series%d[0], n.series%d[4]", playoffsID, i+1, i+1);
+
+        for (int i = 0; i < prediction.length; i++) {
+          String query = String.format(
+              "MATCH(n:playoffBracket {playoffsID:'%s'})" + " RETURN n.series%d[0], n.series%d[4]",
+              playoffsID, i + 1, i + 1);
           Result result = tx.run(query);
           List<Record> records = result.list();
-          
-          if (records.get(0).get(1).asString().equals("null")) return null;
+
+          if (records.get(0).get(1).asString().equals("null"))
+            return null;
           Boolean correct = prediction[i].getWinner().equals(records.get(0).get(1).asString());
-          
-          if (correct) score += 2;
-          else score -= 2;
-             
-          response += String.format("\t\"series%d\" : {\"id\" : \"%d\", \"team\" : \"%s\","
-              + " \"correct\" : %s},\n", i+1, i+1, prediction[i].getWinner(), correct);
+
+          if (correct)
+            score += 2;
+          else
+            score -= 2;
+
+          response += String.format(
+              "\t\"series%d\" : {\"id\" : \"%d\", \"team\" : \"%s\"," + " \"correct\" : %s},\n",
+              i + 1, i + 1, prediction[i].getWinner(), correct);
         }
         UserNode user = new UserNode(username);
-        if (!exists) user.updateScore(score, "picks");
-        response = response.substring(0, response.length()-2)+"\n}";
+        if (!exists)
+          user.updateScore(score, "picks");
+        response = response.substring(0, response.length() - 2) + "\n}";
         return response;
       } catch (Exception e) {
         internalErrorCatch(r);
@@ -929,28 +947,32 @@ public class Neo4JDB {
       }
     }
   }
-  
+
   public String checkForUserBracket(HttpExchange r, String username, String playoffsID) {
     try (Session session = driver.session()) {
       try (Transaction tx = session.beginTransaction()) {
-        String response = "{\n\t\"username\" : \""+username+"\",\n\t\"playoffsID\" : \""+playoffsID+"\",\n";
-        
+        String response = "{\n\t\"username\" : \"" + username + "\",\n\t\"playoffsID\" : \""
+            + playoffsID + "\",\n";
+
         // check if user has already made a prediction about this playoffs event
-        String query = String.format("MATCH(n:playoffBracketPrediction {username:'%s', playoffsID:'%s'})"
-            + "RETURN n", username, playoffsID);
+        String query = String.format(
+            "MATCH(n:playoffBracketPrediction {username:'%s', playoffsID:'%s'})" + "RETURN n",
+            username, playoffsID);
         Result result = tx.run(query);
-        
+
         if (result.hasNext()) { // prediction data exists
           int numSeries = result.list().get(0).get(0).get("numSeries").asInt();
-          for (int i = 0 ; i < numSeries ; i++) {
-            query = String.format("MATCH(n:playoffBracketPrediction {playoffsID:'%s',"
-                + " username:'%s'}) RETURN n.series%d[0], n.series%d[1]", playoffsID, username, i+1, i+1);
+          for (int i = 0; i < numSeries; i++) {
+            query = String.format(
+                "MATCH(n:playoffBracketPrediction {playoffsID:'%s',"
+                    + " username:'%s'}) RETURN n.series%d[0], n.series%d[1]",
+                playoffsID, username, i + 1, i + 1);
             result = tx.run(query);
             List<Record> records = result.list();
             response += String.format("\t\"series%d\" : {\"id\" : \"%s\", \"team\" : \"%s\"},\n",
-                i+1, records.get(0).get(0).asString(), records.get(0).get(1).asString());
+                i + 1, records.get(0).get(0).asString(), records.get(0).get(1).asString());
           }
-          response = response.substring(0, response.length()-2)+"\n}";
+          response = response.substring(0, response.length() - 2) + "\n}";
           return response;
         }
         return null;

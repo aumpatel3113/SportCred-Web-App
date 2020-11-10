@@ -17,7 +17,7 @@ public class PopulateDatabase {
 
   // Set to true if new question in debate.txt
 
-  final static boolean addDebate = true;
+  final static boolean addDebate = false;
 
   // Set to true to remove old debate questions from database
   final static boolean removeDebate = false;
@@ -51,6 +51,7 @@ public class PopulateDatabase {
       String currentLine;
       BufferedReader input = new BufferedReader(questionToAdd);
       while ((currentLine = input.readLine()) != null) {
+        Thread.sleep(300);
         URL url = new URL(addLink);
         URLConnection con = url.openConnection();
         HttpURLConnection http = (HttpURLConnection) con;
@@ -100,6 +101,7 @@ public class PopulateDatabase {
           rank = input.readLine().replace("\n", "");
           i = 0;
         } else if (i < 2) {
+          Thread.sleep(300);
           i++;
           URL url = new URL(addDebateLink);
           URLConnection con = url.openConnection();

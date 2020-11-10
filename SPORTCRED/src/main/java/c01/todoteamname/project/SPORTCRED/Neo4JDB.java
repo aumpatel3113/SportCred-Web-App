@@ -462,7 +462,8 @@ public class Neo4JDB {
       String line = "CREATE (d:debateRoom {question:$a, user1:$b,user2:$b,user3:$b,user1Post:$b,"
           + "user2Post:$b,user3Post:$b, user1Score:$c,user2Score:$c,user3Score:$c, user1Votes:$c,"
           + "user2Votes:$c,user3Votes:$c})";
-      session.writeTransaction(tx -> tx.run(line, parameters("a", question, "b", "NULL", "c", 0)));
+      session.writeTransaction(
+          tx -> tx.run(line, parameters("a", question, "b", "NULL", "c", (float) 0.0)));
       session.close();
     } catch (Exception e) {
       internalErrorCatch(r);
@@ -981,5 +982,54 @@ public class Neo4JDB {
       internalErrorCatch(r);
       return null;
     }
+  }
+
+  private void updateDebateValues(HttpExchange r, String ratingUser, double newScore, double voters,
+      String position, String scoredUser) {
+    try (Session session = driver.session()) {
+      String line =
+          String.format(
+              "MATCH(u:User {username:$a})\n MATCH (d:debateRoom {%s:$b})\n SET d.%sScore=$c\n "
+                  + "SET d.%sVotes=$e\n " + "CREATE (u)-[:voted]->(d)",
+              position, position, position);
+      session.writeTransaction(tx -> tx.run(line,
+          parameters("a", ratingUser, "b", scoredUser, "c", newScore, "e", voters)));
+      session.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+    }
+  }
+
+  public void addVote(HttpExchange r, String ratingUser, String scoredUser, int score) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String position = "user1";
+        String line = "MATCH (d:debateRoom {user1:$b})\n RETURN(d)\n UNION\n "
+            + "MATCH (d:debateRoom {user2:$b})\n RETURN(d)\n UNION\n"
+            + "MATCH (d:debateRoom {user3:$b})\n RETURN(d)";
+        Result result = tx.run(line, parameters("b", scoredUser));
+
+        if (result.hasNext()) {
+          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
+          if (temp.get("user2").equals(scoredUser)) {
+            position = "user2";
+          } else if (temp.get("user3").equals(scoredUser)) {
+            position = "user3";
+          }
+          double oldScore = ((double) temp.get(String.format("%sScore", position)));
+          double voters = ((double) temp.get(String.format("%sVotes", position)));
+          double newScore = ((oldScore * voters) + score) / (voters + 1);
+          voters++;
+
+          this.updateDebateValues(r, ratingUser, newScore, voters, position, scoredUser);
+        }
+
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+    }
+
   }
 }

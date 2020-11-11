@@ -12,6 +12,7 @@ import OnlinePostTrivia from "./components/OnlinePostTrivia";
 import OnlineChallengeTrivia from "./components/OnlineChallengeTrivia";
 import DebatePage from './components/DebatePage'
 import TheZone from "./TheZone"
+import Latest from "./Latest"
 import axios from "axios";
 
 function App() {
@@ -128,6 +129,11 @@ function App() {
             <li>
               <NavLink exact activeClassName="current" to="/analyze">
                 ANALYZE
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact activeClassName="current" to="/latest">
+                LATEST
               </NavLink>
             </li>
           </ul>
@@ -293,7 +299,12 @@ const Analyze = () => (
 
 const Live = () => (
   <div className="live">
-    <p>coming soon...</p>
+    <h1>coming soon...</h1>
+  </div>
+);
+const TheLatest = () => (
+  <div className="latest">
+    <Latest />
   </div>
 );
 
@@ -311,6 +322,7 @@ const Main = () => (
     <Route exact path="/picks" component={Picks}></Route>
     <Route exact path="/analyze" component={Analyze}></Route>
     <Route exact path="/live" component={Live}></Route>
+    <Route exact path="/latest" component={TheLatest}></Route>
   </Switch>
 );
 

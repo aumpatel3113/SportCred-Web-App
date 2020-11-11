@@ -144,9 +144,9 @@ p {
 }
 
 .sidebar {
-  position: fixed;
+  position: relative;
   left: -39px;
-  top: 245px;
+  top: -17px;
   width: 325px;
   height: 100%;
   background: black;
@@ -185,6 +185,11 @@ p {
   color: white;
   margin-top: 18px;
   font-size: 16px;
+  font-family: sans-serif;
+}
+
+.profile h2 {
+  font-family: sans-serif;
 }
 
 hr.new1 {

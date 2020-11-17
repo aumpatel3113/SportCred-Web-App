@@ -1030,7 +1030,19 @@ public class Neo4JDB {
       e.printStackTrace();
       internalErrorCatch(r);
     }
-
+  }
+  
+  public String getPassword(HttpExchange r, String userEmail) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String query = String.format("MATCH (u:User{email:'%s'}) RETURN u.password", userEmail);
+        Result result = tx.run(query);
+        return result.next().get(0).asString();
+      }
+    } catch (Exception e) {
+      internalErrorCatch(r);
+      return "";
+    }
   }
 
   public void scoreDebates(HttpExchange r) {

@@ -80,7 +80,7 @@ export default class Slider extends React.Component {
         return (
             <Styles >
                 {/* <div className="message">Rate this post?</div> */}
-                <div className="msgTop">Current Rating ~ <span className = "value">{this.state.currentValue}</span></div>
+                <div className="msgTop">Cumulative Rating ~ <span className = "value">{this.state.currentValue}</span></div>
                 <div><input type="range" min={0} max={100} value={this.state.value} className="slider" onChange={this.handleOnChange} /></div>
                 <div className="msgBottom">You're giving ~ <span className = "value">{this.state.value}</span></div>
             </Styles>

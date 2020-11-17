@@ -32,7 +32,7 @@ class FetchPosts extends React.Component {
                             username: atob(debateGroup[i].user),
                             question: debateGroup[i].question,
                             post: debateGroup[i].post,
-                            overallRating: debateGroup[i].scores,
+                            overallRating: Math.round(debateGroup[i].scores),
                             rating: 50,
                         });
                     }
@@ -53,7 +53,31 @@ class FetchPosts extends React.Component {
     }
 
     postRatingsToDB = () => {
-        
+        const url = 'http://localhost:8080/api/v1/sendDebateResults'
+        const headers = {
+            'Content-Type': 'text/plain',
+        }
+
+        for (var i = 0; i < 3; i++) {
+
+            var username = this.state.posts[i].username
+            var rating = this.state.posts[i].rating
+
+            axios.post(url, { 'ratingUser': btoa(sessionStorage.getItem('username')), 'scoredUser': btoa(username), 'score': rating }, { headers }
+            )
+                .then(res => {
+                })
+                .catch(err => {
+                    //console.log(err);
+                })
+
+            setTimeout(() => {
+                this.filler()
+            }, 200)
+        }
+
+        console.log("done")
+        window.location.reload();
     }
 
     filler = () => {

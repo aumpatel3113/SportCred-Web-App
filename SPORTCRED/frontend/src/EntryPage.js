@@ -3,6 +3,8 @@ import axios from "axios";
 import './EntryPage.css';
 import App from './App';
 import Logo from './SPORTCRED_Logo.png';
+import { NavLink, Route, Switch, withRouter } from "react-router-dom";
+import ForgotPassword from './ForgotPassword'
 
 const EntryPage = () => {
   const [vfavSport, setFavSport] = useState('')
@@ -21,6 +23,7 @@ const EntryPage = () => {
   const [clicked, setClicked] = useState(0)
 
   const [success, setSucess] = useState(false)
+  const [recover, setRecover] = useState(false)
 
   useEffect(() => {
     //This is when a user registers
@@ -140,6 +143,12 @@ const EntryPage = () => {
     z.style.top = "600px";
   }
 
+  if(recover){
+    return (<>
+      <Route exact path="/recoverPassword" component={withRouter(ForgotPassword)} />
+      <NavLink exact activeClassName="current" to="/"><button class="forgot-btn" onClick={()=>{setRecover(false)}}>Back</button></NavLink>
+    </>);
+  }
   return (
     <div className="LandingPage">
       { sessionStorage.getItem('needToLogin') ? (
@@ -187,8 +196,9 @@ const EntryPage = () => {
                     <button type="submit" class="submit-btn" onClick={() => setClicked(1)}>Register</button>
                   </div>
                 </div>
+                <NavLink exact activeClassName="current" to="/recoverPassword"><button class="forgot-btn" onClick={()=>{setRecover(true)}}>Forgot Password</button></NavLink>
               </div>
-
+              
             </body>
 
           </div>

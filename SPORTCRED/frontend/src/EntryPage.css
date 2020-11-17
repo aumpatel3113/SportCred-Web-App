@@ -113,3 +113,22 @@
 #profile {
   top: 600px;
 }
+
+.forgot-btn {
+  width: 250px;
+  padding: 10px 30px;
+  display: block;
+  position: relative;
+  bottom: 32%;
+  left: 41%;
+  background: linear-gradient(to right, #21dd08,#29A817);
+  border: 0;
+  outline: none;
+  border-radius: 30px;
+}
+
+.forgot-btn:hover{
+  transition: background 2.4s linear;
+  background: linear-gradient(to right, #177c0a,#116106);
+  border: 0px solid #177c0a;
+}

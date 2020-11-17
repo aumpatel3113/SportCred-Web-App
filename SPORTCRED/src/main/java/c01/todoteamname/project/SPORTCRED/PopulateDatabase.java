@@ -25,9 +25,15 @@ public class PopulateDatabase {
   // Set to true to do all of above
   final static boolean fullAdd = false;
 
+  // Set to true to score debate
+  final static boolean scoreDebate = true;
+
   // Files for debate/questions
   final static String questions = "resources/questions.txt";
   final static String debate = "resources/debate.txt";
+
+  // Contexts for scoring debates
+  final static String scoreLink = "http://localhost:8080/api/v1/scoringDebates";
 
   // Contexts for adding debate/trivia question
   final static String addLink = "http://localhost:8080/api/v1/addQuestions";
@@ -152,6 +158,31 @@ public class PopulateDatabase {
     }
   }
 
+  private static void scoreDebate() {
+    try {
+      String request;
+      URL url = new URL(scoreLink);
+      URLConnection con = url.openConnection();
+      HttpURLConnection http = (HttpURLConnection) con;
+      http.setRequestMethod("PUT");
+      http.setDoOutput(true);
+      request = String.format("{\"password\":\"%s\"}", password);
+      byte[] out = request.getBytes(StandardCharsets.UTF_8);
+      int length = out.length;
+
+      http.setFixedLengthStreamingMode(length);
+      http.setRequestProperty("Content-Type", "application/json");
+      http.connect();
+      try (OutputStream os = http.getOutputStream()) {
+        os.write(out);
+      }
+
+    } catch (Exception e) {
+      System.out.println("Could not send request to delete Debate Questions");
+    }
+  }
+
+
   public static void main(String[] args) {
     if (addQuestions || fullAdd) {
       populateTrivia();
@@ -164,5 +195,12 @@ public class PopulateDatabase {
     if (addDebate || fullAdd) {
       populateDebate();
     }
+
+    if (scoreDebate) {
+      scoreDebate();
+      depopulateDebate();
+    }
+
   }
+
 }

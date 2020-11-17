@@ -1032,4 +1032,60 @@ public class Neo4JDB {
     }
 
   }
+
+  public void scoreDebates(HttpExchange r) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH (d:debateRoom)\n RETURN(d)";
+        Result result = tx.run(line);
+
+        Map<String, Object> temp;
+        UserNode user1;
+        UserNode user2;
+        UserNode user3;
+        UserNode winner;
+        double score1;
+        double score2;
+        double score3;
+        double winnerScore;
+
+        while (result.hasNext()) {
+          temp = result.next().fields().get(0).value().asMap();
+          if (!(temp.get("user3").equals("NULL"))) {
+            user1 = new UserNode((String) temp.get("user1"));
+            user2 = new UserNode((String) temp.get("user2"));
+            user3 = new UserNode((String) temp.get("user3"));
+
+            score1 = (double) temp.get("user1Score");
+            score2 = (double) temp.get("user1Score");
+            score3 = (double) temp.get("user1Score");
+
+            winner = user2;
+            winnerScore = score2;
+
+            if (score1 > winnerScore) {
+              winner = user1;
+              winnerScore = score1;
+            }
+            if (score3 > winnerScore) {
+              winner = user3;
+              winnerScore = score3;
+            }
+
+            winner.updateScore(5, "debate");
+            user1.updateScore(((int) ((score1 - 0.01) / 10)) + 1, "debate");
+            user2.updateScore(((int) ((score2 - 0.01) / 10)) + 1, "debate");
+            user3.updateScore(((int) ((score3 - 0.01) / 10)) + 1, "debate");
+
+          }
+        }
+
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+    }
+
+  }
+
 }

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Component, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import "./Latest.css";
 import axios from "axios";
 
@@ -187,7 +186,6 @@ const TheLatest = () => {
       }
 
     useEffect(() => {
-        console.log("we out here in these streets")
         axios.post('http://localhost:8080/api/v1/getGameFeed', {'season': "2019", 'page': "1"}, {headers})
         .then (res => {
             if (res.data) {
@@ -215,7 +213,7 @@ const TheLatest = () => {
     }, [])
 
       return (
-          <div className="new">
+          <div className="latest-table">
           <h3> DISPLAYING LATEST GAMES ... </h3>
 
             <select size="1" className="filterSelect" onChange={(e) => setTeamSort(e.target.value)}>
@@ -232,7 +230,7 @@ const TheLatest = () => {
                 <option value='Golden State Warriors'>Golden State Warriors</option>
                 <option value='Houston Rockets'>Houston Rockets</option>
                 <option value='Indiana Pacers'>Indiana Pacers</option>
-                <option value='Los Angeles Clippers'>Los Angeles Clippers</option>
+                <option value='LA Clippers'>Los Angeles Clippers</option>
                 <option value='Los Angeles Lakers'>Los Angeles Lakers</option>
                 <option value='Memphis Grizzlies'>Memphis Grizzlies</option>
                 <option value='Miami Heat'>Miami Heat</option>
@@ -274,7 +272,7 @@ const TheLatest = () => {
                    <td>{latestPost.date}</td>
                    <td style={{ color: colourTeam(latestPost.homeTeam) }}>{`${latestPost.homeTeam} `}</td>
                    <td style={{ color: colourTeam(latestPost.awayTeam) }}>{`${latestPost.awayTeam} `}</td>
-                   <td> <span style={ { color: colourTeamScore(latestPost.homeScore, latestPost.awayScore) }}> {`${latestPost.homeScore} `} </span> - <span style={ { color: colourTeamScore(latestPost.awayScore, latestPost.homeScore) }}> {`${latestPost.awayScore} `} </span>  </td>
+                   <td> <span style={{ color: colourTeamScore(latestPost.homeScore, latestPost.awayScore) }}> {`${latestPost.homeScore} `} </span> - <span style={ { color: colourTeamScore(latestPost.awayScore, latestPost.homeScore) }}> {`${latestPost.awayScore} `} </span>  </td>
                    <td>{latestPost.season}</td>
                     </tbody>
             ))}

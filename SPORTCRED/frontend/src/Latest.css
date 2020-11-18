@@ -1,234 +1,88 @@
-.new {
-  padding-top: 90px;
-  margin-left: 330px;
+.latest-table {
+    padding-top: 90px;
+    margin-left: 330px;
+}
+  
+.latest-table h3 {
+    font-size: 34px;
+    font-weight: 800;
+    color: yellow;
+    margin-left: 3px;
 }
 
-.new p {
-  color: white;
-  font-family: sans-serif;
-  font-size: 30px;
+.latest-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 25px;
+    color: #f1f1f1;
 }
 
-.new h3 {
-  font-size: 34px;
-  font-weight: 800;
-  color: yellow;
-  text-shadow: #5c0e48;
-  margin-left: 3px;
-  text-decoration-color: aqua;
+.latest-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
 }
-
-.new .blogpost {
-  position: relative;
-  margin-left: 200px;
-  right: 200px;
-  top: -29px;
-  width: 1000px;
-  height: 100%;
-  background-image: linear-gradient(270deg, #056815, #570642);
-  margin-bottom: 18px;
-  }
-
-  .new .blogpost li a {
-  background-color: tomato;
-  color: grey;
-}
-
-.new .line {
-    width: 510px;
-}
-
-.new .blogpost li {
-  display: block;
-  text-decoration: none;
-  height: 100%;
-  line-height: 73px;
-  font-size: 25px;
-  font-weight: 700;
-  color: rgb(255, 255, 255);
-  background-image: linear-gradient(270deg, #024b0e, #5c0e48);
-}
-
-.new .blogpost ul {
-  list-style: none;
-}
-
-#title {
-  text-align: center;
-  font-family: arial, sans-serif;
-}
-
-#students {
-  text-align: center;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  border: 3px solid #ddd;
-  width: 100%;
-  color:white;
-}
-
-.new td, .new th {
-  border: 1px solid #ddd;
-  padding: 8px;
-  font-size: 25px;
-  color:white;
-}
-
-.new tr:nth-child(even){background-color: #f2f2f2; color:white;}
-
-.new tr:hover {background-color: #ddd;}
-
-.new th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: center;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 25px;
-  color:white;
-}
-
-
-/* .Bucks {
-  background-color: #00471b;
-  color: #eee1c6;
-}
-
-.Magic {
-  background-color: #0077c0;
-  color: #c4ced4;
-}
-
-.Pacers {
-  background-color: #fdbb30;
-  color: #002d62;
-}
-
-.Heat {
-  background-color: #98002e;
-  color: #f9a01b;
-}
-
-.Celtics {
-  background-color: #007a33;
-  color: #ba9653;
-}
-
-.Seventy-6ers {
-  background-color: #006bb6;
-  color: #ed174c;
-}
-
-.Raptors {
-  background-color: #ce1141;
-  color: #000;
-}
-
-.Nets {
-  background-color: #fff;
-  color: #000;
-}
-
-.Lakers {
-  background-color: #552583;
-  color: #fdb927;
-}
-
-.Blazers {
-  background-color: #e03a3e;
-  color: #000;
-}
-
-.Rockets {
-  background-color: #c4ced4;
-  color: #ce1141;
-}
-
-.Thunder {
-  background-color: #007ac1;
-  color: #ef3b24;
-}
-
-.Nuggets {
-  background-color: #0e2240;
-  color: #fec524;
-}
-
-.Jazz {
-  background-color: #00471b;
-  color: #f9a01b;
-}
-
-.Clippers {
-  background-color: #1d428a;
-  color: #c8102e;
-}
-
-.Mavericks {
-  background-color: #b8c4ca;
-  color: #00538c;
-} */
 
 .filterSelect {
-  font-family: 'Reem Kufi', sans-serif;
-  font-size: small;
-  color: white;
-  background-color:rgb(255, 72, 0);
-  border-color: rgb(225, 0, 255);
-  text-transform: uppercase;
-  border-width: 2px;
-  border-radius: 7px;
-
-  margin: 0px 3px;
-  padding: 0.35em 1.2em;
-  border: 0.1em rgb(255, 250, 173);
-  position: relative;
-  border-radius: 0.12em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-weight: 300;
-  color: rgb(238, 255, 0);
-}
-
-.filterSelect:hover {
-  color: #00ff0d;
-  background-color: #002903;
-}
-
-.previous {
-  background-color: #4CAF50;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px 16px;
-}
-
-.previous:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.next {
-  background-color: #4CAF50;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px 16px;
-}
-
-.next:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.round {
-  border-radius: 50%;
-  margin: 10px 10px;
-}
-
-.page {
-    display: inline;
-    padding: 5px, 10px;  
-    font-weight: bold;
-    color: yellow;
-}
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: small;
+    color: white;
+    background-color:rgb(255, 72, 0);
+    border-color: rgb(225, 0, 255);
+    text-transform: uppercase;
+    border-width: 2px;
+    border-radius: 7px;
+  
+    margin: 0px 3px;
+    padding: 0.35em 1.2em;
+    border: 0.1em rgb(255, 250, 173);
+    position: relative;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 300;
+    color: rgb(238, 255, 0);
+  }
+  
+  .filterSelect:hover {
+    color: #00ff0d;
+    background-color: #002903;
+  }
+  
+  .previous {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+  }
+  
+  .previous:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .next {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+  }
+  
+  .next:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .round {
+    border-radius: 50%;
+    margin: 10px 10px;
+  }
+  
+  .page {
+      display: inline;
+      padding: 5px, 10px;  
+      font-weight: bold;
+      color: yellow;
+  }

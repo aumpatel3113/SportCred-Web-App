@@ -144,16 +144,19 @@ const EntryPage = () => {
     z.style.top = "600px";
   }
 
-  if(recover){
+  if (recover) {
     return (<>
       <Route exact path="/recoverPassword" component={withRouter(ForgotPassword)} />
-      <NavLink exact activeClassName="current" to="/"><button class="forgot-btn" onClick={()=>{setRecover(false)}}>Back</button></NavLink>
+      <div className="forgot-back">
+        <NavLink exact activeClassName="current" to="/"><button class="back-fgt-btn" onClick={() => { setRecover(false) }}>Back</button></NavLink>
+      </div>
+
     </>);
   }
   return (
     <div className="LandingPage">
       { sessionStorage.getItem('needToLogin') ? (
-        <App/ >
+        <App />
       ) : (
           <div className="EntryPage">
             <header className="EntryPage-header">
@@ -168,17 +171,18 @@ const EntryPage = () => {
                     <button id="logInSlider" type="button" class="toggle-btn" onClick={loginSlide}>Log in</button>
                     <button id="registerSlider" type="button" class="toggle-btn" onClick={registerSlide}>Register</button>
                   </div>
-                  <form id="login" class="input-group">
+                  <div id="login" class="input-group">
                     <input id="loginUsername" type="text" class="input-field" placeholder="Username" required onChange={event => setVloginUsername(event.target.value)}></input>
                     <input id="loginPassword" type="password" autoComplete="off" class="input-field" placeholder="Password" required onChange={event => setVloginPassword(event.target.value)}></input>
                     <button type="submit" class="submit-btn" onClick={() => setClicked2(1)}>Log in</button>
-                  </form>
+                    <NavLink exact activeClassName="current" to="/recoverPassword"><button class="forgot-btn" onClick={() => { setRecover(true) }}>Forgot Password</button></NavLink>
+                  </div>
                   <div id="register" class="input-group">
                     <input id="regUsername" type="text" class="input-field" placeholder="Username" required onChange={event => setVregUsername(event.target.value)}></input>
                     <input id="regEmail" type="email" class="input-field" placeholder="Email" required onChange={event => setVregEmail(event.target.value)}></input>
                     <input id="regPassword" type="password" autoComplete="off" class="input-field" placeholder="Password" required onChange={event => setVregPassword(event.target.value)}></input>
                     <button type="next" class="next-btn" onClick={nextButton}>Next</button>
-                  </div> 
+                  </div>
                   <div id="profile" class="input-group">
                     <input id="favSport" type="text" class="input-field" placeholder="Enter your favourite sport" required onChange={event => setFavSport(event.target.value)}></input>
                     <input id="sportLvl" list="levels" type="text" class="input-field" placeholder="Enter your highest played level team" required onChange={event => setSportLvl(event.target.value)}></input>
@@ -195,11 +199,12 @@ const EntryPage = () => {
                     <input id="learnSport" type="text" class="input-field" placeholder="Enter the sport you want to learn" required onChange={event => setLearnSport(event.target.value)}></input>
                     <button type="back" class="back-btn" onClick={backButton}>back</button>
                     <button type="submit" class="submit-btn" onClick={() => setClicked(1)}>Register</button>
+
                   </div>
                 </div>
-                <NavLink exact activeClassName="current" to="/recoverPassword"><button class="forgot-btn" onClick={()=>{setRecover(true)}}>Forgot Password</button></NavLink>
+
               </div>
-              
+
             </body>
 
           </div>

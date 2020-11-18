@@ -799,7 +799,6 @@ public class Neo4JDB {
 
             String completeComment = author + ": " + commentContent;
             listOfCommentsOnCurrent.add(completeComment);
-            System.out.println("ON POSTID: " + currentPostID + " COMMENT IS: " + completeComment);
           }
 
           JSONObject postAsJSON = new JSONObject();

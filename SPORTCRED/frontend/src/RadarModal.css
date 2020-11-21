@@ -1,0 +1,87 @@
+.radar button {
+    width: 200px;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: 'Secular One', sans-serif;
+    text-transform: capitalize;
+    color: rgb(238, 238, 238);
+    background-color: rgb(190, 126, 30);
+    /* background-color: #222222; */
+    /* border: rgb(173, 98, 37) 2px solid; */
+    border: none;
+    border-radius: 50px 50px;
+    padding: 7px 5px 9px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 1vh;
+}
+
+.radar button:hover {
+    transition: background-color 0.4s ease-in-out;
+    background-color: #ce8019;
+    /* background-color: rgb(173, 87, 37); */
+}
+
+.radar button:focus {
+    outline: none;
+}
+
+.radar-modal {
+    position: absolute;
+    background-color: rgb(31, 31, 31);
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 32vw;
+    font-family: 'Reem Kufi', sans-serif;
+    border-radius: 10px;
+    border: rgb(43, 43, 43) 2px solid;
+}
+
+.radar-modal>.header h1 {
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    margin-bottom: 1.5vh;
+}
+
+.radar-modal>.header {
+    width: 32vw;
+    color: rgb(230, 230, 230);
+    font-size: 23px;
+    text-align: center;
+    margin-top: 1.2vh;
+    margin-bottom: 0.5vh;
+    border-bottom: rgb(63, 63, 63) 1px solid;
+}
+
+.radar-modal>.content {
+    font-size: 20px;
+    font-weight: normal;
+    width: 28vw;
+    padding-top: 1vh;
+    padding-bottom: 2vh;
+    padding-left: 2vw;
+    text-align: center;
+}
+
+.radar-modal>.close {
+    font-family: 'PT Sans', sans-serif;
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 7px 13px 11px;
+    line-height: 20px;
+    right: 12px;
+    top: 0.4vh;
+    font-size: 23px;
+    background-color: rgb(31, 31, 31);
+    color: rgb(197, 197, 197);
+    border-radius: 50px 50px;
+}
+
+.radar-modal>.close:hover {
+    background: #4d4d4d;
+    color: rgb(197, 197, 197);
+    transition: background 0.2s linear;
+}

@@ -1,0 +1,31 @@
+.radar-options button {
+    width: 35%;
+    margin-right: 0.2vw;
+    margin-left: 0.2vw;
+    font-size: 20px;
+    font-weight: normal;
+    text-transform: capitalize;
+    font-family: 'Reem Kufi', sans-serif;
+    color: #fff;
+    background-color: rgb(31, 31, 31);
+    border: none;
+    border-radius: 50px 50px;
+    padding: 6px 16px 5px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 0.5vh;
+}
+
+.radar-options button:hover {
+    transition: background-color 0.3s ease-in-out;
+    background-color: rgb(49, 49, 49);
+}
+
+.radar-options button:focus {
+    outline: none;
+    /* background-color: #2d3541; */
+}
+
+.radar-options button:active {
+    background-color: rgb(49, 49, 49);
+}

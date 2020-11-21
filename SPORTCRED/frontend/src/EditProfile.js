@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./EditProfile.css";
+import "./RadarModal.css"
+import Popup from "reactjs-popup";
+import Radar from './components/Radar';
 
 const EditProfile = () => {
   const [bio, setBio] = useState("");
@@ -38,7 +41,7 @@ const EditProfile = () => {
       JSON.stringify({ username: btoa(sessionStorage.getItem("username")) })
     );
   }, []);
-  
+
   function handlePassword(event) {
     event.preventDefault();
     // check that all fields were filled
@@ -47,8 +50,8 @@ const EditProfile = () => {
       (confirmPassword !== "")
     // check password validity
     var valid = (newPassword === confirmPassword) &&
-      (newPassword !== currentPassword) 
-    
+      (newPassword !== currentPassword)
+
     if (fill) {
       if (valid) {
         var xhr = new XMLHttpRequest();
@@ -61,7 +64,7 @@ const EditProfile = () => {
         })
         xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
 
-        xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')), password: btoa(newPassword), oldPassword: btoa(currentPassword)}));
+        xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')), password: btoa(newPassword), oldPassword: btoa(currentPassword) }));
 
       } else {
         alert('Check that:\n1. Your current password does not match your new password\n2. Both fields for your new password match')
@@ -91,7 +94,7 @@ const EditProfile = () => {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/api/v1/updateUserData", true);
 
-    xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')),  picture: path}));
+    xhr.send(JSON.stringify({ username: btoa(sessionStorage.getItem('username')), picture: path }));
 
   }
 
@@ -121,6 +124,13 @@ const EditProfile = () => {
   return (
     <div className="centContainer">
       <h5>MY SPORTCRED ACCOUNT</h5>
+
+      <div className="radar">
+        <Popup modal trigger={<button>Radar</button>}>
+          {close => <Radar close={close} />}
+        </Popup>
+      </div>
+
       {finalBio && <h3>My Biography</h3>}
       {finalBio && <h3 className="user-bio">{finalBio}</h3>}
       <h3>Update Biography</h3>
@@ -136,15 +146,15 @@ const EditProfile = () => {
       </button>
       <br />
       <h3>update profile picture</h3>
-        <button className="button1" onClick={() => setProfilePicture("./lebron.jpg")}>
-          <img src={require('./lebron.jpg')} className="avatarPic" alt="avatar"/>
-        </button>
-        <button className="button1" onClick={() => setProfilePicture("./michaeljordan.jpg")}>
-          <img src={require('./michaeljordan.jpg')} className="avatarPic" alt="avatar"/>
-        </button>
-        <button className="button1" onClick={() => setProfilePicture("./kobe.jpg")}>
-          <img src={require('./kobe.jpg')} className="avatarPic" alt="avatar"/>
-        </button>
+      <button className="button1" onClick={() => setProfilePicture("./lebron.jpg")}>
+        <img src={require('./lebron.jpg')} className="avatarPic" alt="avatar" />
+      </button>
+      <button className="button1" onClick={() => setProfilePicture("./michaeljordan.jpg")}>
+        <img src={require('./michaeljordan.jpg')} className="avatarPic" alt="avatar" />
+      </button>
+      <button className="button1" onClick={() => setProfilePicture("./kobe.jpg")}>
+        <img src={require('./kobe.jpg')} className="avatarPic" alt="avatar" />
+      </button>
       <br />
       <h3>update questionnaire answers</h3>
       <form onSubmit={submitAnswers}>
@@ -214,11 +224,11 @@ const EditProfile = () => {
       <h3>Update password</h3>
       <form>
         <label htmlFor="oldPassword"></label>
-          <input className="survey-input" type="password" name="oldPassword" placeholder="Enter current password" onChange={event => setCurrentPassword(event.target.value)}/>
+        <input className="survey-input" type="password" name="oldPassword" placeholder="Enter current password" onChange={event => setCurrentPassword(event.target.value)} />
         <label htmlFor="newPassword"></label>
-          <input className="survey-input" type="password" name="newPassword" placeholder="Enter new password" onChange={event => setNewPassword(event.target.value)}/>
+        <input className="survey-input" type="password" name="newPassword" placeholder="Enter new password" onChange={event => setNewPassword(event.target.value)} />
         <label htmlFor="confirmedPassword"></label>
-          <input className="survey-input" type="password" name="confirmedPassword" placeholder="Confirm new password" onChange={event => setConfirmPassword(event.target.value)}/> 
+        <input className="survey-input" type="password" name="confirmedPassword" placeholder="Confirm new password" onChange={event => setConfirmPassword(event.target.value)} />
         <button type="submit" className="button1" onClick={event => handlePassword(event)}>Update</button>
       </form>
       <br />

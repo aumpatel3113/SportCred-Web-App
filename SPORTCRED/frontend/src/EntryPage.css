@@ -149,3 +149,7 @@
   background: linear-gradient(to right, #177c0a,#116106);
   border: 0px solid #177c0a;
 }
+
+#favTeam {
+  background-color: black;
+}

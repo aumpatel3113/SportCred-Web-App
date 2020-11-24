@@ -1127,10 +1127,61 @@ public class Neo4JDB {
     try (Session session = driver.session()) {
       try (Transaction tx = session.beginTransaction()) {
         String line = "MATCH(u:User {username:$a})\n MATCH(d:User {username:$b})\n"
-            + "WHERE NOT ((u)-[:radared]->(d)) RETURN()";
+            + "WHERE NOT ((u)-[:radared]->(d)) RETURN(u)";
         Result result = tx.run(line, parameters("a", username, "b", searchedUser));
         return !(result.hasNext());
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return false;
+    }
+  }
+
+  public Map<String, Object> getNumRadar(HttpExchange r, String username) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH(u:User {username:$a})\n MATCH(d:User)\n"
+            + "MATCH ((u)-[g:radared]->(d)) RETURN COUNT(g)";
+        Result result = tx.run(line, parameters("a", username));
+        HashMap<String, Object> resultMap = new HashMap<>();
+        if (result.hasNext()) {
+          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
+          resultMap.put("radarSize", temp.get("COUNT (g)"));
+        } else {
+          resultMap.put("radarSize", 0);
+        }
+        return resultMap;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+
+  public Map<String, Object> getRadar(HttpExchange r, String username) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH(u:User {username:$a})\n MATCH(d:User)\n"
+            + "MATCH ((u)-[g:radared]->(d)) RETURN (d)";
+        Result result = tx.run(line, parameters("a", username));
+        HashMap<String, Object> resultMap = new HashMap<>();
+        HashMap<String, Object> currMap;
+        ArrayList<Object> radar = new ArrayList<>();
+        while (result.hasNext()) {
+          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
+          currMap = new HashMap<>();
+          currMap.put("username", temp.get("username"));
+          radar.add(currMap);
+        }
+        resultMap.put("radar", radar);
+        return resultMap;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return null;
     }
   }
 

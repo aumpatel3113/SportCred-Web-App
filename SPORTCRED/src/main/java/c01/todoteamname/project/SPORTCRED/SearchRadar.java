@@ -1,8 +1,6 @@
 package c01.todoteamname.project.SPORTCRED;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
@@ -40,16 +38,14 @@ public class SearchRadar implements HttpHandler {
       boolean ableToAdd = false;
       if (!(username.equals(searchedUser))) {
         ableToAdd = this.nb.searchRadar(r, username, searchedUser);
+        if (ableToAdd) {
+          r.sendResponseHeaders(200, -1);
+        } else {
+          r.sendResponseHeaders(404, -1);
+        }
+      } else {
+        r.sendResponseHeaders(405, -1);
       }
-      HashMap<String, Object> resultMap = new HashMap<>();
-      resultMap.put("ableToAdd", ableToAdd);
-      JSONObject json = new JSONObject(resultMap);
-      String response = json.toString();
-      r.getResponseHeaders().set("Content-Type", "application/json");
-      r.sendResponseHeaders(200, response.length());
-      OutputStream os = r.getResponseBody();
-      os.write(response.getBytes());
-      os.close();
     }
 
     else {

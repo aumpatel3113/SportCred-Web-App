@@ -44,6 +44,8 @@ public class SportcredBackend {
       server.createContext("/api/v1/sendDebateResults", new UserVote());
       server.createContext("/api/v1/recoverPassword", new RecoverPassword());
       server.createContext("/api/v1/scoringDebates", new ScoreDebates());
+      server.createContext("/api/v1/editRadar", new EditRadar());
+      server.createContext("/api/v1/searchRadar", new SearchRadar());
       server.start();
       System.out.println("Server on port:" + PORT);
     } catch (IOException e) {

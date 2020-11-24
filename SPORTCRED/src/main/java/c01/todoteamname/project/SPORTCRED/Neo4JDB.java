@@ -1030,7 +1030,7 @@ public class Neo4JDB {
       internalErrorCatch(r);
     }
   }
-  
+
   public String getPassword(HttpExchange r, String userEmail) {
     try (Session session = driver.session()) {
       try (Transaction tx = session.beginTransaction()) {
@@ -1097,6 +1097,41 @@ public class Neo4JDB {
       internalErrorCatch(r);
     }
 
+  }
+
+  public void addRadar(HttpExchange r, String username, String searchedUser) {
+    try (Session session = driver.session()) {
+      String line = "MATCH(u:User {username:$a})\n MATCH(d:User {username:$b})\n"
+          + "CREATE (u)-[:radared]->(d)";
+      session.writeTransaction(tx -> tx.run(line, parameters("a", username, "b", searchedUser)));
+      session.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+    }
+  }
+
+  public void deleteRadar(HttpExchange r, String username, String searchedUser) {
+    try (Session session = driver.session()) {
+      String line = "MATCH(u:User {username:$a})\n MATCH(d:User {username:$b})\n"
+          + "MATCH (u)-[g:radared]->(d)\n DELETE(g)";
+      session.writeTransaction(tx -> tx.run(line, parameters("a", username, "b", searchedUser)));
+      session.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+    }
+  }
+
+  public boolean searchRadar(HttpExchange r, String username, String searchedUser) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH(u:User {username:$a})\n MATCH(d:User {username:$b})\n"
+            + "WHERE NOT ((u)-[:radared]->(d)) RETURN()";
+        Result result = tx.run(line, parameters("a", username, "b", searchedUser));
+        return !(result.hasNext());
+      }
+    }
   }
 
 }

@@ -16,6 +16,7 @@ public class EditRadar implements HttpHandler {
   public void handle(HttpExchange r) {
     try {
       if (r.getRequestMethod().equals("PUT")) {
+        r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         handlePut(r);
       }
     } catch (Exception e) {
@@ -39,10 +40,10 @@ public class EditRadar implements HttpHandler {
       username = deserialized.getString("username");
       add = deserialized.getString("add");
       if (!(username.equals(searchedUser))) {
-        if (add.equals("True")) {
+        if (add.equals("true")) {
           this.nb.addRadar(r, username, searchedUser);
           r.sendResponseHeaders(200, -1);
-        } else if (add.equals("False")) {
+        } else if (add.equals("false")) {
           this.nb.deleteRadar(r, username, searchedUser);
           r.sendResponseHeaders(200, -1);
         } else {

@@ -114,7 +114,8 @@ public class Neo4JDB {
   public int createUser(String username, String password, String email,
       String[] answeredQuestions) {
 
-    double zeroScore = 0;
+    double zeroScore = 50;
+    double baseScore = 200;
     String emptyString = "";
     String coolPicture = "./lebron.jpg";
     String Q1 = answeredQuestions[0], Q2 = answeredQuestions[1], Q3 = answeredQuestions[2],
@@ -140,10 +141,10 @@ public class Neo4JDB {
 
         tx.run(
             "CREATE (n:User {username: $u, Q1: $a, Q2: $b, Q3: $c, Q4: $d, Q5: $e, password: $v, biography: $w, "
-                + "picture: $z, ACS: $x, trivia: $x, debate: $x, picks: $x, "
+                + "picture: $z, ACS: $q, trivia: $x, debate: $x, picks: $x, "
                 + "history: $x, email: $y})",
             parameters("a", Q1, "b", Q2, "c", Q3, "d", Q4, "e", Q5, "u", username, "v", password,
-                "w", emptyString, "x", zeroScore, "y", email, "z", coolPicture));
+                "w", emptyString, "x", zeroScore, "y", email, "z", coolPicture, "q", baseScore));
 
         tx.commit();
         return 201;
@@ -1068,8 +1069,8 @@ public class Neo4JDB {
             user3 = new UserNode((String) temp.get("user3"));
 
             score1 = (double) temp.get("user1Score");
-            score2 = (double) temp.get("user1Score");
-            score3 = (double) temp.get("user1Score");
+            score2 = (double) temp.get("user2Score");
+            score3 = (double) temp.get("user3Score");
 
             winner = user2;
             winnerScore = score2;
@@ -1146,8 +1147,7 @@ public class Neo4JDB {
         Result result = tx.run(line, parameters("a", username));
         HashMap<String, Object> resultMap = new HashMap<>();
         if (result.hasNext()) {
-          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
-          resultMap.put("radarSize", temp.get("COUNT (g)"));
+          resultMap.put("radarSize", result.next().get(0).asInt());
         } else {
           resultMap.put("radarSize", 0);
         }
@@ -1169,10 +1169,25 @@ public class Neo4JDB {
         HashMap<String, Object> resultMap = new HashMap<>();
         HashMap<String, Object> currMap;
         ArrayList<Object> radar = new ArrayList<>();
+        UserNode user;
+        String rank;
+
         while (result.hasNext()) {
           Map<String, Object> temp = result.next().fields().get(0).value().asMap();
           currMap = new HashMap<>();
-          currMap.put("username", temp.get("username"));
+          user = new UserNode((String) temp.get("username"));
+          currMap.put("username", user.getUsername());
+          currMap.put("ACS", user.getACS());
+          currMap.put("picture", user.getPicture());
+          rank = "FANALYST";
+          if ((int) user.getACS() > 900) {
+            rank = "EXPERT ANALYST";
+          } else if ((int) user.getACS() > 600) {
+            rank = "PRO ANALYST";
+          } else if ((int) user.getACS() > 300) {
+            rank = "ANALYST";
+          }
+          currMap.put("title", rank);
           radar.add(currMap);
         }
         resultMap.put("radar", radar);

@@ -180,6 +180,8 @@ public class UserNode {
       update = max - curr;
     } else if (newScore <= 0) {
       update = 0 - curr;
+    } else if ((ACS + scoreChange) < 100) {
+      update = ((int) ACS - 100);
     }
 
     int retValue =

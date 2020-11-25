@@ -1,0 +1,83 @@
+.empty-radar {
+    background-color: rgb(22, 22, 22);
+    margin: 1.5vh 3vw 0;
+    border-radius: 50px 50px;
+}
+
+.empty-radar p {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 19px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    font-style: italic;
+}
+
+.users-map {
+    height: 36vh;
+    overflow-y: auto;
+    /* overflow: hidden; */
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.container-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(22, 22, 22);
+    margin: 1.5vh 3vw 0vh;
+    padding: 1.7vh 0 0.5vh;
+    border-radius: 50px 50px;
+}
+
+.container-user>div {
+    flex-basis: 30%;
+}
+
+.radar-user-info p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.user-pic img {
+    height: 50px;
+    width: auto;
+    background-size: cover;
+    border-radius: 10px 10px;
+}
+
+.container-user button {
+    height: 25px;
+    width: 25px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Secular One', sans-serif;
+    text-transform: capitalize;
+    color: rgb(238, 238, 238);
+    background-color: rgb(190, 49, 30);
+    /* background-color: #222222; */
+    /* border: rgb(173, 98, 37) 2px solid; */
+    border: none;
+    border-radius: 50px 50px;
+    padding-top: 1px;
+    /* padding: 2px 3px 5px 1px; */
+    text-align: center;
+    cursor: pointer;
+    margin-top: 1vh;
+    margin-left: 0.2vw;
+}
+
+.container-user button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: #852c1c;
+    /* background-color: rgb(173, 87, 37); */
+}
+
+.container-user button:focus {
+    outline: none;
+}

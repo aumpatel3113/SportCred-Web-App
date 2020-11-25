@@ -1,25 +1,25 @@
 .radar button {
-    width: 200px;
-    font-size: 20px;
+    width: 165px;
+    font-size: 23px;
     font-weight: normal;
     font-family: 'Secular One', sans-serif;
     text-transform: capitalize;
     color: rgb(238, 238, 238);
-    background-color: rgb(190, 126, 30);
-    /* background-color: #222222; */
-    /* border: rgb(173, 98, 37) 2px solid; */
-    border: none;
+    border: #bd781f 3px solid;
     border-radius: 50px 50px;
-    padding: 7px 5px 9px;
+    padding: 5px 5px 8px;
     text-align: center;
     cursor: pointer;
     margin-top: 1vh;
+    background: linear-gradient(to bottom, #bd781f 0%, #bd781f 100%);
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: 0px 0px;
+    transition: background-size .3s;
 }
 
 .radar button:hover {
-    transition: background-color 0.4s ease-in-out;
-    background-color: #ce8019;
-    /* background-color: rgb(173, 87, 37); */
+    background-size: 3px 60px;
 }
 
 .radar button:focus {
@@ -29,7 +29,7 @@
 .radar-modal {
     position: absolute;
     background-color: rgb(31, 31, 31);
-    top: 40%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -60%);
     width: 32vw;
@@ -43,11 +43,11 @@
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     margin-bottom: 1.5vh;
+    color: rgb(241, 193, 131);
 }
 
 .radar-modal>.header {
     width: 32vw;
-    color: rgb(230, 230, 230);
     font-size: 23px;
     text-align: center;
     margin-top: 1.2vh;
@@ -70,11 +70,11 @@
     cursor: pointer;
     position: absolute;
     display: block;
-    padding: 7px 13px 11px;
+    padding: 5px 12px 9px;
     line-height: 20px;
     right: 12px;
-    top: 0.4vh;
-    font-size: 23px;
+    top: 0.65vh;
+    font-size: 20px;
     background-color: rgb(31, 31, 31);
     color: rgb(197, 197, 197);
     border-radius: 50px 50px;
@@ -84,4 +84,13 @@
     background: #4d4d4d;
     color: rgb(197, 197, 197);
     transition: background 0.2s linear;
+}
+
+@media screen and (max-width: 1220) {
+    .radar-modal, .radar-modal>.header {
+        width: 45vw;
+    }
+    .radar-modal>.content {
+        width: 41vw;
+    }
 }

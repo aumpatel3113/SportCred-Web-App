@@ -1130,7 +1130,7 @@ public class Neo4JDB {
         String line = "MATCH(u:User {username:$a})\n MATCH(d:User {username:$b})\n"
             + "WHERE NOT ((u)-[:radared]->(d)) RETURN(u)";
         Result result = tx.run(line, parameters("a", username, "b", searchedUser));
-        return !(result.hasNext());
+        return result.hasNext();
       }
     } catch (Exception e) {
       e.printStackTrace();

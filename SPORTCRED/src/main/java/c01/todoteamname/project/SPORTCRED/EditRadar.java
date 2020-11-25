@@ -15,7 +15,7 @@ public class EditRadar implements HttpHandler {
   @Override
   public void handle(HttpExchange r) {
     try {
-      if (r.getRequestMethod().equals("PUT")) {
+      if (r.getRequestMethod().equals("POST")) {
         r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         handlePut(r);
       }

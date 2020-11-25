@@ -42,10 +42,10 @@ public class SearchRadar implements HttpHandler {
         if (ableToAdd) {
           r.sendResponseHeaders(200, -1);
         } else {
-          r.sendResponseHeaders(404, -1);
+          r.sendResponseHeaders(201, -1);
         }
       } else {
-        r.sendResponseHeaders(405, -1);
+        r.sendResponseHeaders(202, -1);
       }
     }
 

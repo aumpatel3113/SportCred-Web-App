@@ -17,7 +17,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class GetGameFeed implements HttpHandler {
 	
-	private final String APIURL = "https://www.balldontlie.io/api/v1/games?"; 
+	private final String API_URL = "https://www.balldontlie.io/api/v1/games?"; 
 	
 	private final Map<String, Integer> mapOfTeams= new HashMap<String, Integer>() {{
 		
@@ -123,10 +123,18 @@ public class GetGameFeed implements HttpHandler {
 		
 		try {
 			
-			String urlWithParams = APIURL + "seasons[]=" + season + "&page=" + page;
+			String urlWithParams = API_URL + "seasons[]=" + season + "&page=" + page;
 			
 			if (team != null) {
-				urlWithParams += "&team_ids[]=" + mapOfTeams.get(team).toString();
+				
+				Integer teamID = mapOfTeams.get(team);
+				if (teamID != null) {				
+					urlWithParams += "&team_ids[]=" + teamID.toString();
+				}
+				else {
+					return null;
+				}
+				
 			}
 			
 			URL url = new URL(urlWithParams);

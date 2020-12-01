@@ -9,6 +9,8 @@ const TheLatest = () => {
     const [yearSort, setYearSort] = useState('2019');
     const [page, setPage] = useState(1);
 
+    const [favTeam, setFavTeam] = useState('');
+
     const headers = {
         'Content-Type': 'text/plain',
     }
@@ -58,6 +60,34 @@ const TheLatest = () => {
         if (score1 > score2) return winColor;
         if (score1 < score2) return loseColor;
     };
+
+    //retrieve this user's favourtie team
+    useEffect(() => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/api/v1/getUserInfo");
+        xhr.responseType = "json";
+        xhr.onload = () => {
+          if (xhr.status < 400) {
+            setFavTeam(xhr.response.Q4);
+            
+          } else {
+            alert("400 Error Status");
+          }
+        };
+        xhr.onerror = () => {
+          alert("Can't connect to server! Something went wrong!");
+        };
+    
+        xhr.send(
+          JSON.stringify({ username: btoa(sessionStorage.getItem("username")) })
+        );
+      }, []);
+
+    function filterFavTeam (){
+        let element = document.getElementById('teamSelect');
+        element.value = favTeam;
+        setTeamSort(favTeam)
+    }
 
     //Rerender the posts whenever the user selects a new sorting method
     useEffect(() => {
@@ -216,7 +246,7 @@ const TheLatest = () => {
           <div className="latest-table">
           <h3> DISPLAYING LATEST GAMES ... </h3>
 
-            <select size="1" className="filterSelect" onChange={(e) => setTeamSort(e.target.value)}>
+            <select size="1" id="teamSelect" className="filterSelect" onChange={(e) => setTeamSort(e.target.value)}>
                 <option value='All Teams'>All Teams</option>
                 <option value='Atlanta Hawks'>Atlanta Hawks</option>
                 <option value='Boston Celtics'>Boston Celtics</option>
@@ -256,6 +286,8 @@ const TheLatest = () => {
                 <option value='2017'>2017</option>
                 <option value='2016'>2016</option>
             </select>
+
+            <button className="filterSelect" onClick={filterFavTeam}>Favourite Team: {favTeam}</button>
 
             <a href="#" class="previous round" onClick={previousPage}>&#8249;</a>
             <div className="page">Page: {page}</div>

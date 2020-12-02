@@ -24,54 +24,56 @@ function App() {
   const winColor = "#00ff00";
   const loseColor = "#ca0000";
   // TEAM COLOURS
-    var myMap = new Map();
-    myMap.set("LAC", "#004edf");
-    myMap.set("ATL", "#fd4800");
-    myMap.set("LAL", "#af01ff");
-    myMap.set("CHA", "#00ffaa");
-    myMap.set("TOR", "red");
-    myMap.set("MIL", "#0c3a10");
-    myMap.set("PHX", "#de3aff");
-    myMap.set("GSW", "#ffe600");
-    myMap.set("BKN", "#b8b7b2");
-    myMap.set("HOU", "#640000");
-    myMap.set("BOS", "#07a50f");
-    myMap.set("NOR", "#645500");
-    myMap.set("DEN", "yellow");
-    myMap.set("CHI", "#ff3d3d");
-    myMap.set("MEM", "#1f436d");
-    myMap.set("MIN", "blue");
-    myMap.set("NYK", "#ff7300");
-    myMap.set("WAS", "#2600ff");
-    myMap.set("MIA", "#ff00b3");
-    myMap.set("IND", "#bde700");
-    myMap.set("SAC", "#67317c");
-    myMap.set("SAS", "#3c383d");
-    myMap.set("UTH", "#afa122");
-    myMap.set("POR", "#b30000");
-    myMap.set("CLE","#882525")
-    myMap.set("PHI", "#00a2ff");
-    myMap.set("OKC", "#ffd900");
-    myMap.set("ORL", "#009ee7");
-    myMap.set("DAL", "#01a2ff");
-    myMap.set("DET", "#333131");
+  var myMap = new Map();
+  myMap.set("LAC", "#004edf");
+  myMap.set("ATL", "#fd4800");
+  myMap.set("LAL", "#af01ff");
+  myMap.set("CHA", "#00ffaa");
+  myMap.set("TOR", "red");
+  myMap.set("MIL", "#0c3a10");
+  myMap.set("PHX", "#de3aff");
+  myMap.set("GSW", "#ffe600");
+  myMap.set("BKN", "#b8b7b2");
+  myMap.set("HOU", "#640000");
+  myMap.set("BOS", "#07a50f");
+  myMap.set("NOR", "#645500");
+  myMap.set("DEN", "yellow");
+  myMap.set("CHI", "#ff3d3d");
+  myMap.set("MEM", "#1f436d");
+  myMap.set("MIN", "blue");
+  myMap.set("NYK", "#ff7300");
+  myMap.set("WAS", "#2600ff");
+  myMap.set("MIA", "#ff00b3");
+  myMap.set("IND", "#bde700");
+  myMap.set("SAC", "#67317c");
+  myMap.set("SAS", "#3c383d");
+  myMap.set("UTH", "#afa122");
+  myMap.set("POR", "#b30000");
+  myMap.set("CLE", "#882525")
+  myMap.set("PHI", "#00a2ff");
+  myMap.set("OKC", "#ffd900");
+  myMap.set("ORL", "#009ee7");
+  myMap.set("DAL", "#01a2ff");
+  myMap.set("DET", "#333131");
 
-    const colourTeam = (team) => {
-        return myMap.get(team);
-    };
-  
-  
+  const colourTeam = (team) => {
+    return myMap.get(team);
+  };
+
+
   const colourTeamScore = (score1, score2) => {
     if (score1 > score2) return winColor;
     if (score1 < score2) return loseColor;
   };
-  
+
   useEffect(() => {
     if (clicked === 1) {
       sessionStorage.setItem('needToLogout', true)
       window.location.reload(false);
     }
+  })
 
+  useEffect(() => {
     const url = "http://localhost:8080/api/v1/getACSScore";
     const headers = {
       "Content-Type": "text/plain",
@@ -94,7 +96,7 @@ function App() {
 
         setRefresh(true)
       })
-    
+
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost:8080/api/v1/getWeeklyGames");
     xhr.responseType = "json";
@@ -106,15 +108,15 @@ function App() {
         for (var i = 0; i < xhr.response.data.length; i++) {
           // console.log(xhr.response.data[i].home_team_score);
           setWeeklyPosts(posts => [...posts,
-              {
-                id: xhr.response.data[i].id,
-                homeScore: xhr.response.data[i].home_team_score,
-                awayScore: xhr.response.data[i].visitor_team_score,
-                homeTeam: xhr.response.data[i].home_team.abbreviation,
-                awayTeam: xhr.response.data[i].visitor_team.abbreviation,
-              }
+          {
+            id: xhr.response.data[i].id,
+            homeScore: xhr.response.data[i].home_team_score,
+            awayScore: xhr.response.data[i].visitor_team_score,
+            homeTeam: xhr.response.data[i].home_team.abbreviation,
+            awayTeam: xhr.response.data[i].visitor_team.abbreviation,
+          }
           ]);
-      }
+        }
       } else {
         console.log("400 Error Status");
       }
@@ -164,19 +166,19 @@ function App() {
             <header>
               <img src={logo} className="logo" alt="logo" />
               <div class="container">
-              <div class="ticker">
-              <marquee direction="left" scrollamount = "6"> 
-              <span className= "hello">FINAL GAME UPDATES:</span> {" "}
-              {weeklyPosts.map(weeklyPost => (
-              <span>
-              <span style={{color: colourTeam(weeklyPost.homeTeam)}}> {`${weeklyPost.homeTeam}`}</span>
-              <span style={{color: colourTeamScore(weeklyPost.homeScore, weeklyPost.awayScore)}}> {`${weeklyPost.homeScore} `}</span> -
-              <span style={{color: colourTeamScore(weeklyPost.awayScore, weeklyPost.homeScore)}}> {`${weeklyPost.awayScore} `}</span> 
-              <span style={{color: colourTeam(weeklyPost.awayTeam)}}> {`${weeklyPost.awayTeam}`}</span>{", "}
-              </span>
-              ))}
-              </marquee>
-              </div>
+                <div class="ticker">
+                  <marquee direction="left" scrollamount="6">
+                    <span className="hello">FINAL GAME UPDATES:</span> {" "}
+                    {weeklyPosts.map(weeklyPost => (
+                      <span>
+                        <span style={{ color: colourTeam(weeklyPost.homeTeam) }}> {`${weeklyPost.homeTeam}`}</span>
+                        <span style={{ color: colourTeamScore(weeklyPost.homeScore, weeklyPost.awayScore) }}> {`${weeklyPost.homeScore} `}</span> -
+                        <span style={{ color: colourTeamScore(weeklyPost.awayScore, weeklyPost.homeScore) }}> {`${weeklyPost.awayScore} `}</span>
+                        <span style={{ color: colourTeam(weeklyPost.awayTeam) }}> {`${weeklyPost.awayTeam}`}</span>{", "}
+                      </span>
+                    ))}
+                  </marquee>
+                </div>
                 <nav>
                   <ul>
                     <li>
@@ -249,7 +251,7 @@ function App() {
             </div>
             <Main />
           </div>
-      )}
+        )}
     </div>
   );
 }

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 import axios from "axios";
 import './EntryPage.css';
 import App from './App';
 import Logo from './SPORTCRED_Logo.png';
-import { NavLink, Route, Switch, withRouter } from "react-router-dom";
+import { NavLink, Route, withRouter } from "react-router-dom";
 import ForgotPassword from './ForgotPassword'
 
 const EntryPage = () => {

@@ -15,8 +15,11 @@ import DebatePage from './components/DebatePage'
 import TheZone from "./TheZone"
 import Latest from "./Latest"
 import axios from "axios";
+import LoggedOut from "./LoggedOut";
 
 function App() {
+  const [refresh, setRefresh] = useState(false)
+  const [clicked, setClicked] = useState(0)
   const [weeklyPosts, setWeeklyPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
   // WIN / LOSE COLOURS
@@ -66,6 +69,11 @@ function App() {
   };
   
   useEffect(() => {
+    if (clicked === 1) {
+      sessionStorage.setItem('needToLogout', true)
+      window.location.reload(false);
+    }
+
     const url = "http://localhost:8080/api/v1/getACSScore";
     const headers = {
       "Content-Type": "text/plain",
@@ -150,89 +158,95 @@ function App() {
 
 
   return (
-    <div className="App">
-      <header>
-        <img src={logo} className="logo" alt="logo" />
-        <div class="container">
-        <div class="ticker">
-        <marquee direction="left" scrollamount = "6"> 
-        <span className= "hello">FINAL GAME UPDATES:</span> {" "}
-        {weeklyPosts.map(weeklyPost => (
-        <span>
-        <span style={{color: colourTeam(weeklyPost.homeTeam)}}> {`${weeklyPost.homeTeam}`}</span>
-        <span style={{color: colourTeamScore(weeklyPost.homeScore, weeklyPost.awayScore)}}> {`${weeklyPost.homeScore} `}</span> -
-        <span style={{color: colourTeamScore(weeklyPost.awayScore, weeklyPost.homeScore)}}> {`${weeklyPost.awayScore} `}</span> 
-        <span style={{color: colourTeam(weeklyPost.awayTeam)}}> {`${weeklyPost.awayTeam}`}</span>{", "}
-        </span>
-        ))}
-        </marquee>
-        </div>
-          <nav>
-            <ul>
-              <li>
-                <NavLink exact activeClassName="current" to="/">
-                  Z
-                </NavLink>
-              </li>
-              <li>
-                <NavLink exact activeClassName="current" to="/live">
-                  LIVE
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-      <div class="verbar">
-        <div class="profile">
-          <h2>
-            Welcome, <b>{sessionStorage.getItem("username")}</b>
-          </h2>
-          <p>
-            <img src={avatar} className="lebron" alt="User Avatar" /> ACS:{" "}
-            {sessionStorage.getItem("acsscore")}
-          </p>
-          <p>
-            <b>{sessionStorage.getItem("acsrank")}</b>
-          </p>
-          <hr class="new1"></hr>
-        </div>
-        <div class="sidebar">
-          <ul>
-            <li>
-              <NavLink exact activeClassName="current" to="/my-account">
-                MY ACCOUNT
-              </NavLink>
-            </li>
-            <li>
-              <NavLink exact activeClassName="current" to="/the-zone">
-                THE ZONE
-              </NavLink>
-            </li>
-            <li>
-              <NavLink exact activeClassName="current" to="/trivia">
-                TRIVIA
-              </NavLink>
-            </li>
-            <li>
-              <NavLink exact activeClassName="current" to="/picks">
-                PICKS
-              </NavLink>
-            </li>
-            <li>
-              <NavLink exact activeClassName="current" to="/analyze">
-                ANALYZE
-              </NavLink>
-            </li>
-            <li>
-              <NavLink exact activeClassName="current" to="/latest">
-                LATEST
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <Main />
+    <div className="AppPage">
+      { sessionStorage.getItem('needToLogout') ? (
+        <LoggedOut />
+      ) : (
+          <div className="App">
+            <header>
+              <img src={logo} className="logo" alt="logo" />
+              <div class="container">
+              <div class="ticker">
+              <marquee direction="left" scrollamount = "6"> 
+              <span className= "hello">FINAL GAME UPDATES:</span> {" "}
+              {weeklyPosts.map(weeklyPost => (
+              <span>
+              <span style={{color: colourTeam(weeklyPost.homeTeam)}}> {`${weeklyPost.homeTeam}`}</span>
+              <span style={{color: colourTeamScore(weeklyPost.homeScore, weeklyPost.awayScore)}}> {`${weeklyPost.homeScore} `}</span> -
+              <span style={{color: colourTeamScore(weeklyPost.awayScore, weeklyPost.homeScore)}}> {`${weeklyPost.awayScore} `}</span> 
+              <span style={{color: colourTeam(weeklyPost.awayTeam)}}> {`${weeklyPost.awayTeam}`}</span>{", "}
+              </span>
+              ))}
+              </marquee>
+              </div>
+                <nav>
+                  <ul>
+                    <li>
+                      <NavLink exact activeClassName="current" to="/">
+                        Z
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink exact activeClassName="current" to="/live">
+                        LIVE
+                      </NavLink>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </header>
+            <div class="verbar">
+              <div class="profile">
+                <h2>
+                  Welcome, <b>{sessionStorage.getItem("username")}</b>
+                </h2>
+                <p>
+                  <img src={avatar} className="lebron" alt="User Avatar" /> ACS:{" "}
+                  {sessionStorage.getItem("acsscore")}
+                </p>
+                <p>
+                  <b>{sessionStorage.getItem("acsrank")}</b>
+                </p>
+                <hr class="new1"></hr>
+              </div>
+              <div class="sidebar">
+                <ul>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/my-account">
+                      MY ACCOUNT
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/the-zone">
+                      THE ZONE
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/trivia">
+                      TRIVIA
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/picks">
+                      PICKS
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/analyze">
+                      ANALYZE
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/latest">
+                      LATEST
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <Main />
+          </div>
+      )}
     </div>
   );
 }

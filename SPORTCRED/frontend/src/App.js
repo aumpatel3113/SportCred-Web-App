@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Component, useEffect } from "react";
-import Ticker from 'react-ticker';
 import "./App.css";
 import "./TriviaStyling.css";
 import "./analyze.css";
@@ -18,7 +17,6 @@ import axios from "axios";
 import LoggedOut from "./LoggedOut";
 
 function App() {
-  const [refresh, setRefresh] = useState(false)
   const [clicked, setClicked] = useState(0)
   const [weeklyPosts, setWeeklyPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -239,6 +237,11 @@ function App() {
                   <li>
                     <NavLink exact activeClassName="current" to="/latest">
                       LATEST
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="current" to="/" onClick={() => { setClicked(1) }}>
+                      LOG OUT
                     </NavLink>
                   </li>
                 </ul>

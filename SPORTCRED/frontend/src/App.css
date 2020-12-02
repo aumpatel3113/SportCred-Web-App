@@ -13,6 +13,23 @@ body {
   font-weight: 300;
 }
 
+.hello {
+  color: black;
+}
+
+.ticker {
+  background-color: #f144f1;
+}
+
+.ticker marquee {
+  color: white;
+  margin-left: 250px;
+  margin-top: 16px;
+  margin-right: 160px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
 .container {
   /* makes it closer to the left */
   width: 95%;
@@ -66,6 +83,7 @@ header::after {
 .container nav ul {
   margin: 0;
   padding: 0;
+  margin-top: -18px;
   list-style: none;
 }
 
@@ -73,6 +91,7 @@ header::after {
   display: inline-block;
   margin-left: 40px;
   padding-top: 12px;
+  margin-top: -105px;
   position: relative;
 }
 

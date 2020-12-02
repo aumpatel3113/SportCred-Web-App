@@ -48,8 +48,6 @@ class FetchRadar extends React.Component {
 
     }
 
-
-
     deleteUser = (index) => {
         const url = "http://localhost:8080/api/v1/editRadar";
         const headers = {
@@ -84,7 +82,7 @@ class FetchRadar extends React.Component {
                                             <img src={user.pic} className="user-pic" />
                                         </div>
                                         <div className="radar-user-info">
-                                            <p key={index}>{user.username} - {user.acs} ({user.tier})</p>
+                                            <p key={index}>{user.username} - {user.acs} <span className="user-tier">({user.tier})</span></p>
                                         </div>
                                         <button className="delete-user-btn" onClick={() => this.deleteUser(index)}>x</button>
                                     </div>
@@ -100,7 +98,7 @@ class FetchRadar extends React.Component {
                                                     <img src={user.pic} className="user-pic" />
                                                 </div>
                                                 <div className="radar-user-info">
-                                                    <p key={index}>{user.username} - {user.acs} ({user.tier})</p>
+                                                    <p key={index}>{user.username} - {user.acs} <span className="user-tier">({user.tier})</span></p>
                                                 </div>
                                                 <button className="delete-user-btn" onClick={() => this.deleteUser(index)}>x</button>
                                             </div>
@@ -122,6 +120,8 @@ class FetchRadar extends React.Component {
             </div>
         );
     }
+
+    
 }
 
 export default FetchRadar;

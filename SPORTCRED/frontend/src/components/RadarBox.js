@@ -29,24 +29,22 @@ const RadarBox = () => {
         setViewRadar(false)
     };
 
-    useEffect(() => {
-        const url = 'http://localhost:8080/api/v1/radarSize'
-        const headers = {
-            'Content-Type': 'text/plain',
-        }
+    // useEffect(() => {
+    //     const url = 'http://localhost:8080/api/v1/radarSize'
+    //     const headers = {
+    //         'Content-Type': 'text/plain',
+    //     }
 
-        axios.post(url, { 'username': btoa(sessionStorage.getItem("username")) }, { headers }
-        )
-            .then(res => {
-                let radarSize = res.data.radarSize
-                setRadarSize(radarSize)
-            })
-            .catch(err => {
+    //     axios.post(url, { 'username': btoa(sessionStorage.getItem("username")) }, { headers }
+    //     )
+    //         .then(res => {
+    //             let radarSize = res.data.radarSize
+    //             setRadarSize(radarSize)
+    //         })
+    //         .catch(err => {
 
-            })
-    }, [])
-
-
+    //         })
+    // }, [])
 
     const searchForUser = () => {
         if (search !== '') {
@@ -131,6 +129,11 @@ const RadarBox = () => {
     const addUser = () => {
         addUserForReal()
         setAdded(1)
+        // setRadarSize(radarSize + 1)
+    }
+
+    const removeUser = () => {
+        setRadarSize(radarSize - 1)
     }
 
     const addUserForReal = () => {
@@ -192,7 +195,7 @@ const RadarBox = () => {
                                                     <img src={searchedUserPic} className="-searched-user-pic" />
                                                 </div>
                                                 <div className="searched-user-info">
-                                                    <p>{searchedUsername} - {searchedUserACS} ({searchedUserTier})</p>
+                                                    <p>{searchedUsername} - {searchedUserACS} <span className="user-tier">({searchedUserTier})</span></p>
                                                 </div>
                                                 <button className="add-user-btn" onClick={addUser}>Add</button>
                                             </div>
@@ -203,7 +206,7 @@ const RadarBox = () => {
                                                             <img src={searchedUserPic} className="-searched-user-pic" />
                                                         </div>
                                                         <div className="searched-user-info">
-                                                            <p>{searchedUsername} - {searchedUserACS} ({searchedUserTier})</p>
+                                                            <p>{searchedUsername} - {searchedUserACS} <span className="user-tier">({searchedUserTier})</span></p>
                                                         </div>
                                                         <button className="add-user-btn">Added!</button>
                                                     </div>
@@ -229,6 +232,8 @@ const RadarBox = () => {
 
         </div>
     );
+
+    
 }
 
-export default RadarBox;
+export default RadarBox ;

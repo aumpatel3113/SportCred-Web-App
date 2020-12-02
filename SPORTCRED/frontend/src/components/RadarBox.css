@@ -146,6 +146,10 @@
     /* background-color: #2d3541; */
 }
 
+.user-tier {
+    font-size: 14px;
+}
+
 .unknown-user p {
     font-family: 'Reem Kufi', sans-serif;
     font-size: 20px;

@@ -29,19 +29,33 @@
     justify-content: center;
     background-color: rgb(22, 22, 22);
     margin: 1.5vh 3vw 0vh;
-    padding: 1.7vh 0 0.5vh;
+    padding: 1.7vh 0 0.7vh;
     border-radius: 50px 50px;
 }
 
 .container-user>div {
-    flex-basis: 30%;
+    flex-basis: 20%;
 }
 
-.radar-user-info p {
+.user-info-content {
+    margin-right: 10px;
+    width: 120px;
+}
+
+.radar-user-info a, p {
     font-family: 'Roboto', sans-serif;
     font-size: 17px;
     font-weight: bold;
-    text-align: left;
+    text-decoration: none;
+    color: #fff;
+}
+
+.radar-user-info p {
+    font-size: 13px;
+}
+
+.radar-user-info a:hover {
+    text-decoration: underline;
 }
 
 .user-pic img {
@@ -79,5 +93,129 @@
 }
 
 .container-user button:focus {
+    outline: none;
+}
+
+.view-profile {
+    align-items: center;
+    margin: 0vh 3vw 0vh;
+    padding: 1.7vh 0 0vh;
+    border-radius: 20px 20px;
+}
+
+.profile-header-container {
+    margin-top: 0vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(24, 24, 24);
+    padding: 1.6vh 0 0.6vh;
+    border-radius: 30px 30px;
+}
+
+.profile-header-container>div {
+    flex-basis: 20%;
+}
+
+.profile-main-info-text {
+    width: 100px;
+}
+
+.profile-main-info p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+}
+
+.profile-tier {
+    font-size: 13px;
+}
+
+.profile-pic img {
+    height: 48px;
+    width: auto;
+    background-size: cover;
+    border-radius: 10px 10px;
+}
+
+.rest-of-profile {
+    margin-top: 1.2vh;
+    background-color: rgb(24, 24, 24);
+    padding: 1vh 0 0.6vh;
+    border-radius: 30px 30px;
+}
+
+.bio {
+    /* border-top: 1px solid rgb(189, 189, 189); */
+    border-bottom: 0.5px solid rgb(163, 163, 163);
+    margin-top: 1vh;
+    margin-left: 6vw;
+    margin-right: 6vw;
+}
+
+.bio p {
+    padding: 0vh 1vw 0vh;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #fff;
+}
+
+.profile-questions p {
+    padding-top: 1.5vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #fff;
+}
+
+.about-profile {
+    color: rgb(218, 159, 82);
+}
+
+.question {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: rgb(184, 184, 184);
+    font-size: 11px;
+}
+
+.br {
+    display: block; 
+    margin-bottom: 8px; 
+}
+
+.br-bigger {
+    display: block; 
+    margin-bottom: 12px; 
+}
+
+.back-to-radar button {
+    font-size: 13px;
+    font-weight: normal;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: rgb(207, 207, 207);
+    background-color: rgb(58, 58, 58);
+    /* background-color: #222222; */
+    /* border: rgb(173, 98, 37) 2px solid; */
+    border: none;
+    border-radius: 50px 50px;
+    padding: 6px 25px 6px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 1.5vh;
+    margin-left: 0.2vw;
+}
+
+.back-to-radar button:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: rgb(71, 71, 71);
+    /* background-color: rgb(173, 87, 37); */
+}
+
+.back-to-radar button:focus {
     outline: none;
 }

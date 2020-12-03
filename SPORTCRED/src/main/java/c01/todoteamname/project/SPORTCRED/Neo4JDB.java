@@ -1200,4 +1200,48 @@ public class Neo4JDB {
     }
   }
 
+  public Map<String, Object> getProfile(HttpExchange r, String username) {
+    try (Session session = driver.session()) {
+      try (Transaction tx = session.beginTransaction()) {
+        String line = "MATCH(u:User {username:$a})\n RETURN (u)";
+        Result result = tx.run(line, parameters("a", username));
+        HashMap<String, Object> currMap = new HashMap<>();
+        UserNode user;
+        String rank;
+
+        if (result.hasNext()) {
+          Map<String, Object> temp = result.next().fields().get(0).value().asMap();
+          user = new UserNode((String) temp.get("username"));
+          currMap.put("username", user.getUsername());
+          currMap.put("ACS", user.getACS());
+          currMap.put("picture", user.getPicture());
+          currMap.put("Q1", user.getQ1());
+          currMap.put("Q2", user.getQ2());
+          currMap.put("Q3", user.getQ3());
+          currMap.put("Q4", user.getQ4());
+          currMap.put("Q5", user.getQ5());
+          currMap.put("bio", user.getBiography());
+          currMap.put("trivia", user.getTriviaScore());
+          currMap.put("debate", user.getDebateScore());
+          currMap.put("picks", user.getPickScore());
+          currMap.put("participation", user.getHistoryScore());
+          rank = "FANALYST";
+          if ((int) user.getACS() > 900) {
+            rank = "EXPERT ANALYST";
+          } else if ((int) user.getACS() > 600) {
+            rank = "PRO ANALYST";
+          } else if ((int) user.getACS() > 300) {
+            rank = "ANALYST";
+          }
+          currMap.put("title", rank);
+        }
+        return currMap;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      internalErrorCatch(r);
+      return null;
+    }
+  }
+
 }

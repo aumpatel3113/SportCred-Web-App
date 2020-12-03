@@ -49,6 +49,8 @@ public class SportcredBackend {
       server.createContext("/api/v1/radarSize", new RadarSize());
       server.createContext("/api/v1/getRadar", new GetRadar());
       server.createContext("/api/v1/getWeeklyGames", new GetWeekGames());
+      server.createContext("/api/v1/getProfile", new GetProfile());
+
       server.start();
       System.out.println("Server on port:" + PORT);
     } catch (IOException e) {

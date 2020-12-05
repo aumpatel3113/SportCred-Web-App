@@ -1,5 +1,13 @@
+.rooms h1 {
+  background-color: rgb(24, 24, 24);
+  box-shadow: none;
+  margin: 0;
+  padding: 0vh 0vh 4vh;
+  font-size: 34px;
+}
+
 .room-buttons button {
-  width: 35%;
+  width: 34%;
   font-size: 18px;
   font-weight: bold;
   color: #fff;
@@ -9,7 +17,7 @@
   padding: 12px 6px;
   text-align: center;
   cursor: pointer;
-  margin-bottom: 0.5vh;
+  margin-bottom: 0.6vh;
   margin-left: 0.6vw;
   margin-right: 0.6vw;
 }
@@ -57,7 +65,7 @@
 
 .rooms-info p {
   font-weight: normal;
-  font-size: 20px;
+  font-size: 17px;
   margin-top: 5vh;
 }
 
@@ -66,7 +74,7 @@
 }
 
 .back a {
-  font-size: 20px;
+  font-size: 19px;
   text-decoration: none;
   color: #fff;
 }
@@ -79,7 +87,7 @@
 .game-counter h3 {
   font-weight: normal;
   font-size: 36px;
-  margin-top: 2vh;
+  margin-top: 4vh;
   color: #fff;
 }
 
@@ -150,10 +158,19 @@
 }
 
 .score-section h1 {
-  padding-bottom: 2.5vh;
-  font-size: 30px;
+  padding-bottom: 0.5vh;
+  font-size: 26px;
   font-weight: normal;
   padding-top: 1vh;
+  margin-bottom: 0vh;
+}
+
+.score-section h2 {
+  padding-bottom: 0.5vh;
+  font-size: 28px;
+  font-weight: normal;
+  padding-top: 0vh;
+  margin-bottom: 4vh;
 }
 
 .score-section p {
@@ -161,7 +178,7 @@
 }
 
 .score-section a {
-  font-size: 19px;
+  font-size: 20px;
   text-decoration: none;
   color: #fff;
   padding: 12px 26px 10px 26px;
@@ -171,6 +188,7 @@
   background-repeat: repeat-x;
   background-size: 3px 3px;
   transition: background-size .2s;
+  margin-bottom: 2vh;
 }
 
 .score-section a:hover {

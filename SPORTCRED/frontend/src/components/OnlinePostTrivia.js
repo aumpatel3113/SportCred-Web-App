@@ -457,7 +457,7 @@ const OnlinePostTrivia = () => {
                         ) : (
                                 <>
                                     { showScore ? (
-                                        <div className='score-section'>
+                                        <div className='score-section-opt'>
                                             <h1>You scored {score} out of {questions.length}.</h1>
                                             <h2>Your trivia results will be made available for others to challenge!</h2>
                                             <p><NavLink exact to='/trivia/online'>Play Again?</NavLink></p>

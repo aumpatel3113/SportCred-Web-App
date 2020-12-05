@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import './SoloTrivia.css';
+import './SoloTrivia.css';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
 

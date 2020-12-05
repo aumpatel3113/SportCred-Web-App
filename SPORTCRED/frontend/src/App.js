@@ -266,7 +266,7 @@ const MyAccount = () => (
 const Trivia = () => (
   <div className="trivia">
     <h1>Trivia</h1>
-    <div className="horizontal-line"></div>
+    {/* <div className="horizontal-line"></div> */}
     <h2>Select a mode to play.</h2>
     <p>
       <NavLink exact to="/trivia/solo">
@@ -284,7 +284,7 @@ const Trivia = () => (
 const Solo = () => (
   <div className="solo">
     <h1>Solo Trivia</h1>
-    <div className="horizontal-line"></div>
+    {/* <div className="horizontal-line"></div> */}
     <div className="solo-info">
       <p>Play a 10 question trivia game to earn ACS points!</p>
       <p>You have 14 seconds to answer each question.</p>
@@ -315,7 +315,7 @@ class SoloGame extends Component {
     return (
       <div className="TriviaQuestion">
         <h1>Solo Trivia</h1>
-        <div className="horizontal-line"></div>
+        {/* <div className="horizontal-line"></div> */}
         <SoloTrivia />
       </div>
     );
@@ -325,10 +325,10 @@ class SoloGame extends Component {
 const HeadToHead = () => (
   <div className="head_to_head">
     <h1>Head to Head Trivia</h1>
-    <div className="horizontal-line"></div>
+    {/* <div className="horizontal-line"></div> */}
     <div className="online-info">
       <p>
-        Challenge a previous trivia score or post your results for others to
+        Challenge someone's trivia score or post your own for others to
         play against!
       </p>
       <p>
@@ -369,7 +369,7 @@ class OnlinePost extends Component {
     return (
       <div className="OnlinePostQuestions">
         <h1>Online Trivia</h1>
-        <div className="horizontal-line"></div>
+        {/* <div className="horizontal-line"></div> */}
         <OnlinePostTrivia />
       </div>
     );
@@ -381,7 +381,7 @@ class OnlineChallenge extends Component {
     return (
       <div className="OnlineChallengeTrivia">
         <h1>Online Trivia</h1>
-        <div className="horizontal-line"></div>
+        {/* <div className="horizontal-line"></div> */}
         <OnlineChallengeTrivia />
       </div>
     );

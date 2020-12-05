@@ -115,6 +115,7 @@
     font-size: 18px;
     padding-top: 0vh;
     margin-bottom: 1vh;
+    font-family: 'Reem Kufi', sans-serif;
 }
 
 .already-posted h1 {
@@ -130,6 +131,7 @@
     font-size: 18px;
     padding-top: 0vh;
     color: rgb(255, 255, 255);
+    font-family: 'Reem Kufi', sans-serif;
 }
 
 .line-posted {

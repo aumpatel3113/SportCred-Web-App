@@ -480,11 +480,11 @@ const OnlineChallengeTrivia = () => {
             setSendResults(1);
 
             if (score < oppScore) {
-                setEndOfGameMsg('Lost..');
+                setEndOfGameMsg('Lost');
                 setWinner(atob(rooms[roomsInfo[1]].username))
                 setLoser(sessionStorage.getItem('username'))
             } else {
-                setEndOfGameMsg('Won..');
+                setEndOfGameMsg('Won');
                 setLoser(atob(rooms[roomsInfo[1]].username))
                 setWinner(sessionStorage.getItem('username'))
             }
@@ -506,11 +506,11 @@ const OnlineChallengeTrivia = () => {
                 setSendResults(1);
 
                 if (score < oppScore) {
-                    setEndOfGameMsg('Lost..');
+                    setEndOfGameMsg('Lost');
                     setWinner(atob(rooms[roomsInfo[1]].username))
                     setLoser(sessionStorage.getItem('username'))
                 } else {
-                    setEndOfGameMsg('Won..');
+                    setEndOfGameMsg('Won');
                     setLoser(atob(rooms[roomsInfo[1]].username))
                     setWinner(sessionStorage.getItem('username'))
                 }
@@ -597,8 +597,8 @@ const OnlineChallengeTrivia = () => {
                                                     {showScore ? (
                                                         <div className='score-section'>
                                                             <h1>You scored {score} out of {questions.length}.</h1>
-                                                            <h1>{atob(rooms[roomsInfo[1]].username)} scored {oppScore} out of {questions.length}</h1>
-                                                            <h1>You've {endOfGameMsg}</h1>
+                                                            <h1>{atob(rooms[roomsInfo[1]].username)} scored {oppScore} out of {questions.length}.</h1>
+                                                            <h2>You've {endOfGameMsg}</h2>
                                                             <p><NavLink exact to='/trivia/online'>Play Again?</NavLink></p>
                                                             <p><NavLink exact to='/trivia'>Back to Trivia</NavLink></p>
                                                             <p><NavLink exact to='/'>Home</NavLink></p>

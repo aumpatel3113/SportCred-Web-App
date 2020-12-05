@@ -1,6 +1,6 @@
 .trivia, .solo, .TriviaQuestion, .head_to_head, .OnlinePostQuestions, .OnlineChallengeTrivia {
-  background-color: rgb(20, 20, 20);
-  padding-top: 18vh;
+  background-color: rgb(24, 24, 24);
+  padding-top: 65px;
   padding-bottom: 5vh;
   color: #fff;
   text-align: center;
@@ -13,19 +13,23 @@
 }
 
 .trivia h1, .solo h1, .TriviaQuestion h1, .head_to_head h1, .OnlinePostQuestions h1, .OnlineChallengeTrivia h1 {
-  margin-bottom: 2vh;
+  margin-bottom: 7vh;
+  padding-top: 4.2vh;
+  padding-bottom: 4vh;
+  background-color: rgb(20, 20, 20);
   font-size: 40px;
+  box-shadow: 0 7px 6px -6px black;
 }
 
 .trivia h2 {
   margin-top: 1vh;
-  margin-bottom: 5vh;
+  margin-bottom: 6vh;
   font-size: 30px;
 }
 
 .trivia p, .solo p, .head_to_head p {
   font-weight: normal;
-  font-size: 24px;
+  font-size: 25px;
   margin-bottom: 5vh;
 }
 
@@ -38,6 +42,7 @@
   text-decoration: none;
   color: #fff;
   padding: 10px 48px;
+  font-family: 'Reem Kufi', sans-serif;
 }
 
 .online-post, .online-challenge {
@@ -51,7 +56,7 @@
   background-size: 3px 3px;
   transition: background-size .2s;
   /* background-color: #a05518; */
-  font-size: 26px;
+  font-size: 28px;
 }
 
 .solo-play a:hover, .online-post a:hover, .online-challenge a:hover {
@@ -59,7 +64,12 @@
 }
 
 .solo-info, .online-info {
-  padding-bottom: 3vh;
+  padding-bottom: 4vh;
+}
+
+.solo-info p, .online-info p {
+  font-family: 'Reem Kufi', sans-serif;
+  font-size: 22px;
 }
 
 .back {
@@ -78,7 +88,7 @@
 .trivia a:hover {
   border-top: 2px solid #a05518;
   border-bottom: 2px solid #a05518;
-  transition: background-color 0.6s ease-in-out;
+  transition: background-color 0.5s ease-in-out;
   background-color: #a05518;
 }
 

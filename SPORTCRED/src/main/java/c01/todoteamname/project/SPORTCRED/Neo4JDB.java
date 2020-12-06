@@ -446,6 +446,7 @@ public class Neo4JDB {
 
   public void updateDebateRoom(HttpExchange r, String username, String post, int roomID,
       int userNum) {
+	  
     try (Session session = driver.session()) {
       String line = String.format("MATCH (d:debateRoom)\n MATCH(u:User {username:$b})"
           + "WHERE ID(d)=$a\n SET d.user%s=$b\n  SET d.user%sPost=$c\n CREATE (u)-[:debated]->(d)",
@@ -501,15 +502,17 @@ public class Neo4JDB {
         }
 
         createNewDebateRoom(r, question);
-        line = "MATCH (d:debateRoom {question:$a, user3:$b})\n WHERE NOT d.user2=$b\n Return ID(d)";
-        result = tx.run(line, parameters("a", question, "b", "NULL"));
-
-        if (result.hasNext()) {
-          int[] retArray = {result.next().get(0).asInt(), 3};
-          return retArray;
-        }
-
-        return null;
+//        line = "MATCH (d:debateRoom {question:$a, user3:$b})\n WHERE NOT d.user2=$b\n Return ID(d)";
+//        result = tx.run(line, parameters("a", question, "b", "NULL"));
+//
+//        if (result.hasNext()) {
+//          int[] retArray = {result.next().get(0).asInt(), 3};
+//          return retArray;
+//        }
+//
+//        return null;
+        
+        return getDebateRoom(r, question);
 
       }
     } catch (Exception e) {

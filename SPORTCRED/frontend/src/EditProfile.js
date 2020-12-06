@@ -255,10 +255,6 @@ const EditProfile = () => {
         <button type="submit" className="button1" onClick={event => handlePassword(event)}>Update</button>
       </form>
       <br />
-      <hr />
-      <button id="logOutBtn" className="button1">
-        LOG OUT
-      </button>
       <br />
     </div>
   );

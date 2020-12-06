@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./TheZone.css";
 import axios from "axios";
+import _default from "emailjs-com";
 
 const Zone = () => {
 
@@ -12,6 +13,7 @@ const Zone = () => {
     }
     const [comments, setComments] = useState([]);
     const [comment, setPostComment] = useState("");
+    const [acs, setAcs] = useState(0);
 
     const [agreeCount, setAgreeCount] = useState(0);
     const [disagreeCount, setDisagreeCount] = useState(0);
@@ -27,6 +29,22 @@ const Zone = () => {
         }
         
     });
+    
+    async function getScore(user) {
+        const response = await axios.post('http://localhost:8080/api/v1/getACSScore', {'username': btoa(user)}, {headers})
+        return response.data.ACS;
+    }
+
+    // function getScore(user) {
+
+    //     // create a promise for the axios request
+    //     const promise = axios.post('http://localhost:8080/api/v1/getACSScore', {'username': btoa(user)}, {headers})
+    //     // using .then, create a new promise which extracts the data
+    //     const dataPromise = promise.then((response) => response.data.ACS)
+    //     // return it
+    //     return dataPromise;
+    // }
+
     
     //Rerender the posts whenever the user selects a new sorting method
     useEffect(() => {
@@ -78,9 +96,6 @@ const Zone = () => {
         }
         axios.post(url, { 'author': btoa(sessionStorage.getItem('username')), 'content': post}, { headers })
         .then(res => {
-
-                //console.log(res.status)
-
                 let postId = res.data.postID;
                 setPosts([
                     ...posts,
@@ -126,7 +141,6 @@ const Zone = () => {
         })
     }
 
-
     const addDislike = (event, pid, post) => {
         event.preventDefault();
         console.log("dislike")
@@ -145,7 +159,6 @@ const Zone = () => {
         })
     }
 
-
     const addComment = (event, pid, post) => {
         event.preventDefault();
         if (comment) {
@@ -160,6 +173,7 @@ const Zone = () => {
             setComments(post.commentfeed.push(comment));
             console.log(commentId);
             setPostComment("");
+            document.getElementById(pid).value = "";
         })
         .catch(err => {
             console.log(err);
@@ -169,8 +183,6 @@ const Zone = () => {
 else {
    alert("Can't submit an empty comment!")
 }}
-
-
       return (
         <div className="zoneContainer">
             <h7>WHAT'S ON YOUR MIND, <b>{sessionStorage.getItem('username')}</b>?
@@ -225,20 +237,21 @@ else {
                 <div className="comment">
                     
                 {post.commentfeed.map(comment => (
+                <div className="comments" key={comment.id}>
                 <div className="comment-info">
                 <p> {comment} </p> 
                 </div>
+                </div>
                 ))}
                 
-                <textarea
+                <textarea id={post.id}
                 placeholder="Write a comment...."
                 name="comment"
                 type="text"
-                value={comment}
                 onChange={e => setPostComment(e.target.value)}
                 />
                 
-                <button className="comment-button" onChange={e => setPostContent(e.target.value)} onClick={event => addComment(event, post.id, post)}>
+                <button className="comment-button" onClick={event => addComment(event, post.id, post)}>
                     COMMENT
                 </button>
                 </div>

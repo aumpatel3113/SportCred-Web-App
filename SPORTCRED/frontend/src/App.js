@@ -96,7 +96,9 @@ function App() {
 
         setRefresh(true)
       })
+    })
 
+    useEffect(() => {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost:8080/api/v1/getWeeklyGames");
     xhr.responseType = "json";
@@ -118,11 +120,11 @@ function App() {
           ]);
         }
       } else {
-        console.log("400 Error Status");
+        //console.log("400 Error Status");
       }
     };
     xhr.onerror = () => {
-      console.log("oops");
+      //console.log("oops");
     };
     xhr.send(
       JSON.stringify({})
@@ -156,6 +158,9 @@ function App() {
     default:
   }
 
+  const addSeparate = (total, idx) => {
+    if (total.length > idx + 1) return ",";
+  }
 
   return (
     <div className="AppPage">
@@ -167,14 +172,15 @@ function App() {
               <img src={logo} className="logo" alt="logo" />
               <div class="container">
                 <div class="ticker">
-                  <marquee direction="left" scrollamount="6">
+                  <marquee direction="left" scrollamount="7">
                     <span className="hello">FINAL GAME UPDATES:</span> {" "}
-                    {weeklyPosts.map(weeklyPost => (
-                      <span>
-                        <span style={{ color: colourTeam(weeklyPost.homeTeam) }}> {`${weeklyPost.homeTeam}`}</span>
-                        <span style={{ color: colourTeamScore(weeklyPost.homeScore, weeklyPost.awayScore) }}> {`${weeklyPost.homeScore} `}</span> -
-                        <span style={{ color: colourTeamScore(weeklyPost.awayScore, weeklyPost.homeScore) }}> {`${weeklyPost.awayScore} `}</span>
-                        <span style={{ color: colourTeam(weeklyPost.awayTeam) }}> {`${weeklyPost.awayTeam}`}</span>{", "}
+                    {weeklyPosts.map((weeklyPost, index) => (
+                      <span> 
+                        <span style={{ color: colourTeamScore(weeklyPost.homeScore, weeklyPost.awayScore) }}> {`${weeklyPost.homeTeam}`}</span>
+                        <span style={{ color: "black" }}> {`${weeklyPost.homeScore} `}</span> -
+                        <span style={{ color: "black" }}> {`${weeklyPost.awayScore} `}</span>
+                        <span style={{ color: colourTeamScore(weeklyPost.awayScore, weeklyPost.homeScore) }}> {`${weeklyPost.awayTeam}`}</span>
+                        <span>{addSeparate(weeklyPosts, index)}</span>
                       </span>
                     ))}
                   </marquee>

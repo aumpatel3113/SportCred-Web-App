@@ -52,7 +52,7 @@ body {
 .lebron {
   float: left;
   width: 100px;
-  height: 86px;
+  height: 80px;
   margin-top: 1px;
   margin-left: 25px;
   background-color: #000000;
@@ -132,7 +132,7 @@ h1 {
 
 h2 {
   margin-top: 30px;
-  margin-left: 15px;
+  margin-left: 22px;
   font-weight: 100;
   font-size: 20px;
   color: white;
@@ -178,24 +178,26 @@ p {
 .sidebar a {
   display: block;
   text-decoration: none;
+  /* text-align: center; */
   height: 100%;
   width: 100%;
   line-height: 73px;
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 700;
   color: rgb(255, 115, 0);
-  padding-left: 40px;
+  padding-left: 50px;
   box-sizing: border-box;
-  border: 0.5px solid rgb(94, 94, 94);
+  border: 0.5px solid rgb(44, 44, 44);
 }
 
 .sidebar a:hover {
-  background-color: rgba(92, 92, 92, 0.884);
+  background-color: rgba(59, 59, 59, 0.884);
+  transition: background-color 0.15s ease-in-out;
   color: rgb(255, 115, 0);
 }
 
 .sidebar a:focus {
-  background-color: rgba(92, 92, 92, 0.884);
+  background-color: rgba(59, 59, 59, 0.884);
   color: rgb(255, 115, 0);
 }
 

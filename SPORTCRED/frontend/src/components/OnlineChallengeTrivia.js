@@ -146,7 +146,7 @@ const OnlineChallengeTrivia = () => {
         answer10Option4: '',
     })
     const [oppScore, setOppScore] = useState(-1)
-    const [endOfGameMsg, setEndOfGameMsg] = useState('Won!')
+    const [endOfGameMsg, setEndOfGameMsg] = useState('')
     const [PostError, setPostError] = useState(false)
 
     const [winner, setWinner] = useState('')
@@ -483,9 +483,13 @@ const OnlineChallengeTrivia = () => {
                 setEndOfGameMsg('Lost');
                 setWinner(atob(rooms[roomsInfo[1]].username))
                 setLoser(sessionStorage.getItem('username'))
-            } else {
+            } else if (score > oppScore) {
                 setEndOfGameMsg('Won');
                 setLoser(atob(rooms[roomsInfo[1]].username))
+                setWinner(sessionStorage.getItem('username'))
+            } else {
+                setEndOfGameMsg('Tied');
+                setLoser(sessionStorage.getItem('username'))
                 setWinner(sessionStorage.getItem('username'))
             }
         }
@@ -509,9 +513,13 @@ const OnlineChallengeTrivia = () => {
                     setEndOfGameMsg('Lost');
                     setWinner(atob(rooms[roomsInfo[1]].username))
                     setLoser(sessionStorage.getItem('username'))
-                } else {
+                } else if (score > oppScore) {
                     setEndOfGameMsg('Won');
                     setLoser(atob(rooms[roomsInfo[1]].username))
+                    setWinner(sessionStorage.getItem('username'))
+                } else {
+                    setEndOfGameMsg('Tied');
+                    setLoser(sessionStorage.getItem('username'))
                     setWinner(sessionStorage.getItem('username'))
                 }
             }
@@ -527,7 +535,14 @@ const OnlineChallengeTrivia = () => {
             const headers = {
                 'Content-Type': 'text/plain',
             }
-            axios.post(url, { 'usernameWinner': btoa(winner), 'usernameLoser': btoa(loser) }, { headers }
+
+            var tied = 'false'
+
+            if (endOfGameMsg === 'Tied') {
+                tied = 'true'
+            }
+
+            axios.post(url, { 'usernameWinner': btoa(winner), 'usernameLoser': btoa(loser), 'tied': tied }, { headers }
             )
                 .then(res => {
                     console.log(res.data)
@@ -595,7 +610,7 @@ const OnlineChallengeTrivia = () => {
                                         ) : (
                                                 <>
                                                     {showScore ? (
-                                                        <div className='score-section'>
+                                                        <div className='score-section-oct'>
                                                             <h1>You scored {score} out of {questions.length}.</h1>
                                                             <h1>{atob(rooms[roomsInfo[1]].username)} scored {oppScore} out of {questions.length}.</h1>
                                                             <h2>You've {endOfGameMsg}</h2>

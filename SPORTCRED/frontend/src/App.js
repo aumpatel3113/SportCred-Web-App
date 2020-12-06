@@ -86,7 +86,7 @@ function App() {
         { headers }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
 
         let acsscore = res.data.ACS;
         let acsrank = res.data.rank;

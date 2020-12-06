@@ -31,22 +31,29 @@ public class FinalDuoScore implements HttpHandler {
     JSONObject deserialized = new JSONObject(body);
     String usernameWinner;
     String usernameLoser;
+    String tied;
 
-    if (deserialized.has("usernameWinner") && deserialized.has("usernameLoser")) {
+    if (deserialized.has("usernameWinner") && deserialized.has("usernameLoser") && deserialized.has("tied")) {
       usernameWinner = deserialized.getString("usernameWinner");
       usernameLoser = deserialized.getString("usernameLoser");
+      tied = deserialized.getString("tied");
+      
+      if (tied.equals("false")) {
+    	  UserNode winUser = new UserNode(usernameWinner);
+          UserNode loseUser = new UserNode(usernameLoser);
+          r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 
-      UserNode winUser = new UserNode(usernameWinner);
-      UserNode loseUser = new UserNode(usernameLoser);
-      r.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-
-      if (winUser.updateScore(MATCHPOINTS, "trivia") != 200
-          || loseUser.updateScore((-1 * MATCHPOINTS), "trivia") != 200) {
-        r.sendResponseHeaders(500, -1);
+          if (winUser.updateScore(MATCHPOINTS, "trivia") != 200
+              || loseUser.updateScore((-1 * MATCHPOINTS), "trivia") != 200) {
+            r.sendResponseHeaders(500, -1);
+          } else {
+            r.sendResponseHeaders(200, -1);
+          }
       } else {
-        r.sendResponseHeaders(200, -1);
+    	  r.sendResponseHeaders(200, -1);
       }
 
+ 
     } else {
       r.sendResponseHeaders(400, -1);
     }

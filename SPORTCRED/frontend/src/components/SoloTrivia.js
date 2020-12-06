@@ -452,7 +452,7 @@ const SoloTrivia = () => {
                         ) : (
                                 <>
                                     { showScore ? (
-                                        <div className='score-section'>
+                                        <div className='score-section-solo'>
                                             <h1>You scored {score} out of {questions.length}.</h1>
                                             <p><NavLink exact to='/trivia/solo'>Play Again?</NavLink></p>
                                             <p><NavLink exact to='/trivia'>Back to Trivia</NavLink></p>

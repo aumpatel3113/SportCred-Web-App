@@ -103,6 +103,7 @@ const Zone = () => {
                         {
                             id: postId,
                             author: sessionStorage.getItem("username"),
+                            authorACS: sessionStorage.getItem("acsscore"),
                             content: post,
                             commentfeed: [],
                             agree: 0,
@@ -123,6 +124,8 @@ const Zone = () => {
         else {
             alert("Can't submit an empty post!")
         }
+
+        
     }
 
     const addLike = (event, pid, post) => {

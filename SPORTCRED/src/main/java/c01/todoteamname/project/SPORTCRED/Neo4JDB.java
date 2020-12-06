@@ -492,12 +492,24 @@ public class Neo4JDB {
           return retArray;
         }
 
-        createNewDebateRoom(r, question);
         line = "MATCH (d:debateRoom {question:$a, user1:$b}) Return ID(d)";
         result = tx.run(line, parameters("a", question, "b", "NULL"));
 
-        int[] retArray = {result.next().get(0).asInt(), 1};
-        return retArray;
+        if (result.hasNext()) {
+          int[] retArray = {result.next().get(0).asInt(), 1};
+          return retArray;
+        }
+
+        createNewDebateRoom(r, question);
+        line = "MATCH (d:debateRoom {question:$a, user3:$b})\n WHERE NOT d.user2=$b\n Return ID(d)";
+        result = tx.run(line, parameters("a", question, "b", "NULL"));
+
+        if (result.hasNext()) {
+          int[] retArray = {result.next().get(0).asInt(), 3};
+          return retArray;
+        }
+
+        return null;
 
       }
     } catch (Exception e) {

@@ -1,0 +1,25 @@
+.live {
+    text-align: center;
+}
+
+.live-text {
+    font-family: 'Roboto', sans-serif;
+    margin-left: 280px;
+}
+
+.live-filler {
+    padding-top: 58px;
+}
+
+.live-text h2 {
+    margin-left: 145px;
+    color: #fff;
+    font-size: 60px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2.3vh 4vw 2vh;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}

@@ -3,6 +3,7 @@ import { Component, useEffect } from "react";
 import "./App.css";
 import "./TriviaStyling.css";
 import "./analyze.css";
+import "./live.css";
 import logo from "./logo.svg";
 import { NavLink, Switch, Route } from "react-router-dom";
 import EditProfile from "./EditProfile";
@@ -417,9 +418,11 @@ const Analyze = () => (
 
 const Live = () => (
   <div className="live">
-    <h1>coming soon...</h1>
+    <div className = "live-filler"></div>
+    <div className = "live-text"><h2>Coming Soon</h2></div>
   </div>
 );
+
 const TheLatest = () => (
   <div className="latest">
     <Latest />
